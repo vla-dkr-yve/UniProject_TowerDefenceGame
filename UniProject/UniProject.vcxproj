@@ -141,7 +141,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="UniProject.cpp" />
+    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FastEnemy.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SlowEnemy.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FastEnemy.h" />
+    <ClInclude Include="SlowEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
