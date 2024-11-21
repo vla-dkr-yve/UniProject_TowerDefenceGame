@@ -19,14 +19,16 @@ public:
 	void Move(float fDeltaTime, sf::Vector2f direction);
 	void Draw(sf::RenderWindow& window);
 
-	void ChangeColor(sf::Color color) { m_sprite.setFillColor(color); };
-	void ChangeRadius(float radius) { m_sprite.setRadius(radius); };
+	inline void ChangeColor(sf::Color color) { m_sprite.setFillColor(color); };
+	inline void ChangeRadius(float radius) { m_sprite.setRadius(radius); };
 
-	sf::CircleShape& GetSprite() { return m_sprite; };
-	float GetSpeed() { return m_fSpeed; };
-	void SetSpeed(int speed) { m_fSpeed = speed; };
-	int GetHp() { return m_Hp; };
-	void SetHp(int hp) { m_Hp = hp; };
-	bool IsDead() { return m_bIsDead; };
+	inline sf::CircleShape& GetSprite() { return m_sprite; };
+	inline float GetSpeed() { return m_fSpeed; };
+	inline void SetSpeed(int speed) { m_fSpeed = speed; };
+	inline int GetHp() { return m_Hp; };
+	inline void SetHp(int hp) { m_Hp = hp; };
+	inline bool IsDead() { return m_bIsDead; };
+
+	inline void TakeDamage(int damage) { m_Hp -= damage; };
 };
 

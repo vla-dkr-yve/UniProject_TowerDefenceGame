@@ -1,19 +1,21 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "BackGround.h"
-#include "FastEnemy.h"
-#include "SlowEnemy.h"
-#include <vector>
+#include "EnemyManager.h"
+
+
+//	Plans:
+// All code in main connected with enemies put into EnemyManager +
+//Inside EnemyManager make a timer which would "spawn" random enemy (using enum for enumarating enemies and rand for random generation)(after 100 spawned enemies spawn boss) +
+//Implement working tower places, only then towers
+//Start implementing towers? -Probably
+//Make a common class for towers (build time, cost, etc)
+//From common tower divide them into two: military and civil
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
 	BackGround backGround;
-	FastEnemy fastEnemy;
-	SlowEnemy SlowEnemy;
-	sf::Vector2f direction = sf::Vector2f(0, 1);
+	EnemyManager enemyManager;
 	sf::Clock clock;
-	std::vector <Enemy*> enemies;
-	enemies.push_back(&fastEnemy);
-	enemies.push_back(&SlowEnemy);
 	while (window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
@@ -24,27 +26,11 @@ int main() {
 				window.close();
 			}
 		}
-		for (auto it = enemies.begin(); it != enemies.end();)
-		{
-			if ((*it)->IsDead())
-			{
-				enemies.erase(it);
-			}
-			else {
-				(*it)->Update(deltaTime);
-				it++;
-			}
-		}
+		enemyManager.Update(deltaTime);
 		window.clear(sf::Color::Black);
 
 		backGround.Draw(window);
-		for (auto enemy : enemies)
-		{
-			enemy->Draw(window);
-		}
+		enemyManager.Draw(window);
 		window.display();
 	}
 }
-
-
-

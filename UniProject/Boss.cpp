@@ -1,5 +1,5 @@
 #include "Boss.h"
 
-Boss::Boss() : Enemy(5000,35,1000, sf::Color::Black)
+Boss::Boss() : Enemy(5000,35,35, sf::Color::Black)
 {
 }

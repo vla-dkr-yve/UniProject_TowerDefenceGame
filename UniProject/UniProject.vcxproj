@@ -142,18 +142,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MilitaryTower.cpp" />
     <ClCompile Include="SlowEnemy.cpp" />
+    <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="TowerPlaces.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FastEnemy.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="MilitaryTower.h" />
     <ClInclude Include="SlowEnemy.h" />
+    <ClInclude Include="Tower.h" />
+    <ClInclude Include="TowerPlaces.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
