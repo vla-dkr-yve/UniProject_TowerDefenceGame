@@ -44,7 +44,7 @@ void Enemy::Update(float fDeltaTime)
 			Move(fDeltaTime, direction);
 		}
 	}
-	if (m_waypointsIndex >= 6)
+	if (m_waypointsIndex >= 6 || m_Hp <= 0)
 	{
 		m_bIsDead = true;
 	}

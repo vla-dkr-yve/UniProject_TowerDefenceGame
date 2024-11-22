@@ -26,5 +26,7 @@ public:
 	EnemyManager();
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
+
+	inline std::vector <Enemy*> GetEnemyVector(){ return m_vecEnemies; };
 };
 

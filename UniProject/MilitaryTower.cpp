@@ -2,8 +2,8 @@
 
 
 
-MilitaryTower::MilitaryTower(int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius):
-	Tower(cost, actionCooldown, texturePosition, position, radius), m_damage(damage)
+MilitaryTower::MilitaryTower(int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
+	Tower(cost, actionCooldown, texturePosition, position, radius), m_damage(damage), m_laserAmount(laserAmount)
 {
 }
 
@@ -12,16 +12,17 @@ void MilitaryTower::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
 	m_ftimer -= deltaTime;
 	if (m_ftimer <= 0)
 	{
+		int tmp_LaserAmount = m_laserAmount;
 		for (auto enemy : vecEnemies)
 		{
 			if (m_ActionArea.getGlobalBounds().contains(enemy->GetSprite().getPosition()))
 			{
-				sf::Vector2f target = enemy->GetSprite().getPosition();
-				sf::Vector2f direction = target - m_sprite.getPosition();
-				float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-				direction /= distance;
-				Action(target);
-				break;
+				Action(enemy->GetSprite().getPosition());
+				//tmp_LaserAmount--;
+				//if (tmp_LaserAmount <= 0)
+				//{
+				//	break;
+				//}
 			}
 		}
 		m_ftimer = m_fActionCooldown;

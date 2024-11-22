@@ -11,14 +11,14 @@ protected:
 
 	float m_ftimer;
 	float m_fActionCooldown;
-	int m_cost;
+	short int m_cost;
 
 	float m_fBuildTime;
 	bool m_bIsBuild;
 	sf::RectangleShape m_buildingLine;
 public:
 
-	Tower(int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius);
+	Tower(int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
 	//void Update(float deltaTime, std::vector <Enemy*>& vecEnemies);
 	void Draw(sf::RenderWindow& window);
 

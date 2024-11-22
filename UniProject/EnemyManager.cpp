@@ -9,7 +9,6 @@ EnemyManager::EnemyManager()
 
 void EnemyManager::Update(float deltaTime)
 {
-
 	m_cooldown -= clock.restart().asSeconds();
 	if (m_cooldown <= 0 && m_count != BOSSCOUNT)
 	{

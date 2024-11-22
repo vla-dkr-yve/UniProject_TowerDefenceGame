@@ -147,12 +147,17 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserTower.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MilitaryTower.cpp" />
+    <ClCompile Include="MouseSprite.cpp" />
+    <ClCompile Include="ScatterLaserTower.cpp" />
     <ClCompile Include="SlowEnemy.cpp" />
     <ClCompile Include="Tower.cpp" />
-    <ClCompile Include="TowerPlaces.cpp" />
+    <ClCompile Include="UdvancedLaserTower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
@@ -161,11 +166,16 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FastEnemy.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserTower.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="MilitaryTower.h" />
+    <ClInclude Include="MouseSprite.h" />
+    <ClInclude Include="ScatterLaserTower.h" />
     <ClInclude Include="SlowEnemy.h" />
     <ClInclude Include="Tower.h" />
-    <ClInclude Include="TowerPlaces.h" />
+    <ClInclude Include="UdvancedLaserTower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

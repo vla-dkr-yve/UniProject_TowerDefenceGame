@@ -13,10 +13,14 @@ Laser::Laser(sf::Vector2f position, sf::Vector2f target , int damage): m_damage(
 	sf::Vector2f direction = target - position;
 	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction /= distance;
-	
+	m_direction = direction;
+
+
 	float angle = std::atan2(direction.x, direction.y);
 	float angleDegrees = angle * 180 / M_PI;
 	line.setRotation(angleDegrees);
+
+	m_fLaserSpeed = 700;
 }
 
 void Laser::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
