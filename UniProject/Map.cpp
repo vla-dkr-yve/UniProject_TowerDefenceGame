@@ -1,5 +1,4 @@
 #include "Map.h"
-#include <iostream>
 Map::Map()
 {
 	for (int i = 0; i < TowerAmount; i++)
@@ -38,7 +37,6 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y)
 			}
 		}
 	}
-	std::cout << towers.size() << std::endl;
 }
 
 bool Map::IsOnThePlace(int x, int y)

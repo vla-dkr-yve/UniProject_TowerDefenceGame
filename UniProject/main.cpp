@@ -38,7 +38,6 @@ int main() {
 					if (!gui.IsOnTheGui(mousePosition) && mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64))
 					{
 						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64);
-						std::cout << "On the place!" << std::endl;
 					}
 				}
 			}

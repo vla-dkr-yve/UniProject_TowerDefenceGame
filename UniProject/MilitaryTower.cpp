@@ -1,5 +1,4 @@
 #include "MilitaryTower.h"
-#include <iostream>
 
 
 MilitaryTower::MilitaryTower(int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
@@ -9,6 +8,11 @@ MilitaryTower::MilitaryTower(int damage, int cost, float actionCooldown, sf::Vec
 
 void MilitaryTower::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
 {
+	if (m_bIsBuild)
+	{
+		Build();
+		return;
+	}
 	if (tmp_LaserAmount <= 0)
 	{
 		m_ftimer -= deltaTime;
@@ -29,7 +33,6 @@ void MilitaryTower::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
 			}
 		}
 	}
-	std::cout << m_laser.size() << std::endl;
 	for (auto it = m_laser.begin(); it != m_laser.end();)
 	{
 		if ((*it)->IsDestroyed())

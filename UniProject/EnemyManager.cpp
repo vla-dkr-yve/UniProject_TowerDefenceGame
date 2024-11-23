@@ -29,7 +29,6 @@ void EnemyManager::Update(float deltaTime)
 		default:
 			break;
 		}
-		m_count++;
 		m_cooldown = 3.0f;
 	}
 	else if (m_count == BOSSCOUNT) {
@@ -41,6 +40,7 @@ void EnemyManager::Update(float deltaTime)
 		if ((*it)->IsDead())
 		{
 			it = m_vecEnemies.erase(it);
+			m_count++;
 		}
 		else {
 			(*it)->Update(deltaTime);

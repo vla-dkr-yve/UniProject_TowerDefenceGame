@@ -15,17 +15,23 @@ protected:
 	bool m_bIsActionAreaActive;
 
 	float m_fBuildTime;
+	float m_fCurrentTime;
 	bool m_bIsBuild;
 	sf::RectangleShape m_buildingLine;
+	sf::RectangleShape m_buildingBackground;
+	sf::Clock clock;
+
 public:
 
 	Tower(int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
-	//void Update(float deltaTime, std::vector <Enemy*>& vecEnemies);
+	void Build();
 	void Draw(sf::RenderWindow& window);
 
 	inline sf::Sprite& GetSprite() { return m_sprite; };
 	inline void SetActionAreaActive() { m_bIsActionAreaActive = true; };
 	inline void SetActionAreaUnActive() { m_bIsActionAreaActive = false; };
+	inline bool IsBuilding() { return m_bIsBuild; };
+
 	//virtual void Action(sf::Vector2f direction);
 };
 

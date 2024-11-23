@@ -7,8 +7,10 @@ class MouseSprite
 {
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
+	sf::CircleShape m_ActionArea;
 	int towerType;
 	bool m_bIsMouseSpriteActive;
+	bool m_bIsRadiusvisible;
 public:
 	MouseSprite();
 
