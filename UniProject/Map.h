@@ -38,5 +38,6 @@ public:
 	void AddTower(int towerType, sf::Vector2f position, int X, int Y);
 	bool IsOnThePlace(int x, int y);
 
+	inline std::vector <MilitaryTower*>& GetTowers() { return towers; };
 };
 

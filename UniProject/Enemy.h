@@ -4,9 +4,12 @@
 class Enemy
 {
 protected:
-	int m_Hp;
+	int m_maximumHp;
+	int m_currentHp;
 	float m_fSpeed;
 	sf::CircleShape m_sprite;
+	sf::RectangleShape m_healthBar;
+	sf::RectangleShape m_healthBarBackground;
 	bool m_bIsDead;
 	
 	int m_waypointsIndex;
@@ -25,10 +28,11 @@ public:
 	inline sf::CircleShape& GetSprite() { return m_sprite; };
 	inline float GetSpeed() { return m_fSpeed; };
 	inline void SetSpeed(int speed) { m_fSpeed = speed; };
-	inline int GetHp() { return m_Hp; };
-	inline void SetHp(int hp) { m_Hp = hp; };
+	inline int GetHp() { return m_currentHp; };
+	inline void SetHp(int hp) { m_currentHp = hp; };
 	inline bool IsDead() { return m_bIsDead; };
+	inline float GetRadius() { return m_sprite.getRadius(); };
 
-	inline void TakeDamage(int damage) { m_Hp -= damage; };
+	void TakeDamage(int damage);
 };
 

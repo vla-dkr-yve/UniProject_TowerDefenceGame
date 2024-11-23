@@ -44,7 +44,7 @@ int main() {
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-		mouseSprite.Update(deltaTime, gui, mousePosition, map, event);
+		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetTowers());
 		enemyManager.Update(deltaTime);
 		map.Update(deltaTime, enemyManager.GetEnemyVector());
 

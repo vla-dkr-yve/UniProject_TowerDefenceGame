@@ -9,6 +9,7 @@ protected:
 	std::vector<Laser*> m_laser;
 	int m_damage;
 	int m_laserAmount;
+	int tmp_LaserAmount;
 public:
 	MilitaryTower(int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount);
 
