@@ -29,15 +29,27 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 
 		switch (towerType)
 		{
-		case BasicTower:
+		case CivilResearchCenter:
+			m_ActionArea.setRadius(0.0f);
+			m_bIsRadiusvisible = true;
+			break;
+		case CivilFactoryTower:
 			m_ActionArea.setRadius(150.0f);
 			m_bIsRadiusvisible = true;
 			break;
-		case UpdatedBasic:
+		case CivilHouseTower:
+			m_ActionArea.setRadius(150.0f);
+			m_bIsRadiusvisible = true;
+			break;
+		case BasicMillitaryTower:
+			m_ActionArea.setRadius(150.0f);
+			m_bIsRadiusvisible = true;
+			break;
+		case UpdatedMillitaryTower:
 			m_ActionArea.setRadius(125.0f);
 			m_bIsRadiusvisible = true;
 			break;
-		case Scatter:
+		case ScatterMillitaryTower:
 			m_ActionArea.setRadius(125.0f);
 			m_bIsRadiusvisible = true;
 			break;

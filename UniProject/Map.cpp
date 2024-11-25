@@ -18,16 +18,28 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y)
 			{
 				switch (towerType)
 				{
-				case BasicTower:
-					towers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
+				case CivilResearchCenter:
+					m_civilTowers.push_back(new ResearchCenter(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
 					break;
-				case UpdatedBasic:
-					towers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
+				case CivilFactoryTower:
+					m_civilTowers.push_back(new FactoryTower(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
 					break;
-				case Scatter:
-					towers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
+				case CivilHouseTower:
+					m_civilTowers.push_back(new HouseTower(sf::Vector2f(X * 64, Y * 64)));
+					IsPlaceTaken[i] = true;
+					break;
+				case BasicMillitaryTower:
+					m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
+					IsPlaceTaken[i] = true;
+					break;
+				case UpdatedMillitaryTower:
+					m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
+					IsPlaceTaken[i] = true;
+					break;
+				case ScatterMillitaryTower:
+					m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
 					break;
 				default:
@@ -57,9 +69,9 @@ bool Map::IsOnThePlace(int x, int y)
 
 void Map::Update(float deltaTime, std::vector <Enemy*> m_vecEnemies)
 {
-	for (int i = 0; i < towers.size(); i++)
+	for (int i = 0; i < m_militaryTowers.size(); i++)
 	{
-		towers[i]->Update(deltaTime, m_vecEnemies);
+		m_militaryTowers[i]->Update(deltaTime, m_vecEnemies);
 	}
 
 }
@@ -67,13 +79,17 @@ void Map::Update(float deltaTime, std::vector <Enemy*> m_vecEnemies)
 void Map::Draw(sf::RenderWindow& window)
 {
 	backGround.Draw(window);
-	for (int i = 0; i < towers.size(); i++)
+	for (int i = 0; i < m_militaryTowers.size(); i++)
 	{
-		towers[i]->Draw(window);
+		m_militaryTowers[i]->Draw(window);
 	}
-	for (int i = 0; i < towers.size(); i++)
+	for (int i = 0; i < m_civilTowers.size(); i++)
 	{
-		std::vector<Laser*> lasers = towers[i]->GetLaserVector();
+		m_civilTowers[i]->Draw(window);
+	}
+	for (int i = 0; i < m_militaryTowers.size(); i++)
+	{
+		std::vector<Laser*> lasers = m_militaryTowers[i]->GetLaserVector();
 		for (int i = 0; i < lasers.size(); i++)
 		{
 			lasers[i]->Draw(window);

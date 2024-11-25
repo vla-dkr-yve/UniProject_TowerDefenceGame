@@ -6,16 +6,14 @@
 #include "MouseSprite.h"
 #include "Map.h"
 //	Plans:
-// All code in main connected with enemies put into EnemyManager +
-//Inside EnemyManager make a timer which would "spawn" random enemy 
-// (using enum for enumarating enemies and rand for random generation)(after 100 spawned enemies spawn boss) +
-//Implement working tower places, only then towers (?)
-//Start implementing towers? -Probably +
-//Make a common class for towers (build time, cost, etc) +
 //From common tower divide them into two: military and civil
-// ! While creating millitary tower I must pass the position(place on the map) !
+//Make Update civil tower function
+//
+
+
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
+	window.setFramerateLimit(60);
 	Map map;
 	EnemyManager enemyManager;
 	GUI gui;
@@ -43,7 +41,7 @@ int main() {
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetTowers());
+		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers());
 		enemyManager.Update(deltaTime);
 		map.Update(deltaTime, enemyManager.GetEnemyVector());
 

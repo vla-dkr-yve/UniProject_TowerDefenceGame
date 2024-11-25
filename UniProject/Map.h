@@ -8,13 +8,20 @@
 #include "UdvancedLaserTower.h"
 #include "ScatterLaserTower.h"
 #include "Laser.h"
+#include "CivilTower.h"
+#include "ResearchCenter.h"
+#include "FactoryTower.h"
+#include "HouseTower.h"
 
 #define TowerAmount 62
 
 enum Towers {
-	BasicTower,
-	UpdatedBasic,
-	Scatter
+	CivilResearchCenter,
+	CivilFactoryTower,
+	CivilHouseTower,
+	BasicMillitaryTower,
+	UpdatedMillitaryTower,
+	ScatterMillitaryTower,
 };
 class Map
 {
@@ -28,7 +35,8 @@ class Map
 	
 	short int m_towerAmount;
 
-	std::vector <MilitaryTower*> towers;
+	std::vector <MilitaryTower*> m_militaryTowers;
+	std::vector <CivilTower*> m_civilTowers;
 public:
 	Map();
 	void Draw(sf::RenderWindow& window);
@@ -38,6 +46,6 @@ public:
 	void AddTower(int towerType, sf::Vector2f position, int X, int Y);
 	bool IsOnThePlace(int x, int y);
 
-	inline std::vector <MilitaryTower*>& GetTowers() { return towers; };
+	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };
 };
 

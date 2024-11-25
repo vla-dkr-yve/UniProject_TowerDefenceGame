@@ -1,7 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 
-#define ArrSize 3
+#define ArrSize 6
 class GUI
 {
 	sf::RectangleShape m_SriteHolderRect;

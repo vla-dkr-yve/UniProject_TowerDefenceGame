@@ -17,5 +17,6 @@ public:
 	void Action(sf::Vector2f target);
 
 	inline std::vector<Laser*> GetLaserVector() { return m_laser; };
+	void UpdateForce();
 };
 

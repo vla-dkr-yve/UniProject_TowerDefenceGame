@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "buff.h"
 
 class Tower
 {
@@ -21,11 +22,17 @@ protected:
 	sf::RectangleShape m_buildingBackground;
 	sf::Clock clock;
 
+	std::vector<Buff> m_activeBuffs;
+	int m_baseValue;
+	int m_currentValue;
 public:
 
-	Tower(int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
+	Tower(int baseValue, int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
 	void Build();
 	void Draw(sf::RenderWindow& window);
+	void AddBuff(Buff buff);
+	void RemoveBuffBySource(void* source);
+	void UpdateValue();
 
 	inline sf::Sprite& GetSprite() { return m_sprite; };
 	inline void SetActionAreaActive() { m_bIsActionAreaActive = true; };

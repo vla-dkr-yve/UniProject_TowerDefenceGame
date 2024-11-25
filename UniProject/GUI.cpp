@@ -11,9 +11,12 @@ GUI::GUI()
 	{
 		m_sprites[i].setTexture(m_texture);
 	}
-	m_sprites[0].setTextureRect(sf::IntRect(100*2,100*1, 100,100));
-	m_sprites[1].setTextureRect(sf::IntRect(100*3,100*1, 100,100));
-	m_sprites[2].setTextureRect(sf::IntRect(100*0,100*2, 100,100));
+	m_sprites[0].setTextureRect(sf::IntRect(100 * 0, 100 * 0, 100, 100));
+	m_sprites[1].setTextureRect(sf::IntRect(100 * 3, 100 * 0, 100, 100));
+	m_sprites[2].setTextureRect(sf::IntRect(100 * 0, 100 * 1, 100, 100));
+	m_sprites[3].setTextureRect(sf::IntRect(100*2,100*1, 100,100));
+	m_sprites[4].setTextureRect(sf::IntRect(100*3,100*1, 100,100));
+	m_sprites[5].setTextureRect(sf::IntRect(100*0,100*2, 100,100));
 	for (int i = 0; i < ArrSize; i++)
 	{
 		m_sprites[i].setScale(sf::Vector2f(0.64,0.64));
