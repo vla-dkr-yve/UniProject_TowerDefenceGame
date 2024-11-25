@@ -18,30 +18,62 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y)
 			{
 				switch (towerType)
 				{
-				case CivilResearchCenter:
-					m_civilTowers.push_back(new ResearchCenter(sf::Vector2f(X * 64, Y * 64)));
+				case Research: {
+					ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
+					//RC->ApplyBuffs(m_militaryTowers);
+					m_civilTowers.push_back(RC);
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(RC);
+					}
 					IsPlaceTaken[i] = true;
 					break;
-				case CivilFactoryTower:
-					m_civilTowers.push_back(new FactoryTower(sf::Vector2f(X * 64, Y * 64)));
+				}
+				case Factory: {
+					FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
+					//FT->ApplyBuffs(m_towers);
+					m_civilTowers.push_back(FT);
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(FT);
+					}
 					IsPlaceTaken[i] = true;
 					break;
-				case CivilHouseTower:
-					m_civilTowers.push_back(new HouseTower(sf::Vector2f(X * 64, Y * 64)));
+				}
+				case Housing: {
+					HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
+					//HT->ApplyBuffs(m_civilTowers);
+					m_civilTowers.push_back(HT);
 					IsPlaceTaken[i] = true;
 					break;
-				case BasicMillitaryTower:
+				}
+				case BasicMillitaryTower: {
 					m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					}
 					break;
-				case UpdatedMillitaryTower:
+				}
+				case UpdatedMillitaryTower: {
 					m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					}
 					break;
-				case ScatterMillitaryTower:
+				}
+				case ScatterMillitaryTower: {
 					m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
 					IsPlaceTaken[i] = true;
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					}
 					break;
+				}
 				default:
 					break;
 				}
@@ -67,13 +99,16 @@ bool Map::IsOnThePlace(int x, int y)
 	return false;
 }
 
-void Map::Update(float deltaTime, std::vector <Enemy*> m_vecEnemies)
+void Map::Update(float deltaTime,std::vector <Enemy*> m_vecEnemies, Player& player)
 {
 	for (int i = 0; i < m_militaryTowers.size(); i++)
 	{
 		m_militaryTowers[i]->Update(deltaTime, m_vecEnemies);
 	}
-
+	for (int i = 0; i < m_civilTowers.size(); i++)
+	{
+		m_civilTowers[i]->Update(deltaTime, player);
+	}
 }
 
 void Map::Draw(sf::RenderWindow& window)
@@ -86,13 +121,5 @@ void Map::Draw(sf::RenderWindow& window)
 	for (int i = 0; i < m_civilTowers.size(); i++)
 	{
 		m_civilTowers[i]->Draw(window);
-	}
-	for (int i = 0; i < m_militaryTowers.size(); i++)
-	{
-		std::vector<Laser*> lasers = m_militaryTowers[i]->GetLaserVector();
-		for (int i = 0; i < lasers.size(); i++)
-		{
-			lasers[i]->Draw(window);
-		}
 	}
 }

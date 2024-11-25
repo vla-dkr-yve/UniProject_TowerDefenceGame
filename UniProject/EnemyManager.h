@@ -27,6 +27,6 @@ public:
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 
-	inline std::vector <Enemy*> GetEnemyVector(){ return m_vecEnemies; };
+	const inline std::vector <Enemy*>& GetEnemyVector() const{ return m_vecEnemies; };
 };
 

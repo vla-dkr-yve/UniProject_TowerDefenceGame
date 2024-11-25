@@ -15,8 +15,10 @@ public:
 	MouseSprite();
 
 
-	void Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition, Map& map, sf::Event event, std::vector <MilitaryTower*> towers);
+	void Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
+		Map& map, sf::Event event, std::vector <MilitaryTower*> towers, std::vector <CivilTower*> civilTowers);
 	void Draw(sf::RenderWindow& window);
+
 
 	inline const bool IsActive() { return m_bIsMouseSpriteActive; };
 	inline const int GetTowerType() { return towerType; };

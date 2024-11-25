@@ -23,7 +23,7 @@ Laser::Laser(sf::Vector2f position, sf::Vector2f target , int damage): m_damage(
 	m_fLaserSpeed = 700;
 }
 
-void Laser::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
+void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 {
 	line.setPosition(line.getPosition() + m_direction * m_fLaserSpeed * deltaTime);
 	for (auto enemy: vecEnemies)

@@ -5,6 +5,7 @@
 #include "GUI.h"
 #include "MouseSprite.h"
 #include "Map.h"
+#include "Player.h"
 //	Plans:
 //From common tower divide them into two: military and civil
 //Make Update civil tower function
@@ -16,7 +17,8 @@ int main() {
 	window.setFramerateLimit(60);
 	Map map;
 	EnemyManager enemyManager;
-	GUI gui;
+	Player player;
+	GUI gui(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
 	MouseSprite mouseSprite;
 	sf::Clock clock;
 	while (window.isOpen())
@@ -41,9 +43,10 @@ int main() {
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers());
+		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
 		enemyManager.Update(deltaTime);
-		map.Update(deltaTime, enemyManager.GetEnemyVector());
+		gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
+		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 
 
 		window.clear(sf::Color::Black);

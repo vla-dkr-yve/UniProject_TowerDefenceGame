@@ -6,6 +6,8 @@ class FactoryTower : public CivilTower
 public:
 	FactoryTower(sf::Vector2f position);
 
-	void Action(float deltaTime, Player& player);
+	void Action(float deltaTime, Player& player) override;
+
+	//void ApplyBuffs(std::vector<Tower*>& towers) override;
 };
 

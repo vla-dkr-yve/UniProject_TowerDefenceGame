@@ -1,13 +1,13 @@
 #include "MilitaryTower.h"
+#include <iostream>
 
-
-MilitaryTower::MilitaryTower(int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
-	Tower(damage,cost, actionCooldown, texturePosition, position, radius), m_damage(damage),
+MilitaryTower::MilitaryTower(int id,int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
+	Tower(id,damage,cost, actionCooldown, texturePosition, position, radius), m_damage(damage),
 	m_laserAmount(laserAmount), tmp_LaserAmount(m_laserAmount)
 {
 }
 
-void MilitaryTower::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
+void MilitaryTower::Update(float deltaTime,std::vector<Enemy*>& vecEnemies)
 {
 	if (m_bIsBuild)
 	{
@@ -45,9 +45,19 @@ void MilitaryTower::Update(float deltaTime, std::vector<Enemy*>& vecEnemies)
 			it++;
 		}
 	}
+	std::cout << m_currentValue <<'\n';
 }
 
 void MilitaryTower::Action(sf::Vector2f target)
 {
 	m_laser.push_back(new Laser(m_sprite.getPosition(), target, m_damage));
+}
+
+void MilitaryTower::Draw(sf::RenderWindow& window)
+{
+	Tower::Draw(window);
+	for (int i = 0; i < m_laser.size(); i++)
+	{
+		m_laser[i]->Draw(window);
+	}
 }

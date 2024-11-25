@@ -13,7 +13,7 @@ private:
 public:
 	Laser(sf::Vector2f position, sf::Vector2f target ,int damage);
 	
-	void Update(float deltaTime, std::vector<Enemy*>& vecEnemies);
+	void Update(float deltaTime,const std::vector<Enemy*>& vecEnemies);
 	void Draw(sf::RenderWindow& window);
 
 	bool Collision(Enemy& enemy);

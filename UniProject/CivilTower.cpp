@@ -1,8 +1,9 @@
 #include "CivilTower.h"
 
 CivilTower::CivilTower(int id, int value,int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius):
-	Tower(value,cost,actionCooldown, texturePosition, position, radius), m_id(id)
+	Tower(id,value,cost,actionCooldown, texturePosition, position, radius)
 {
+	//ApplyBuffs(towers);
 }
 
 CivilTower::~CivilTower()
@@ -10,7 +11,31 @@ CivilTower::~CivilTower()
 	RemoveBuffs();
 }
 
-void CivilTower::Action(float deltaTime)
+void CivilTower::Action(float deltaTime, Player& player)
+{
+}
+
+void CivilTower::Update(float deltaTime, Player& player)
+{
+	if (m_bIsBuild)
+	{
+		Build();
+		return;
+	}
+	Action(deltaTime, player);
+}
+
+void CivilTower::ApplyBuffs(std::vector<CivilTower*>& towers)
+{
+}
+void CivilTower::ApplyBuffs(std::vector<MilitaryTower*>& towers)
+{
+}
+
+void CivilTower::ReapplyBuffs(CivilTower* newTower)
+{
+}
+void CivilTower::ReapplyBuffs(MilitaryTower* newTower)
 {
 }
 

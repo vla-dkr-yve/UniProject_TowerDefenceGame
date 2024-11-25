@@ -12,7 +12,8 @@ MouseSprite::MouseSprite()
 	m_ActionArea.setOutlineColor(sf::Color::Black);
 }
 
-void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition, Map& map, sf::Event event, std::vector <MilitaryTower*> towers)
+void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
+	Map& map, sf::Event event, std::vector <MilitaryTower*> militaryTowers, std::vector <CivilTower*> civilTowers)
 {
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
@@ -29,15 +30,15 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 
 		switch (towerType)
 		{
-		case CivilResearchCenter:
+		case Research:
 			m_ActionArea.setRadius(0.0f);
 			m_bIsRadiusvisible = true;
 			break;
-		case CivilFactoryTower:
+		case Factory:
 			m_ActionArea.setRadius(150.0f);
 			m_bIsRadiusvisible = true;
 			break;
-		case CivilHouseTower:
+		case Housing:
 			m_ActionArea.setRadius(150.0f);
 			m_bIsRadiusvisible = true;
 			break;
@@ -60,7 +61,7 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 		m_ActionArea.setPosition(m_sprite.getPosition());
 		m_ActionArea.setOrigin(sf::Vector2f(m_ActionArea.getRadius(), m_ActionArea.getRadius()));
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) && !gui.IsOnTheGui(mousePosition))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
 	{
 		m_bIsMouseSpriteActive = false;
 		m_bIsRadiusvisible = false;
@@ -73,7 +74,8 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	{
 		m_ActionArea.setPosition(mousePosition);
 	}
-	for (auto tower:towers)
+
+	for (auto tower: militaryTowers)
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding()){
 			tower->SetActionAreaActive();
@@ -82,6 +84,16 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 			tower->SetActionAreaUnActive();
 		}
 	}
+	for (auto tower : civilTowers)
+	{
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding()) {
+			tower->SetActionAreaActive();
+		}
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !tower->GetSprite().getGlobalBounds().contains(mousePosition)) {
+			tower->SetActionAreaUnActive();
+		}
+	}
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
 	{
 		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / 64;

@@ -3,8 +3,11 @@
 class HouseTower : public CivilTower
 {
 public:
-	HouseTower(sf::Vector2f position);
+	HouseTower(sf::Vector2f position,std::vector<CivilTower*>& towers);
+	
+	void Action(float deltaTime, Player& player) override;
 
-	void ApplyBuffs(std::vector<CivilTower*>& towers);
+	void ApplyBuffs(std::vector<CivilTower*>& towers) override;
+	void ReapplyBuffs(CivilTower* newTower) override;
 };
 

@@ -15,14 +15,14 @@
 
 #define TowerAmount 62
 
-enum Towers {
-	CivilResearchCenter,
-	CivilFactoryTower,
-	CivilHouseTower,
-	BasicMillitaryTower,
-	UpdatedMillitaryTower,
-	ScatterMillitaryTower,
-};
+//enum Towers {
+//	CivilResearchCenter,
+//	CivilFactoryTower,
+//	CivilHouseTower,
+//	BasicMillitaryTower,
+//	UpdatedMillitaryTower,
+//	ScatterMillitaryTower,
+//};
 class Map
 {
 	BackGround backGround;
@@ -35,17 +35,19 @@ class Map
 	
 	short int m_towerAmount;
 
+	//std::vector <Tower*> m_towers;
 	std::vector <MilitaryTower*> m_militaryTowers;
 	std::vector <CivilTower*> m_civilTowers;
 public:
 	Map();
 	void Draw(sf::RenderWindow& window);
 
-	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies);
+	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies, Player& player);
 
 	void AddTower(int towerType, sf::Vector2f position, int X, int Y);
 	bool IsOnThePlace(int x, int y);
 
 	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };
+	inline std::vector <CivilTower*>& GetCivilTowers() { return m_civilTowers; };
 };
 

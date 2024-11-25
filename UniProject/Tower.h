@@ -2,9 +2,21 @@
 #include <SFML/Graphics.hpp>
 #include "buff.h"
 
+enum TowerType {
+	Research,
+	Factory,
+	Housing,
+	//Recycling,
+	//Construction,
+	BasicMillitaryTower,
+	UpdatedMillitaryTower,
+	ScatterMillitaryTower
+};
 class Tower
 {
 protected:
+	int m_id;
+
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::Vector2f m_position;
@@ -27,9 +39,9 @@ protected:
 	int m_currentValue;
 public:
 
-	Tower(int baseValue, int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
+	Tower(int id,int baseValue, int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
 	void Build();
-	void Draw(sf::RenderWindow& window);
+	virtual void Draw(sf::RenderWindow& window);
 	void AddBuff(Buff buff);
 	void RemoveBuffBySource(void* source);
 	void UpdateValue();
@@ -40,5 +52,6 @@ public:
 	inline bool IsBuilding() { return m_bIsBuild; };
 
 	//virtual void Action(sf::Vector2f direction);
+	inline int GetId() { return m_id; };
 };
 

@@ -1,28 +1,26 @@
 #pragma once
 #include <vector>
 #include "Tower.h"
+#include "MilitaryTower.h"
+#include "Player.h"
+#include "Math.h"
 
-enum CivilTowerType {
-	Research,
-	Factory,
-	Housing,
-	Recycling,
-	Construction
-};
 class CivilTower : public Tower
 {
 protected:
-	int m_id;
 	std::vector<Tower*> m_affectedTowers;
 public:
 	CivilTower(int id, int value,int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius);
 	~CivilTower();
 
-	//void 
-	virtual void Action(float deltaTime);
-	
-	//virtual void ApplyBuffs(std::vector<Tower*>& towers);
+	virtual void Action(float deltaTime, Player& player);
+	void Update(float deltaTime, Player& player);
+
+	virtual void ApplyBuffs(std::vector<CivilTower*>& towers);
+	virtual void ApplyBuffs(std::vector<MilitaryTower*>& towers);
+	virtual void ReapplyBuffs(CivilTower* newTower);
+	virtual void ReapplyBuffs(MilitaryTower* newTower);
 	void RemoveBuffs();
 
-	inline int GetId() { return m_id; };
+
 };
