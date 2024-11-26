@@ -45,7 +45,7 @@ void Enemy::TakeDamage(int damage)
 	m_healthBar.setSize(sf::Vector2f(m_healthBarBackground.getSize().x * healthPercentage, m_healthBarBackground.getSize().y));
 }
 
-void Enemy::Update(float fDeltaTime)
+void Enemy::Update(float fDeltaTime, Player& player)
 {
 	if (m_waypointsIndex < 6) {
 		sf::Vector2f target = m_waypoints[m_waypointsIndex];
@@ -58,6 +58,10 @@ void Enemy::Update(float fDeltaTime)
 			direction /= distance;
 			Move(fDeltaTime, direction);
 		}
+	}
+	if (m_waypointsIndex >= 6)
+	{
+		player.DecreaseLives(1);
 	}
 	if (m_waypointsIndex >= 6 || m_currentHp <= 0)
 	{

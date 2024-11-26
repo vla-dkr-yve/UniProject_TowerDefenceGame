@@ -1,6 +1,8 @@
 #include "ResearchCenter.h"
 
-ResearchCenter::ResearchCenter(sf::Vector2f position, std::vector<MilitaryTower*>& towers): CivilTower(0,1,150, 3.0f,sf::Vector2i(100 * 0, 100 * 0), position, 150)
+int ResearchCenter::m_cost = 150;
+int ResearchCenter::m_id = 0;
+ResearchCenter::ResearchCenter(sf::Vector2f position, std::vector<MilitaryTower*>& towers): CivilTower(1,3.0f,sf::Vector2i(100 * 0, 100 * 0), position, 150)
 {
 	ApplyBuffs(towers);
 }

@@ -7,10 +7,10 @@
 #include "Map.h"
 #include "Player.h"
 //	Plans:
-//From common tower divide them into two: military and civil
-//Make Update civil tower function
+//From common tower divide them into two: military and civil +
+//Make Update civil tower function +-
+//Add a timer over civil towers that shows their Action %
 //
-
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
@@ -37,14 +37,14 @@ int main() {
 					sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
 					if (!gui.IsOnTheGui(mousePosition) && mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64))
 					{
-						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64);
+						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64, player);
 					}
 				}
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
 		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
-		enemyManager.Update(deltaTime);
+		enemyManager.Update(deltaTime, player);
 		gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 

@@ -1,8 +1,8 @@
 #include "MilitaryTower.h"
 #include <iostream>
 
-MilitaryTower::MilitaryTower(int id,int damage, int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
-	Tower(id,damage,cost, actionCooldown, texturePosition, position, radius), m_damage(damage),
+MilitaryTower::MilitaryTower(int damage, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
+	Tower(damage,actionCooldown, texturePosition, position, radius), m_damage(damage),
 	m_laserAmount(laserAmount), tmp_LaserAmount(m_laserAmount)
 {
 }

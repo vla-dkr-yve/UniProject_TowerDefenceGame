@@ -1,7 +1,7 @@
 #include "CivilTower.h"
 
-CivilTower::CivilTower(int id, int value,int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius):
-	Tower(id,value,cost,actionCooldown, texturePosition, position, radius)
+CivilTower::CivilTower(int value,float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius):
+	Tower(value,actionCooldown, texturePosition, position, radius)
 {
 	//ApplyBuffs(towers);
 }

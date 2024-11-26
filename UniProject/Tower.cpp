@@ -1,8 +1,8 @@
 #include "Tower.h"
 
-
-Tower::Tower(int id, int baseValue,int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius): m_id(id), m_baseValue(baseValue),
-m_cost(cost), m_position(position),m_fActionCooldown(actionCooldown)
+int Tower::m_cost = -1;
+int Tower::m_id = -1;
+Tower::Tower(int baseValue, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius): m_baseValue(baseValue), m_position(position),m_fActionCooldown(actionCooldown)
 {
 	m_currentValue = m_baseValue;
 

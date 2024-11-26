@@ -44,7 +44,7 @@ public:
 
 	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies, Player& player);
 
-	void AddTower(int towerType, sf::Vector2f position, int X, int Y);
+	void AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player);
 	bool IsOnThePlace(int x, int y);
 
 	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };

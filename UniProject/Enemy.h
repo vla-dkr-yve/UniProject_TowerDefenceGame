@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 class Enemy
 {
@@ -18,7 +19,7 @@ public:
 	Enemy(int hp, float speed, float radius, sf::Color color);
 	~Enemy();
 
-	void Update(float fDeltaTime);
+	void Update(float fDeltaTime, Player& player);
 	void Move(float fDeltaTime, sf::Vector2f direction);
 	void Draw(sf::RenderWindow& window);
 

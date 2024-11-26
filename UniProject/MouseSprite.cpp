@@ -1,5 +1,5 @@
 #include "MouseSprite.h"
-
+#include "iostream"
 MouseSprite::MouseSprite()
 {
 	m_texture.loadFromFile("Assets/Textures/Towers/Towers-100px.png");
@@ -18,20 +18,20 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
 	{
-		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / 64;
-
+		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / (64 + 20);
+		std::cout << ChoosenTower << std::endl;
 		m_sprite.setTextureRect(gui.GetTextureRect(ChoosenTower));
 		m_sprite.setOrigin(sf::Vector2f(gui.GetTextureRect(ChoosenTower).getSize().x / 2, gui.GetTextureRect(ChoosenTower).getSize().y / 2));
 		m_sprite.setScale(sf::Vector2f(0.64,0.64));
 
 		m_bIsMouseSpriteActive = true;
+		towerType = static_cast<int>(ChoosenTower);
 
-		towerType = ChoosenTower;
 
 		switch (towerType)
 		{
 		case Research:
-			m_ActionArea.setRadius(0.0f);
+			m_ActionArea.setRadius(150.0f);
 			m_bIsRadiusvisible = true;
 			break;
 		case Factory:
@@ -94,13 +94,13 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 		}
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
+	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
 	{
 		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / 64;
 		m_sprite.setTextureRect(gui.GetTextureRect(ChoosenTower));
 		m_bIsMouseSpriteActive = true;
 		towerType = ChoosenTower;
-	}
+	}*/
 }
 
 void MouseSprite::Draw(sf::RenderWindow& window)

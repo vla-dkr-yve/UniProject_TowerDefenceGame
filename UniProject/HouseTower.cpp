@@ -1,6 +1,8 @@
 #include "HouseTower.h"
 
-HouseTower::HouseTower(sf::Vector2f position, std::vector<CivilTower*>& towers) : CivilTower(2,1,150,60.0f,sf::Vector2i(100 * 0, 100 * 1), position, 150)
+int HouseTower::m_cost = 150;
+int HouseTower::m_id = 2;
+HouseTower::HouseTower(sf::Vector2f position, std::vector<CivilTower*>& towers) : CivilTower(1,60.0f,sf::Vector2i(100 * 0, 100 * 1), position, 150)
 {
 	ApplyBuffs(towers);
 }

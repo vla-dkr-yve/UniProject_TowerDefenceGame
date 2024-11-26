@@ -8,7 +8,7 @@ Map::Map()
 	m_towerAmount = 0;
 }
 
-void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y)
+void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player)
 {
 	for (int i = 0; i < TowerAmount; i++)
 	{
@@ -19,60 +19,90 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y)
 				switch (towerType)
 				{
 				case Research: {
-					ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
-					//RC->ApplyBuffs(m_militaryTowers);
-					m_civilTowers.push_back(RC);
-					for (int i = 0; i < m_civilTowers.size(); i++)
+					if (ResearchCenter::GetCost() <= player.GetMoney())
 					{
-						m_civilTowers[i]->ReapplyBuffs(RC);
+						player.DecreaseMoney(ResearchCenter::GetCost());
+
+						ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
+						//RC->ApplyBuffs(m_militaryTowers);
+						m_civilTowers.push_back(RC);
+						for (int i = 0; i < m_civilTowers.size(); i++)
+						{
+							m_civilTowers[i]->ReapplyBuffs(RC);
+						}
+						IsPlaceTaken[i] = true;
+						break;
 					}
-					IsPlaceTaken[i] = true;
-					break;
 				}
 				case Factory: {
-					FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
-					//FT->ApplyBuffs(m_towers);
-					m_civilTowers.push_back(FT);
-					for (int i = 0; i < m_civilTowers.size(); i++)
-					{
-						m_civilTowers[i]->ReapplyBuffs(FT);
+					if (FactoryTower::GetCost() <= player.GetMoney()) {
+
+						player.DecreaseMoney(FactoryTower::GetCost());
+
+						FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
+						//FT->ApplyBuffs(m_towers);
+						m_civilTowers.push_back(FT);
+						for (int i = 0; i < m_civilTowers.size(); i++)
+						{
+							m_civilTowers[i]->ReapplyBuffs(FT);
+						}
+						IsPlaceTaken[i] = true;
+						break;
 					}
-					IsPlaceTaken[i] = true;
-					break;
 				}
 				case Housing: {
-					HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
-					//HT->ApplyBuffs(m_civilTowers);
-					m_civilTowers.push_back(HT);
-					IsPlaceTaken[i] = true;
-					break;
+					if (HouseTower::GetCost() <= player.GetMoney()) {
+
+						player.DecreaseMoney(HouseTower::GetCost());
+
+						HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
+						//HT->ApplyBuffs(m_civilTowers);
+						m_civilTowers.push_back(HT);
+						IsPlaceTaken[i] = true;
+						break;
+					}
 				}
 				case BasicMillitaryTower: {
-					m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
-					IsPlaceTaken[i] = true;
-					for (int i = 0; i < m_civilTowers.size(); i++)
-					{
-						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					if (LaserTower::GetCost() <= player.GetMoney()) {
+
+						player.DecreaseMoney(LaserTower::GetCost());
+
+						m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
+						IsPlaceTaken[i] = true;
+						for (int i = 0; i < m_civilTowers.size(); i++)
+						{
+							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+						}
+						break;
 					}
-					break;
 				}
 				case UpdatedMillitaryTower: {
-					m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
-					IsPlaceTaken[i] = true;
-					for (int i = 0; i < m_civilTowers.size(); i++)
-					{
-						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					if (UdvancedLaserTower::GetCost() <= player.GetMoney()) {
+
+						player.DecreaseMoney(UdvancedLaserTower::GetCost());
+
+						m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
+						IsPlaceTaken[i] = true;
+						for (int i = 0; i < m_civilTowers.size(); i++)
+						{
+							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+						}
+						break;
 					}
-					break;
 				}
 				case ScatterMillitaryTower: {
-					m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
-					IsPlaceTaken[i] = true;
-					for (int i = 0; i < m_civilTowers.size(); i++)
-					{
-						m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+					if (ScatterLaserTower::GetCost() <= player.GetMoney()) {
+
+						player.DecreaseMoney(ScatterLaserTower::GetCost());
+
+						m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
+						IsPlaceTaken[i] = true;
+						for (int i = 0; i < m_civilTowers.size(); i++)
+						{
+							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
+						}
+						break;
 					}
-					break;
 				}
 				default:
 					break;

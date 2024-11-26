@@ -10,7 +10,7 @@ class CivilTower : public Tower
 protected:
 	std::vector<Tower*> m_affectedTowers;
 public:
-	CivilTower(int id, int value,int cost, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius);
+	CivilTower(int value,float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius);
 	~CivilTower();
 
 	virtual void Action(float deltaTime, Player& player);

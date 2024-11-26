@@ -15,7 +15,8 @@ enum TowerType {
 class Tower
 {
 protected:
-	int m_id;
+	static int m_id;
+	static int m_cost;
 
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
@@ -24,7 +25,6 @@ protected:
 
 	float m_ftimer;
 	float m_fActionCooldown;
-	short int m_cost;
 	bool m_bIsActionAreaActive;
 
 	float m_fBuildTime;
@@ -39,7 +39,7 @@ protected:
 	int m_currentValue;
 public:
 
-	Tower(int id,int baseValue, int cost, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
+	Tower(int baseValue, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius);
 	void Build();
 	virtual void Draw(sf::RenderWindow& window);
 	void AddBuff(Buff buff);
@@ -50,6 +50,7 @@ public:
 	inline void SetActionAreaActive() { m_bIsActionAreaActive = true; };
 	inline void SetActionAreaUnActive() { m_bIsActionAreaActive = false; };
 	inline bool IsBuilding() { return m_bIsBuild; };
+	virtual inline int GetCost() { return m_cost; };
 
 	//virtual void Action(sf::Vector2f direction);
 	inline int GetId() { return m_id; };
