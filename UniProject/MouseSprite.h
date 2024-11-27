@@ -11,6 +11,7 @@ class MouseSprite
 	int towerType;
 	bool m_bIsMouseSpriteActive;
 	bool m_bIsRadiusvisible;
+	bool m_bIsShovelActive;
 public:
 	MouseSprite();
 

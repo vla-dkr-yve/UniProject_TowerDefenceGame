@@ -1,9 +1,9 @@
 #include "MouseSprite.h"
-#include "iostream"
+#include <iostream>
 MouseSprite::MouseSprite()
 {
-	m_texture.loadFromFile("Assets/Textures/Towers/Towers-100px.png");
-	m_sprite.setTexture(m_texture);
+	//m_texture.loadFromFile("Assets/Textures/Towers/Towers-100px.png");
+	//m_sprite.setTexture(m_texture);
 	m_bIsMouseSpriteActive = false;
 	m_bIsRadiusvisible = false;
 
@@ -18,43 +18,47 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
 	{
+		m_bIsShovelActive = false;
+
 		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / (64 + 20);
-		std::cout << ChoosenTower << std::endl;
+		m_sprite.setTexture(gui.GetTexture(ChoosenTower));
 		m_sprite.setTextureRect(gui.GetTextureRect(ChoosenTower));
 		m_sprite.setOrigin(sf::Vector2f(gui.GetTextureRect(ChoosenTower).getSize().x / 2, gui.GetTextureRect(ChoosenTower).getSize().y / 2));
-		m_sprite.setScale(sf::Vector2f(0.64,0.64));
+		m_sprite.setScale(gui.GetScale(ChoosenTower));
 
 		m_bIsMouseSpriteActive = true;
-		towerType = static_cast<int>(ChoosenTower);
-
-
+		towerType = ChoosenTower;
+		
+		std::cout << towerType;
 		switch (towerType)
 		{
 		case Research:
-			m_ActionArea.setRadius(150.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Research).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		case Factory:
-			m_ActionArea.setRadius(150.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Factory).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		case Housing:
-			m_ActionArea.setRadius(150.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Housing).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		case BasicMillitaryTower:
-			m_ActionArea.setRadius(150.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		case UpdatedMillitaryTower:
-			m_ActionArea.setRadius(125.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		case ScatterMillitaryTower:
-			m_ActionArea.setRadius(125.0f);
+			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).radius);
 			m_bIsRadiusvisible = true;
 			break;
 		default:
+			m_bIsRadiusvisible = false;
+			m_bIsShovelActive = true;
 			break;
 		}
 
@@ -65,6 +69,7 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	{
 		m_bIsMouseSpriteActive = false;
 		m_bIsRadiusvisible = false;
+		m_bIsShovelActive = false;
 	}
 	if (m_bIsMouseSpriteActive)
 	{
@@ -93,14 +98,7 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 			tower->SetActionAreaUnActive();
 		}
 	}
-
-	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
-	{
-		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / 64;
-		m_sprite.setTextureRect(gui.GetTextureRect(ChoosenTower));
-		m_bIsMouseSpriteActive = true;
-		towerType = ChoosenTower;
-	}*/
+	//std::cout << m_bIsShovelActive << std::endl;
 }
 
 void MouseSprite::Draw(sf::RenderWindow& window)

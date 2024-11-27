@@ -5,8 +5,13 @@ class Player
 	int m_money;
 	int m_researchPoints;
 	int m_lives;
+
+	float m_timer;
+	const float m_cooldown = 1.0f;
 public:
 	Player();
+
+	void Update(float deltaTime);
 	inline void IncreaseMoney(int i) { m_money += i;};
 	inline void DecreaseMoney(int i) { m_money -= i;};
 	inline int GetMoney() { return m_money; };

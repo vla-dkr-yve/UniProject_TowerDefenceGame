@@ -5,7 +5,6 @@ Map::Map()
 	{
 		IsPlaceTaken[i] = false;
 	}
-	m_towerAmount = 0;
 }
 
 void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player)
@@ -19,9 +18,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 				switch (towerType)
 				{
 				case Research: {
-					if (ResearchCenter::GetCost() <= player.GetMoney())
+					if (TowerPropertiesManager::GetStaticProperty(Research).cost <= player.GetMoney())
 					{
-						player.DecreaseMoney(ResearchCenter::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Research).cost);
+
+						WhichTowerType[i] = 'c';
 
 						ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
 						//RC->ApplyBuffs(m_militaryTowers);
@@ -35,9 +36,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 					}
 				}
 				case Factory: {
-					if (FactoryTower::GetCost() <= player.GetMoney()) {
+					if (TowerPropertiesManager::GetStaticProperty(Factory).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(FactoryTower::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Factory).cost);
+
+						WhichTowerType[i] = 'c';
 
 						FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
 						//FT->ApplyBuffs(m_towers);
@@ -51,9 +54,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 					}
 				}
 				case Housing: {
-					if (HouseTower::GetCost() <= player.GetMoney()) {
+					if (TowerPropertiesManager::GetStaticProperty(Housing).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(HouseTower::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Housing).cost);
+
+						WhichTowerType[i] = 'c';
 
 						HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
 						//HT->ApplyBuffs(m_civilTowers);
@@ -63,9 +68,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 					}
 				}
 				case BasicMillitaryTower: {
-					if (LaserTower::GetCost() <= player.GetMoney()) {
+					if (TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(LaserTower::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost);
+
+						WhichTowerType[i] = 'm';
 
 						m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -77,9 +84,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 					}
 				}
 				case UpdatedMillitaryTower: {
-					if (UdvancedLaserTower::GetCost() <= player.GetMoney()) {
+					if (TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(UdvancedLaserTower::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost);
+
+						WhichTowerType[i] = 'm';
 
 						m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -91,9 +100,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 					}
 				}
 				case ScatterMillitaryTower: {
-					if (ScatterLaserTower::GetCost() <= player.GetMoney()) {
+					if (TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(ScatterLaserTower::GetCost());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost <= player.GetMoney());
+
+						WhichTowerType[i] = 'm';
 
 						m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -110,6 +121,42 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 				break;
 			}
 		}
+	}
+}
+
+void Map::DeleteTower(sf::Vector2f position, int X, int Y)
+{
+	for (int i = 0; i < TowerAmount; i++)
+	{
+		if (arr[i][0] == X && arr[i][0] == Y && IsPlaceTaken[i])
+		{
+			if (WhichTowerType[i] == 'c')
+			{
+				auto it = std::find_if(m_civilTowers.begin(), m_civilTowers.end(), [X, Y](CivilTower* tower)
+					{return sf::Vector2f(tower->GetSprite().getPosition().x / 64, tower->GetSprite().getPosition().y / 64) == sf::Vector2f(X, Y); });
+
+				if (it != m_civilTowers.end())
+				{
+					delete* it;
+					m_civilTowers.erase(it);
+				}
+			}
+			else if (WhichTowerType[i] == 'm')
+			{
+				auto it = std::find_if(m_militaryTowers.begin(), m_militaryTowers.end(), [X, Y](MilitaryTower* tower)
+					{return sf::Vector2f(tower->GetSprite().getPosition().x / 64, tower->GetSprite().getPosition().y / 64) == sf::Vector2f(X, Y); });
+
+				if (it != m_militaryTowers.end())
+				{
+					delete* it;
+					m_militaryTowers.erase(it);
+				}
+			}
+		}
+
+		IsPlaceTaken[i] = false;
+		WhichTowerType[i] = '\0';
+		return;
 	}
 }
 

@@ -11,7 +11,7 @@ protected:
 	int m_laserAmount;
 	int tmp_LaserAmount;
 public:
-	MilitaryTower(int damage, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount);
+	MilitaryTower(TowerType towerType, sf::Vector2f position, int laserAmount);
 
 	void Update(float deltaTime, std::vector <Enemy*>& vecEnemies);
 	void Action(sf::Vector2f target);

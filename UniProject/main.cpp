@@ -39,10 +39,15 @@ int main() {
 					{
 						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64, player);
 					}
+					/*if (!gui.IsOnTheGui(mousePosition) && mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64))
+					{
+						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64, player);
+					}*/
 				}
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
+		player.Update(deltaTime);
 		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
 		enemyManager.Update(deltaTime, player);
 		gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());

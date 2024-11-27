@@ -1,9 +1,7 @@
 #include "MilitaryTower.h"
 #include <iostream>
-
-MilitaryTower::MilitaryTower(int damage, float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius, int laserAmount):
-	Tower(damage,actionCooldown, texturePosition, position, radius), m_damage(damage),
-	m_laserAmount(laserAmount), tmp_LaserAmount(m_laserAmount)
+MilitaryTower::MilitaryTower(TowerType towerType,sf::Vector2f position, int laserAmount):
+	Tower(towerType, position),m_laserAmount(laserAmount), tmp_LaserAmount(m_laserAmount)
 {
 }
 
@@ -45,7 +43,7 @@ void MilitaryTower::Update(float deltaTime,std::vector<Enemy*>& vecEnemies)
 			it++;
 		}
 	}
-	std::cout << m_currentValue <<'\n';
+	//std::cout << m_damage;
 }
 
 void MilitaryTower::Action(sf::Vector2f target)

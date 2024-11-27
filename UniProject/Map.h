@@ -15,14 +15,6 @@
 
 #define TowerAmount 62
 
-//enum Towers {
-//	CivilResearchCenter,
-//	CivilFactoryTower,
-//	CivilHouseTower,
-//	BasicMillitaryTower,
-//	UpdatedMillitaryTower,
-//	ScatterMillitaryTower,
-//};
 class Map
 {
 	BackGround backGround;
@@ -32,8 +24,9 @@ class Map
 	,{ 21, 5 },{ 21, 7 },{ 21, 12 },{ 22, 4 },{ 22, 6 },{ 22, 8 },{ 22, 11 },{ 23, 7 },{ 23, 12 },{ 24, 8 },{ 24, 11 },{ 25, 7 },{ 25, 12 },{ 26, 8 },{ 26, 11 },{ 27, 7 }
 	,{ 27, 12 },{ 28, 8 },{ 28, 11 } };
 	bool IsPlaceTaken[TowerAmount];
-	
-	short int m_towerAmount;
+	char WhichTowerType[TowerAmount];
+	//short int m_civilTowerAmount;
+	//short int m_militaryTowerAmount;
 
 	//std::vector <Tower*> m_towers;
 	std::vector <MilitaryTower*> m_militaryTowers;
@@ -43,9 +36,10 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies, Player& player);
+	bool IsOnThePlace(int x, int y);
 
 	void AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player);
-	bool IsOnThePlace(int x, int y);
+	void DeleteTower(sf::Vector2f position, int X, int Y);
 
 	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };
 	inline std::vector <CivilTower*>& GetCivilTowers() { return m_civilTowers; };

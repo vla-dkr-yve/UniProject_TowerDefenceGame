@@ -1,14 +1,21 @@
 #include "Tower.h"
 
-int Tower::m_cost = -1;
-int Tower::m_id = -1;
-Tower::Tower(int baseValue, float actionCooldown, sf::Vector2i& texturePosition, sf::Vector2f& position, float radius): m_baseValue(baseValue), m_position(position),m_fActionCooldown(actionCooldown)
+//int Tower::m_cost = -1;
+//int Tower::m_id = -1;
+//float Tower::m_fRadius = -1;
+Tower::Tower(TowerType type, sf::Vector2f& position):m_position(position)
 {
+	const auto& properties = TowerPropertiesManager::GetStaticProperty(type);
+	m_fActionCooldown = properties.actionCooldown;
+	m_cost = properties.cost;
+	m_fRadius = properties.radius;
+	m_baseValue = properties.baseValue;
+
 	m_currentValue = m_baseValue;
 
 	m_texture.loadFromFile("Assets/Textures/Towers/Towers-100px.png");
 	m_sprite.setTexture(m_texture);
-	m_sprite.setTextureRect(sf::IntRect(texturePosition, sf::Vector2i(100,100)));
+	m_sprite.setTextureRect(sf::IntRect(properties.texturePosition, sf::Vector2i(100,100)));
 	m_sprite.setScale(0.64, 0.64);
 	m_sprite.setPosition(m_position);
 
@@ -16,7 +23,7 @@ Tower::Tower(int baseValue, float actionCooldown, sf::Vector2i& texturePosition,
 
 	m_bIsActionAreaActive = false;
 
-	m_ActionArea.setRadius(radius);
+	m_ActionArea.setRadius(m_fRadius);
 	m_ActionArea.setOrigin(sf::Vector2f(m_ActionArea.getRadius() - 32, m_ActionArea.getRadius() - 32));
 	m_ActionArea.setPosition(m_sprite.getPosition());
 	m_ActionArea.setFillColor(sf::Color(255, 255, 255, 32));

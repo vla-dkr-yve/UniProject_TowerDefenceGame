@@ -1,8 +1,9 @@
 #include "FactoryTower.h"
 
-int FactoryTower::m_cost = 150;
-int FactoryTower::m_id = 1;
-FactoryTower::FactoryTower(sf::Vector2f position): CivilTower(10,3.0f, sf::Vector2i(100 * 3, 100 * 0), position, 150)
+//int FactoryTower::m_cost = 150;
+//int FactoryTower::m_id = 1;
+//float FactoryTower::m_fRadius = 150;
+FactoryTower::FactoryTower(sf::Vector2f position): CivilTower(Factory, position)
 {
 }
 

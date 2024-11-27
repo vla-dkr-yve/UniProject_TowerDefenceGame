@@ -9,12 +9,16 @@ class CivilTower : public Tower
 {
 protected:
 	std::vector<Tower*> m_affectedTowers;
+	sf::RectangleShape m_actionBar;
+	sf::RectangleShape m_actionBarBackground;
+
 public:
-	CivilTower(int value,float actionCooldown, sf::Vector2i texturePosition, sf::Vector2f position, float radius);
+	CivilTower(TowerType towerType, sf::Vector2f position);
 	~CivilTower();
 
 	virtual void Action(float deltaTime, Player& player);
 	void Update(float deltaTime, Player& player);
+	void Draw(sf::RenderWindow& window) override;
 
 	virtual void ApplyBuffs(std::vector<CivilTower*>& towers);
 	virtual void ApplyBuffs(std::vector<MilitaryTower*>& towers);

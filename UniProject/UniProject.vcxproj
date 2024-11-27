@@ -163,6 +163,7 @@
     <ClCompile Include="ScatterLaserTower.cpp" />
     <ClCompile Include="SlowEnemy.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="TowerPropertiesManager.cpp" />
     <ClCompile Include="UdvancedLaserTower.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +189,7 @@
     <ClInclude Include="ScatterLaserTower.h" />
     <ClInclude Include="SlowEnemy.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="TowerPropertiesManager.h" />
     <ClInclude Include="UdvancedLaserTower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
