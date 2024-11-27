@@ -11,7 +11,11 @@
 //Make Update civil tower function +-
 //Add a timer over civil towers that shows their Action %+
 // 
-// Rewrite mousesprite description to look more normal
+// Rewrite mousesprite description to look more normal +-
+// Add research tab
+// 
+// Separate most of the code tha currently in main
+// Rewrite code to replace most of uneccesary shit with pointers etc. 
 //
 
 int main() {
@@ -23,6 +27,19 @@ int main() {
 	GUI gui(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
 	MouseSprite mouseSprite;
 	sf::Clock clock;
+
+	bool bIsPaused = false;
+	sf::RectangleShape pauseRect;
+	sf::Text pauseText;
+	sf::Font font;
+	font.loadFromFile("Assets/Fonts/Arial.TTF");
+	pauseText.setFont(font);
+	pauseText.setString("Game is paused");
+	pauseRect.setSize(sf::Vector2f(300, 100));
+	pauseRect.setPosition(sf::Vector2f(window.getSize().x / 2 - pauseRect.getSize().x / 2, window.getSize().y / 2 - pauseRect.getSize().y / 2));
+	pauseRect.setFillColor(sf::Color(0,0,0,64));
+	pauseText.setPosition(sf::Vector2f(pauseRect.getPosition().x + 25, pauseRect.getPosition().y + 25));
+
 	while (window.isOpen())
 	{
 		float deltaTime = clock.restart().asSeconds();
@@ -37,28 +54,42 @@ int main() {
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
 					sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-					if (!gui.IsOnTheGui(mousePosition) && mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64))
+					if (mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64) && !bIsPaused)
 					{
-						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64, player);
+						map.AddTower(mouseSprite.GetTowerType(), mousePosition.x / 64, mousePosition.y / 64, player);
 					}
-					/*if (!gui.IsOnTheGui(mousePosition) && mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64))
+					if (mouseSprite.IsShovelActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64) && !bIsPaused)
 					{
-						map.AddTower(mouseSprite.GetTowerType(), sf::Vector2f(mousePosition.x, mousePosition.y), mousePosition.x / 64, mousePosition.y / 64, player);
-					}*/
+						map.DeleteTower(mousePosition.x / 64, mousePosition.y / 64);
+					}
+				}
+			}
+			if (event.type == event.KeyReleased)
+			{
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					bIsPaused = !bIsPaused;
 				}
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-		player.Update(deltaTime);
 		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
-		enemyManager.Update(deltaTime, player);
-		gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
-		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
+		if (!bIsPaused)
+		{
+			player.Update(deltaTime);
+			enemyManager.Update(deltaTime, player);
+			gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
+			map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
+		}
 
 
 		window.clear(sf::Color::Black);
-
 		map.Draw(window);
+		if (bIsPaused)
+		{
+			window.draw(pauseRect);
+			window.draw(pauseText);
+		}
 		enemyManager.Draw(window);
 		gui.Draw(window);
 		mouseSprite.Draw(window);

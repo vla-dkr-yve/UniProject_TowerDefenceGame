@@ -1,11 +1,11 @@
 #include "MouseSprite.h"
-#include <iostream>
+
 MouseSprite::MouseSprite()
 {
 	m_font.loadFromFile("Assets/Fonts/Arial.TTF");
 	m_towerDescription.setFont(m_font);
 	m_towerDescription.setCharacterSize(20);
-	m_descriptionRect.setFillColor(sf::Color::Black);
+	m_descriptionRect.setFillColor(sf::Color(0,0,0,64));
 	//m_descriptionRect.setSize(sf::Vector2f(420, 100));
 	//m_sprite.setTexture(m_texture);
 	m_bIsMouseSpriteActive = false;
@@ -31,7 +31,7 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 			break;
 		case Factory:
 			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Factory).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Factory).description.length() / 2 * m_towerDescription.getCharacterSize(), 60));
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Factory).description.length() / 2 * m_towerDescription.getCharacterSize(), 80));
 			m_bIsDescriptionVisible = true;
 			break;
 		case Housing:
@@ -55,7 +55,9 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 			m_bIsDescriptionVisible = true;
 			break;
 		default:
-			m_bIsDescriptionVisible = false;
+			m_towerDescription.setString("Shovel. \nIs used for destroying towers");
+			m_descriptionRect.setSize(sf::Vector2f(300, 60));
+			m_bIsDescriptionVisible = true;
 			break;
 		}
 	}
@@ -82,32 +84,25 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 		m_bIsMouseSpriteActive = true;
 		towerType = ChoosenTower;
 		
-		std::cout << towerType;
 		switch (towerType)
 		{
 		case Research:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Research).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(Research);
 			break;
 		case Factory:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Factory).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(Factory);
 			break;
 		case Housing:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(Housing).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(Housing);
 			break;
 		case BasicMillitaryTower:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(BasicMillitaryTower);
 			break;
 		case UpdatedMillitaryTower:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(UpdatedMillitaryTower);
 			break;
 		case ScatterMillitaryTower:
-			m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).radius);
-			m_bIsRadiusvisible = true;
+			SetTowerRadius(ScatterMillitaryTower);
 			break;
 		default:
 			m_bIsRadiusvisible = false;
@@ -135,23 +130,22 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 
 	for (auto tower: militaryTowers)
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding()){
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding() && !m_bIsShovelActive){
 			tower->SetActionAreaActive();
 		}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !tower->GetSprite().getGlobalBounds().contains(mousePosition)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !tower->GetSprite().getGlobalBounds().contains(mousePosition) && !m_bIsShovelActive) {
 			tower->SetActionAreaUnActive();
 		}
 	}
 	for (auto tower : civilTowers)
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding()) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && tower->GetSprite().getGlobalBounds().contains(mousePosition) && !tower->IsBuilding() && !m_bIsShovelActive) {
 			tower->SetActionAreaActive();
 		}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !tower->GetSprite().getGlobalBounds().contains(mousePosition)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && !tower->GetSprite().getGlobalBounds().contains(mousePosition) && !m_bIsShovelActive) {
 			tower->SetActionAreaUnActive();
 		}
 	}
-	//std::cout << m_bIsShovelActive << std::endl;
 }
 
 void MouseSprite::Draw(sf::RenderWindow& window)
@@ -169,4 +163,10 @@ void MouseSprite::Draw(sf::RenderWindow& window)
 	{
 		window.draw(m_sprite);
 	}
+}
+
+void MouseSprite::SetTowerRadius(TowerType type)
+{
+	m_ActionArea.setRadius(TowerPropertiesManager::GetStaticProperty(type).radius);
+	m_bIsRadiusvisible = true;
 }

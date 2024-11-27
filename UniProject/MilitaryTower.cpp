@@ -1,5 +1,5 @@
 #include "MilitaryTower.h"
-#include <iostream>
+
 MilitaryTower::MilitaryTower(TowerType towerType,sf::Vector2f position, int laserAmount):
 	Tower(towerType, position),m_laserAmount(laserAmount), tmp_LaserAmount(m_laserAmount)
 {
@@ -7,11 +7,13 @@ MilitaryTower::MilitaryTower(TowerType towerType,sf::Vector2f position, int lase
 
 void MilitaryTower::Update(float deltaTime,std::vector<Enemy*>& vecEnemies)
 {
+
 	if (m_bIsBuild)
 	{
-		Build();
+		Build(deltaTime);
 		return;
 	}
+
 	if (tmp_LaserAmount <= 0)
 	{
 		m_ftimer -= deltaTime;
@@ -43,12 +45,11 @@ void MilitaryTower::Update(float deltaTime,std::vector<Enemy*>& vecEnemies)
 			it++;
 		}
 	}
-	//std::cout << m_damage;
 }
 
 void MilitaryTower::Action(sf::Vector2f target)
 {
-	m_laser.push_back(new Laser(m_sprite.getPosition(), target, m_damage));
+	m_laser.push_back(new Laser(m_sprite.getPosition(), target, m_currentValue));
 }
 
 void MilitaryTower::Draw(sf::RenderWindow& window)

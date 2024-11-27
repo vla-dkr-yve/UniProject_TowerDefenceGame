@@ -38,8 +38,8 @@ public:
 	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies, Player& player);
 	bool IsOnThePlace(int x, int y);
 
-	void AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player);
-	void DeleteTower(sf::Vector2f position, int X, int Y);
+	void AddTower(int towerType, int X, int Y, Player& player);
+	void DeleteTower(int X, int Y);
 
 	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };
 	inline std::vector <CivilTower*>& GetCivilTowers() { return m_civilTowers; };

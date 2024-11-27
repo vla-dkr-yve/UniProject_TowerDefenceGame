@@ -7,7 +7,7 @@ class MilitaryTower : public Tower
 {
 protected:
 	std::vector<Laser*> m_laser;
-	int m_damage;
+	//int m_damage;
 	int m_laserAmount;
 	int tmp_LaserAmount;
 public:

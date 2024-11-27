@@ -24,9 +24,10 @@ void CivilTower::Update(float deltaTime, Player& player)
 {
 	if (m_bIsBuild)
 	{
-		Build();
+		Build(deltaTime);
 		return;
 	}
+
 	float actionPercentage = m_ftimer / m_fActionCooldown;
 
 	m_actionBar.setSize(sf::Vector2f(m_actionBarBackground.getSize().x * actionPercentage, m_actionBarBackground.getSize().y));

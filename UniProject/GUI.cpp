@@ -78,7 +78,7 @@ GUI::GUI(int money, int researchPoints, int lives)
 
 void GUI::Draw(sf::RenderWindow& window)
 {
-	window.draw(m_SriteHolderRect);
+	//window.draw(m_SriteHolderRect);
 	//window.draw(m_ValuesHolderRect);
 
 	window.draw(m_moneyText);

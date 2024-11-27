@@ -34,7 +34,6 @@ protected:
 	bool m_bIsBuild;
 	sf::RectangleShape m_buildingLine;
 	sf::RectangleShape m_buildingBackground;
-	sf::Clock clock;
 
 	std::vector<Buff> m_activeBuffs;
 	int m_baseValue;
@@ -42,7 +41,7 @@ protected:
 public:
 
 	Tower(TowerType type, sf::Vector2f& position);
-	void Build();
+	void Build(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window);
 	void AddBuff(Buff buff);
 	void RemoveBuffBySource(void* source);

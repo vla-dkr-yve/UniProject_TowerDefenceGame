@@ -42,9 +42,9 @@ Tower::Tower(TowerType type, sf::Vector2f& position):m_position(position)
 	m_bIsBuild = true;
 }
 
-void Tower::Build()
+void Tower::Build(float deltaTime)
 {
-	m_fCurrentTime -= clock.restart().asSeconds();
+	m_fCurrentTime -= deltaTime;
 	if (m_fCurrentTime <= 0)
 	{
 		m_bIsBuild = false;

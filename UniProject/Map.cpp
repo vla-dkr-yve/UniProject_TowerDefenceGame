@@ -7,7 +7,7 @@ Map::Map()
 	}
 }
 
-void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& player)
+void Map::AddTower(int towerType, int X, int Y, Player& player)
 {
 	for (int i = 0; i < TowerAmount; i++)
 	{
@@ -124,11 +124,11 @@ void Map::AddTower(int towerType, sf::Vector2f position, int X, int Y, Player& p
 	}
 }
 
-void Map::DeleteTower(sf::Vector2f position, int X, int Y)
+void Map::DeleteTower(int X, int Y)
 {
 	for (int i = 0; i < TowerAmount; i++)
 	{
-		if (arr[i][0] == X && arr[i][0] == Y && IsPlaceTaken[i])
+		if (arr[i][0] == X && arr[i][1] == Y && IsPlaceTaken[i])
 		{
 			if (WhichTowerType[i] == 'c')
 			{
@@ -152,11 +152,10 @@ void Map::DeleteTower(sf::Vector2f position, int X, int Y)
 					m_militaryTowers.erase(it);
 				}
 			}
+			IsPlaceTaken[i] = false;
+			WhichTowerType[i] = '\0';
+			return;
 		}
-
-		IsPlaceTaken[i] = false;
-		WhichTowerType[i] = '\0';
-		return;
 	}
 }
 
