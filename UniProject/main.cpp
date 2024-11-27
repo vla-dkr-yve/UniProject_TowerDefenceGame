@@ -9,7 +9,9 @@
 //	Plans:
 //From common tower divide them into two: military and civil +
 //Make Update civil tower function +-
-//Add a timer over civil towers that shows their Action %
+//Add a timer over civil towers that shows their Action %+
+// 
+// Rewrite mousesprite description to look more normal
 //
 
 int main() {

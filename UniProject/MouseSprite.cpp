@@ -2,11 +2,15 @@
 #include <iostream>
 MouseSprite::MouseSprite()
 {
-	//m_texture.loadFromFile("Assets/Textures/Towers/Towers-100px.png");
+	m_font.loadFromFile("Assets/Fonts/Arial.TTF");
+	m_towerDescription.setFont(m_font);
+	m_towerDescription.setCharacterSize(20);
+	m_descriptionRect.setFillColor(sf::Color::Black);
+	//m_descriptionRect.setSize(sf::Vector2f(420, 100));
 	//m_sprite.setTexture(m_texture);
 	m_bIsMouseSpriteActive = false;
 	m_bIsRadiusvisible = false;
-
+	m_bIsDescriptionVisible = false;
 	m_ActionArea.setFillColor(sf::Color(255, 255, 255, 32));
 	m_ActionArea.setOutlineThickness(1);
 	m_ActionArea.setOutlineColor(sf::Color::Black);
@@ -15,6 +19,55 @@ MouseSprite::MouseSprite()
 void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	Map& map, sf::Event event, std::vector <MilitaryTower*> militaryTowers, std::vector <CivilTower*> civilTowers)
 {
+	if (gui.IsOnTheGui(mousePosition))
+	{
+		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / (64 + 20);
+		switch(ChoosenTower)
+		{
+		case Research:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Research).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Research).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			m_bIsDescriptionVisible = true;
+			break;
+		case Factory:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Factory).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Factory).description.length() / 2 * m_towerDescription.getCharacterSize(), 60));
+			m_bIsDescriptionVisible = true;
+			break;
+		case Housing:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Housing).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Housing).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			m_bIsDescriptionVisible = true;
+			break;
+		case BasicMillitaryTower:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			m_bIsDescriptionVisible = true;
+			break;
+		case UpdatedMillitaryTower:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			m_bIsDescriptionVisible = true;
+			break;
+		case ScatterMillitaryTower:
+			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).description);
+			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			m_bIsDescriptionVisible = true;
+			break;
+		default:
+			m_bIsDescriptionVisible = false;
+			break;
+		}
+	}
+	else {
+		m_bIsDescriptionVisible = false;
+	}
+
+	if (m_bIsDescriptionVisible)
+	{
+		m_towerDescription.setPosition(mousePosition + sf::Vector2f(10,10));
+		m_descriptionRect.setPosition(mousePosition);
+	}
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && gui.IsOnTheGui(mousePosition))
 	{
@@ -106,6 +159,11 @@ void MouseSprite::Draw(sf::RenderWindow& window)
 	if (m_bIsRadiusvisible)
 	{
 		window.draw(m_ActionArea);
+	}
+	if (m_bIsDescriptionVisible)
+	{
+		window.draw(m_descriptionRect);
+		window.draw(m_towerDescription);
 	}
 	if (m_bIsMouseSpriteActive)
 	{

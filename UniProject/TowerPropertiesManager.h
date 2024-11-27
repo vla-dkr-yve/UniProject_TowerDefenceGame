@@ -17,6 +17,7 @@ struct StaticTowerProperties {
 	int baseValue;
 	float actionCooldown;
 	sf::Vector2i texturePosition;
+	std::string description;
 };
 
 class TowerPropertiesManager

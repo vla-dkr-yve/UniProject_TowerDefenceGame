@@ -19,6 +19,7 @@ class GUI
 
 	sf::Texture m_shovelTexture;
 	//sf::Sprite m_shovelSprite;
+
 public:
 
 	GUI(int money, int researchPoints, int lives);

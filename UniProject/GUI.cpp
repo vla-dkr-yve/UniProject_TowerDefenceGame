@@ -28,36 +28,13 @@ GUI::GUI(int money, int researchPoints, int lives)
 		m_GUISprites[i].setTexture(m_texture);
 		m_GUISprites[i].setScale(sf::Vector2f(0.64, 0.64));
 	}
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < ArrSize - 1; i++)
 	{
 		m_GUISprites[i].setTextureRect(sf::IntRect(
 			TowerPropertiesManager::GetStaticProperty(static_cast<TowerType>(i)).texturePosition.x, 
 			TowerPropertiesManager::GetStaticProperty(static_cast<TowerType>(i)).texturePosition.y, 100, 100));
 		m_towerCost[i].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(static_cast<TowerType>(i)).cost));
 	}
-	/*m_GUISprites[0].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100, 100));
-	m_towerCost[0].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(Research).cost));
-
-	m_GUISprites[1].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100, 100));
-	m_towerCost[1].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(Factory).cost));
-
-	m_GUISprites[2].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100, 100));
-	m_towerCost[2].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(Housing).cost));
-
-	m_GUISprites[3].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100,100));
-	m_towerCost[3].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost));
-
-	m_GUISprites[4].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100,100));
-	m_towerCost[4].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost));
-
-	m_GUISprites[5].setTextureRect(sf::IntRect(
-		TowerPropertiesManager::GetStaticProperty(Research).texturePosition.x, TowerPropertiesManager::GetStaticProperty(Research).texturePosition.y, 100,100));
-	m_towerCost[5].setString(std::to_string(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost));*/
 
 	for (int i = 0; i < ArrSize - 1; i++)
 	{
@@ -67,7 +44,6 @@ GUI::GUI(int money, int researchPoints, int lives)
 			
 		}
 		else {
-			//m_sprites[i].setScale(sf::Vector2f(0.64,0.64));
 			m_GUISprites[i].setPosition(sf::Vector2f(0, m_SriteHolderRect.getPosition().y + i * 64 + m_offsetY * i));
 		}
 		m_towerCost[i].setPosition(sf::Vector2f(15, m_SriteHolderRect.getPosition().y + (i + 1) * 64 + m_offsetY * i));

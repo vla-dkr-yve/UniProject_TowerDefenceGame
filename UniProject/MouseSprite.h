@@ -12,6 +12,11 @@ class MouseSprite
 	bool m_bIsMouseSpriteActive;
 	bool m_bIsRadiusvisible;
 	bool m_bIsShovelActive;
+
+	sf::Font m_font;
+	sf::Text m_towerDescription;
+	sf::RectangleShape m_descriptionRect;
+	bool m_bIsDescriptionVisible;
 public:
 	MouseSprite();
 
