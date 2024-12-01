@@ -6,6 +6,7 @@
 #include "MouseSprite.h"
 #include "Map.h"
 #include "Player.h"
+#include "ResearchTree.h"
 //	Plans:
 //From common tower divide them into two: military and civil +
 //Make Update civil tower function +-
@@ -17,6 +18,10 @@
 // Separate most of the code tha currently in main
 // Rewrite code to replace most of uneccesary shit with pointers etc. 
 //
+//Make a fuction witch takes string, characterSize and boydWidth to calculate places where '\n' should be placed (Recearch Tree) and returns edited string
+//
+//
+//
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
@@ -26,6 +31,8 @@ int main() {
 	Player player;
 	GUI gui(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
 	MouseSprite mouseSprite;
+
+	ResearchTree reseacrhTree;
 	sf::Clock clock;
 
 	bool bIsPaused = false;
@@ -70,18 +77,26 @@ int main() {
 				{
 					bIsPaused = !bIsPaused;
 				}
+				if (event.key.code == sf::Keyboard::LAlt)
+				{
+					reseacrhTree.ChangeViewState();
+				}
 			}
 		}
 		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-		mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
-		if (!bIsPaused)
+
+		if (!reseacrhTree.IsResearchTreeActive())
+		{
+			mouseSprite.Update(deltaTime, gui, mousePosition, map, event,map.GetMilitaryTowers(), map.GetCivilTowers());
+		}
+		if (!bIsPaused && !reseacrhTree.IsResearchTreeActive())
 		{
 			player.Update(deltaTime);
 			enemyManager.Update(deltaTime, player);
 			gui.UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
 			map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 		}
-
+		reseacrhTree.Update(mousePosition);
 
 		window.clear(sf::Color::Black);
 		map.Draw(window);
@@ -91,6 +106,7 @@ int main() {
 			window.draw(pauseText);
 		}
 		enemyManager.Draw(window);
+		reseacrhTree.Draw(window);
 		gui.Draw(window);
 		mouseSprite.Draw(window);
 		window.display();

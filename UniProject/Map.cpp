@@ -1,4 +1,7 @@
 #include "Map.h"
+
+std::vector <MilitaryTower*> Map::m_militaryTowers;
+std::vector <CivilTower*> Map::m_civilTowers;
 Map::Map()
 {
 	for (int i = 0; i < TowerAmount; i++)
@@ -102,7 +105,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 				case ScatterMillitaryTower: {
 					if (TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost <= player.GetMoney());
+						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost);
 
 						WhichTowerType[i] = 'm';
 
@@ -157,6 +160,33 @@ void Map::DeleteTower(int X, int Y)
 			return;
 		}
 	}
+}
+
+void Map::UpdateTowerValues(TowerType type, int value)
+{
+	char typeChar = TowerPropertiesManager::getTowerTypeChar(type);
+
+	if (typeChar == 'c')
+	{
+		for (auto tower: m_civilTowers)
+		{
+			if (tower->GetTowerType() == type)
+			{
+				tower->UpdateBaseValue(value);
+			}
+		}
+	}
+	else if (typeChar == 'm')
+	{
+		for (auto tower : m_militaryTowers)
+		{
+			if (tower->GetTowerType() == type)
+			{
+				tower->UpdateBaseValue(value);
+			}
+		}
+	}
+	TowerPropertiesManager::IncreaseTowerBaseValue(type, value);
 }
 
 bool Map::IsOnThePlace(int x, int y)

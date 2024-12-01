@@ -4,9 +4,6 @@
 
 class ResearchCenter : public CivilTower
 {
-	/*static int m_id;
-	static int m_cost;
-	static float m_fRadius;*/
 public:
 	ResearchCenter(sf::Vector2f position, std::vector<MilitaryTower*>& towers);
 	
@@ -14,8 +11,5 @@ public:
 
 	void ApplyBuffs(std::vector<MilitaryTower*>& towers) override;
 	void ReapplyBuffs(MilitaryTower* newTower) override;
-
-	/*static inline int GetCost() { return m_cost; };
-	static inline int GetRadius() { return m_fRadius; };*/
 };
 

@@ -160,6 +160,9 @@
     <ClCompile Include="MouseSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResearchCenter.cpp" />
+    <ClCompile Include="ResearchEffectHandler.cpp" />
+    <ClCompile Include="ResearchTree.cpp" />
+    <ClCompile Include="ResearchTreeNodesConfiguration.cpp" />
     <ClCompile Include="ScatterLaserTower.cpp" />
     <ClCompile Include="SlowEnemy.cpp" />
     <ClCompile Include="Tower.cpp" />
@@ -186,6 +189,9 @@
     <ClInclude Include="MouseSprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResearchCenter.h" />
+    <ClInclude Include="ResearchEffectHandler.h" />
+    <ClInclude Include="ResearchTree.h" />
+    <ClInclude Include="ResearchTreeNodesConfiguration.h" />
     <ClInclude Include="ScatterLaserTower.h" />
     <ClInclude Include="SlowEnemy.h" />
     <ClInclude Include="Tower.h" />

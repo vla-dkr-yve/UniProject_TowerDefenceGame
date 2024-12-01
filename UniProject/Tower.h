@@ -1,18 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "TowerPropertiesManager.h"
-#include "buff.h"
+#include "Buff.h"
 
-//enum TowerType {
-//	Research,
-//	Factory,
-//	Housing,
-//	//Recycling,
-//	//Construction,
-//	BasicMillitaryTower,
-//	UpdatedMillitaryTower,
-//	ScatterMillitaryTower
-//};
 class Tower
 {
 protected:
@@ -24,6 +14,8 @@ protected:
 	sf::Sprite m_sprite;
 	sf::Vector2f m_position;
 	sf::CircleShape m_ActionArea;
+
+	TowerType towerType;
 
 	float m_ftimer;
 	float m_fActionCooldown;
@@ -43,9 +35,14 @@ public:
 	Tower(TowerType type, sf::Vector2f& position);
 	void Build(float deltaTime);
 	virtual void Draw(sf::RenderWindow& window);
+
+	//For Buffs
 	void AddBuff(Buff buff);
 	void RemoveBuffBySource(void* source);
 	void UpdateValue();
+
+	//For Research Tree
+	void UpdateBaseValue(int value);
 
 	inline sf::Sprite& GetSprite() { return m_sprite; };
 	inline void SetActionAreaActive() { m_bIsActionAreaActive = true; };
@@ -55,5 +52,6 @@ public:
 
 	//virtual void Action(sf::Vector2f direction);
 	inline int GetId() { return m_id; };
+	inline TowerType& GetTowerType() { return towerType; };
 };
 

@@ -7,7 +7,8 @@ enum TowerType {
 	Housing,
 	BasicMillitaryTower,
 	UpdatedMillitaryTower,
-	ScatterMillitaryTower
+	ScatterMillitaryTower,
+	//TowerTypeCount = 6
 };
 
 struct StaticTowerProperties {
@@ -23,7 +24,10 @@ struct StaticTowerProperties {
 class TowerPropertiesManager
 {
 public:
-	static const std::unordered_map<TowerType, StaticTowerProperties> StaticProperties;
+	static char getTowerTypeChar(TowerType type);
+	static std::unordered_map<TowerType, StaticTowerProperties> StaticProperties;
+
+	static void IncreaseTowerBaseValue(TowerType type, int value);
 
 	static inline const StaticTowerProperties& GetStaticProperty(TowerType type) { return  StaticProperties.at(type); };
 };

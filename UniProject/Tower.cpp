@@ -1,11 +1,14 @@
 #include "Tower.h"
-
+#include <iostream>
 //int Tower::m_cost = -1;
 //int Tower::m_id = -1;
 //float Tower::m_fRadius = -1;
+//int Tower::m_baseValue = -1;
 Tower::Tower(TowerType type, sf::Vector2f& position):m_position(position)
 {
-	const auto& properties = TowerPropertiesManager::GetStaticProperty(type);
+	towerType = type;
+
+	const auto& properties = TowerPropertiesManager::GetStaticProperty(towerType);
 	m_fActionCooldown = properties.actionCooldown;
 	m_cost = properties.cost;
 	m_fRadius = properties.radius;
@@ -70,6 +73,7 @@ void Tower::Draw(sf::RenderWindow& window)
 	{
 		window.draw(m_ActionArea);
 	}
+	//std::cout << m_baseValue << '\n';
 }
 
 void Tower::AddBuff(Buff buff)
@@ -92,4 +96,11 @@ void Tower::UpdateValue()
 	{
 		m_currentValue += buff.value;
 	}
+	std::cout << "New curretn value: " << m_currentValue;
+}
+
+void Tower::UpdateBaseValue(int value)
+{
+	m_baseValue += value;
+	UpdateValue();
 }

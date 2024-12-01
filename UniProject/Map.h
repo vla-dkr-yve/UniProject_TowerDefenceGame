@@ -29,8 +29,8 @@ class Map
 	//short int m_militaryTowerAmount;
 
 	//std::vector <Tower*> m_towers;
-	std::vector <MilitaryTower*> m_militaryTowers;
-	std::vector <CivilTower*> m_civilTowers;
+	static std::vector <MilitaryTower*> m_militaryTowers;
+	static std::vector <CivilTower*> m_civilTowers;
 public:
 	Map();
 	void Draw(sf::RenderWindow& window);
@@ -40,6 +40,7 @@ public:
 
 	void AddTower(int towerType, int X, int Y, Player& player);
 	void DeleteTower(int X, int Y);
+	static void UpdateTowerValues(TowerType type, int value);
 
 	inline std::vector <MilitaryTower*>& GetMilitaryTowers() { return m_militaryTowers; };
 	inline std::vector <CivilTower*>& GetCivilTowers() { return m_civilTowers; };

@@ -1,8 +1,5 @@
 #include "ResearchCenter.h"
-
-//int ResearchCenter::m_cost = 150;
-//int ResearchCenter::m_id = 0;
-//float ResearchCenter::m_fRadius = 150.0f;
+#include <iostream>
 ResearchCenter::ResearchCenter(sf::Vector2f position, std::vector<MilitaryTower*>& towers): CivilTower(Research, position)
 {
 	ApplyBuffs(towers);

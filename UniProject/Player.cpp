@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(): m_money(500), m_researchPoints(150), m_lives(20), m_timer(m_cooldown)
+Player::Player(): m_money(10500), m_researchPoints(150), m_lives(20), m_timer(m_cooldown)
 {
 }
 
