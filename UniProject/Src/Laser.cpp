@@ -2,7 +2,7 @@
 
 #include "Laser.h"
 #include <cmath>
-
+#include<iostream>
 Laser::Laser(sf::Vector2f position, sf::Vector2f target , int damage): m_damage(damage)
 {
 	m_bIsDestroyed = false;
@@ -30,6 +30,7 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 	{
 		if (Collision(*enemy))
 		{
+			std::cout << "Collisiion\n";
 			enemy->TakeDamage(m_damage);
 			m_bIsDestroyed = true;
 		}
@@ -42,7 +43,7 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 
 bool Laser::Collision(Enemy& enemy)
 {
-	sf::Vector2f circleCenter = enemy.GetSprite().getPosition();
+	/*sf::Vector2f circleCenter = enemy.GetSprite().getPosition();
 	float circleRadius = enemy.GetRadius();
 
 	sf::Vector2f rectPos = line.getPosition();
@@ -54,7 +55,14 @@ bool Laser::Collision(Enemy& enemy)
 	float distanceX = circleCenter.x - closestX;
 	float distanceY = circleCenter.y - closestY;
 
-	return (distanceX * distanceX + distanceY * distanceY) <= (circleRadius * circleRadius);
+	return (distanceX * distanceX + distanceY * distanceY) <= (circleRadius * circleRadius);*/
+	if (enemy.GetPosition().x - enemy.GetSize().x / 2 < line.getPosition().x && 
+		enemy.GetPosition().x + enemy.GetSize().x / 2 > line.getPosition().x && 
+		enemy.GetPosition().y - enemy.GetSize().y / 2 < line.getPosition().y && 
+		enemy.GetPosition().y + enemy.GetSize().y / 2 > line.getPosition().y) {
+		return true;
+	}
+	return false;
 }
 
 bool Laser::OutOfTheScreen()

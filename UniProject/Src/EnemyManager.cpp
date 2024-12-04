@@ -31,10 +31,10 @@ void EnemyManager::Update(float deltaTime, Player& player)
 		}
 		m_cooldown = 3.0f;
 	}
-	else if (m_count == BOSSCOUNT) {
-		m_vecEnemies.push_back(new Boss);
-		m_count = 0;
-	}
+	//else if (m_count == BOSSCOUNT) {
+	//	m_vecEnemies.push_back(new Boss);
+	//	m_count = 0;
+	//}
 	for (auto it = m_vecEnemies.begin(); it != m_vecEnemies.end();)
 	{
 		if ((*it)->IsDead())

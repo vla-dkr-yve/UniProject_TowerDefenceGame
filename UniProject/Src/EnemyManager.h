@@ -1,10 +1,7 @@
 #pragma once
 #include <vector>
 #include "Enemy.h"
-#include "BasicEnemy.h"
-#include "FastEnemy.h"
-#include "SlowEnemy.h"
-#include "Boss.h"
+#include "Enemytypes.h"
 
 #define BOSSCOUNT 5
 
