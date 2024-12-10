@@ -1,22 +1,48 @@
 #pragma once
 #include "Enemy.h"
 
-class BasicEnemy : public Enemy
+enum EnemyType {
+	Scorpion,
+	Leafbug,
+	Magma_Crab,
+	Clampbeetle,
+	Locust,
+	Voidbutterfly
+};
+class Ground_Scorpion : public Enemy
 {
 public:
-	BasicEnemy();
+	Ground_Scorpion();
 };
 
-class FastEnemy : public Enemy
+class Ground_Leafbug : public Enemy
 {
 public:
-	FastEnemy();
+	Ground_Leafbug();
 };
 
-class SlowEnemy : public Enemy
+class Ground_Magma_Crab : public Enemy
 {
 public:
-	SlowEnemy();
+	Ground_Magma_Crab();
+};
+
+class Flying_Clampbeetle : public Enemy
+{
+public:
+	Flying_Clampbeetle();
+};
+
+class Flying_Locust : public Enemy
+{
+public:
+	Flying_Locust();
+};
+
+class Flying_Voidbutterfly : public Enemy
+{
+public:
+	Flying_Voidbutterfly();
 };
 
 //class Boss : public Enemy

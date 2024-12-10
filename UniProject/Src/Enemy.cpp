@@ -47,10 +47,10 @@ void Enemy::Move(float fDeltaTime, sf::Vector2f& direction)
 void Enemy::Animator(float deltaTime,sf::Vector2f& direction) 
 {
 	m_animationTimer += deltaTime;
-	if (m_animationTimer > 0.2f)
+	if (m_animationTimer > 0.1f)
 	{
 		m_currentAnimation++;
-		if (m_currentAnimation >= 8)
+		if (m_currentAnimation >= m_animationNum[m_currentSide])
 		{
 			m_currentAnimation = 0;
 		}
@@ -58,31 +58,47 @@ void Enemy::Animator(float deltaTime,sf::Vector2f& direction)
 	}
 	if (direction.x > 0 && abs(direction.x) > abs(direction.y))
 	{
-		if (m_animationNum["right"] == -1 && !m_isRotated)
+		if (!m_isRotated)
 		{
-			m_sprite.scale(-1, 1);
-			m_isRotated = true;
+			if (m_animationNum["right"] == -1)
+			{
+				m_sprite.scale(-1, 1);
+				m_isRotated = true;
+				m_currentSide = "left";
+			}
+			else {
+				m_currentSide = "right";
+			}
 		}
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 5 * 64, 64, 64));
 	}
 	if (direction.x < 0 && abs(direction.x) > abs(direction.y))
 	{
-		if (m_animationNum["left"] == -1 && !m_isRotated)
+		if (!m_isRotated)
 		{
-			m_sprite.scale(-1, 1);
-			m_isRotated = true;
+			if (m_animationNum["left"] == -1)
+			{
+				m_sprite.scale(-1, 1);
+				m_isRotated = true;
+				m_currentSide = "right";
+			}
+			else {
+				m_currentSide = "left";
+			}
 		}
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 5 * 64, 64, 64));
 	}
 	if (direction.y < 0 && abs(direction.y) > abs(direction.x))
 	{
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 4 * 64, 64, 64));
+		m_currentSide = "top";
 	}
 	if (direction.y > 0 && abs(direction.y) > abs(direction.x))
 	{
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 3 * 64, 64, 64));
+		m_currentSide = "bottom";
 	}
-
+	std::cout << m_currentAnimation << '\n';
 }
 
 void Enemy::Draw(sf::RenderWindow& window)

@@ -24,7 +24,7 @@ struct StaticTowerProperties {
 class TowerPropertiesManager
 {
 public:
-	static char getTowerTypeChar(TowerType type);
+	static char GetTowerTypeChar(TowerType type);
 	static std::unordered_map<TowerType, StaticTowerProperties> StaticProperties;
 
 	static void IncreaseTowerBaseValue(TowerType type, int value);

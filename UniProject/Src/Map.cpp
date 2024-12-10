@@ -25,7 +25,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 					{
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Research).cost);
 
-						WhichTowerType[i] = 'c';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Research);
 
 						ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
 						//RC->ApplyBuffs(m_militaryTowers);
@@ -43,7 +43,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Factory).cost);
 
-						WhichTowerType[i] = 'c';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Factory);
 
 						FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
 						//FT->ApplyBuffs(m_towers);
@@ -61,7 +61,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Housing).cost);
 
-						WhichTowerType[i] = 'c';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Housing);
 
 						HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
 						//HT->ApplyBuffs(m_civilTowers);
@@ -75,7 +75,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost);
 
-						WhichTowerType[i] = 'm';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(BasicMillitaryTower);
 
 						m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -91,7 +91,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost);
 
-						WhichTowerType[i] = 'm';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(UpdatedMillitaryTower);
 
 						m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -107,7 +107,7 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 
 						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost);
 
-						WhichTowerType[i] = 'm';
+						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(ScatterMillitaryTower);
 
 						m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
 						IsPlaceTaken[i] = true;
@@ -164,7 +164,7 @@ void Map::DeleteTower(int X, int Y)
 
 void Map::UpdateTowerValues(TowerType type, int value)
 {
-	char typeChar = TowerPropertiesManager::getTowerTypeChar(type);
+	char typeChar = TowerPropertiesManager::GetTowerTypeChar(type);
 
 	if (typeChar == 'c')
 	{

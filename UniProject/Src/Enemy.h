@@ -16,6 +16,7 @@ protected:
 
 	//int m_animationFrames;
 	std::map<std::string, int> m_animationNum;
+	std::string m_currentSide;
 	int m_currentAnimation;
 	float m_animationTimer;
 	bool m_isRotated;

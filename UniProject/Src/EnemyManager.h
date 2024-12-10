@@ -5,12 +5,6 @@
 
 #define BOSSCOUNT 5
 
-enum EnemyType {
-	Basic,
-	Fast,
-	Slow,
-};
-
 class EnemyManager
 {
 	std::vector <Enemy*> m_vecEnemies;

@@ -21,7 +21,7 @@ void TowerPropertiesManager::IncreaseTowerBaseValue(TowerType type, int value)
 	StaticProperties[type].baseValue += value;
 }
 
-char TowerPropertiesManager::getTowerTypeChar(TowerType type)
+char TowerPropertiesManager::GetTowerTypeChar(TowerType type)
 {
 	switch (type) {
 	case Research:
