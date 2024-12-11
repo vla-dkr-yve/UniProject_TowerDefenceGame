@@ -9,7 +9,6 @@
 #include "ResearchCenter.h"
 #include "FactoryTower.h"
 #include "HouseTower.h"
-#include <iostream>
 GUI::GUI(int money, int researchPoints, int lives)
 {
 	font.loadFromFile("Assets/Fonts/Arial.TTF");
@@ -78,8 +77,6 @@ GUI::GUI(int money, int researchPoints, int lives)
 
 void GUI::Draw(sf::RenderWindow& window)
 {
-	//window.draw(m_SriteHolderRect);
-	//window.draw(m_ValuesHolderRect);
 
 	window.draw(m_moneyText);
 	window.draw(m_researchPointsText);
@@ -93,7 +90,6 @@ void GUI::Draw(sf::RenderWindow& window)
 	{
 		window.draw(m_towerCost[i]);
 	}
-	//window.draw(m_shovelSprite);
 }
 
 void GUI::UpdateTextValues(int money, int researchPoints, int lives)

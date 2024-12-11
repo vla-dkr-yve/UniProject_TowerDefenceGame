@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include <iostream>
 Enemy::Enemy(int hp, float speed, std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
 	m_maximumHp(hp), m_fSpeed(speed)
 {
@@ -98,7 +97,6 @@ void Enemy::Animator(float deltaTime,sf::Vector2f& direction)
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 3 * 64, 64, 64));
 		m_currentSide = "bottom";
 	}
-	std::cout << m_currentAnimation << '\n';
 }
 
 void Enemy::Draw(sf::RenderWindow& window)

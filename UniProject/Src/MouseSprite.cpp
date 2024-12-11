@@ -6,8 +6,6 @@ MouseSprite::MouseSprite()
 	m_towerDescription.setFont(m_font);
 	m_towerDescription.setCharacterSize(20);
 	m_descriptionRect.setFillColor(sf::Color(0,0,0,64));
-	//m_descriptionRect.setSize(sf::Vector2f(420, 100));
-	//m_sprite.setTexture(m_texture);
 	m_bIsMouseSpriteActive = false;
 	m_bIsRadiusvisible = false;
 	m_bIsDescriptionVisible = false;

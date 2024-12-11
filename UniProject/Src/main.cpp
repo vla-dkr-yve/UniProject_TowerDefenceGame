@@ -8,19 +8,16 @@
 #include "Player.h"
 #include "ResearchTree.h"
 //	Plans:
-//From common tower divide them into two: military and civil +
-//Make Update civil tower function +-
-//Add a timer over civil towers that shows their Action %+
-// 
-// Rewrite mousesprite description to look more normal +-
-// Add research tab
 // 
 // Separate most of the code tha currently in main
 // Rewrite code to replace most of uneccesary shit with pointers etc. 
+// 
+// Add main menu with 3 option play, leaderboard(load from file), exit
+// Add kinda of score
+// Add login system (username + password)?
+// Save score into the file when lives go to 0/player finish the game closing the window (x button)
 //
-//Make a fuction witch takes string, characterSize and boydWidth to calculate places where '\n' should be placed (Recearch Tree) and returns edited string
-//
-//
+// Finish research tree
 //
 
 int main() {
