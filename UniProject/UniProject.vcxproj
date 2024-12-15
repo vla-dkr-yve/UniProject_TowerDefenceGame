@@ -141,6 +141,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Pause.cpp" />
+    <ClCompile Include="Src\MainMenuState.cpp" />
+    <ClCompile Include="Src\GameplayState.cpp" />
     <ClCompile Include="Src\EnemyTypes.cpp" />
     <ClCompile Include="Src\BackGround.cpp" />
     <ClCompile Include="Src\CivilTower.cpp" />
@@ -162,11 +165,16 @@
     <ClCompile Include="Src\ResearchTree.cpp" />
     <ClCompile Include="Src\ResearchTreeNodesConfiguration.cpp" />
     <ClCompile Include="Src\ScatterLaserTower.cpp" />
+    <ClCompile Include="Src\State.cpp" />
     <ClCompile Include="Src\Tower.cpp" />
     <ClCompile Include="Src\TowerPropertiesManager.cpp" />
     <ClCompile Include="Src\UdvancedLaserTower.cpp" />
+    <ClCompile Include="Src\StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Pause.h" />
+    <ClInclude Include="Src\MainMenuState.h" />
+    <ClInclude Include="Src\GameplayState.h" />
     <ClInclude Include="Src\EnemyTypes.h" />
     <ClInclude Include="Src\BackGround.h" />
     <ClInclude Include="Src\Buff.h" />
@@ -191,6 +199,8 @@
     <ClInclude Include="Src\Tower.h" />
     <ClInclude Include="Src\TowerPropertiesManager.h" />
     <ClInclude Include="Src\UdvancedLaserTower.h" />
+    <ClInclude Include="Src\State.h" />
+    <ClInclude Include="Src\StateManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

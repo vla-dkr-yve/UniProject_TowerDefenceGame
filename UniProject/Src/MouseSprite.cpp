@@ -15,7 +15,7 @@ MouseSprite::MouseSprite()
 }
 
 void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
-	Map& map, sf::Event event, std::vector <MilitaryTower*> militaryTowers, std::vector <CivilTower*> civilTowers)
+	Map& map, std::vector <MilitaryTower*> militaryTowers, std::vector <CivilTower*> civilTowers)
 {
 	if (gui.IsOnTheGui(mousePosition))
 	{
