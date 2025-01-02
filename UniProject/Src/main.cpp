@@ -4,14 +4,17 @@
 #include "GameplayState.h"
 //	Plans:
 // 
+// Add bosses
+// 
+// Add hero
+// 
+// Add fighting system
+// 
 // Recheck All state files
 // 
 // 
-// Separate most of the code tha currently in main
 // Rewrite code to replace most of uneccesary shit with pointers etc. 
 // 
-// Add main menu with 3 option play, leaderboard(load from file), exit
-// Add kinda of score
 // Add login system (username + password)?
 // Save score into the file when lives go to 0/player finish the game closing the window (x button)
 //

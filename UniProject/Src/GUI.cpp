@@ -9,7 +9,7 @@
 #include "ResearchCenter.h"
 #include "FactoryTower.h"
 #include "HouseTower.h"
-GUI::GUI(int money, int researchPoints, int lives)
+GUI::GUI(int money, int researchPoints, int lives, int score)
 {
 	font.loadFromFile("Assets/Fonts/Arial.TTF");
 	for (int i = 0; i < ArrSize - 1; i++)
@@ -52,6 +52,10 @@ GUI::GUI(int money, int researchPoints, int lives)
 	m_ValuesHolderRect.setPosition(1920 - 3 * 64, 0);
 	m_ValuesHolderRect.setFillColor(sf::Color(128, 128, 128));
 
+	m_ScoreHolder.setSize(sf::Vector2f(64 * 3, 64));
+	m_ScoreHolder.setPosition(1920 - 3 * 64, 64 * 1);
+	m_ScoreHolder.setFillColor(sf::Color(128, 128, 128));;
+
 	m_shovelTexture.loadFromFile("Assets/Textures/Shovel/Shovel.png");
 	m_GUISprites[ArrSize - 1].setTexture(m_shovelTexture);
 	m_GUISprites[ArrSize - 1].setScale(sf::Vector2f(2, 2));
@@ -73,6 +77,9 @@ GUI::GUI(int money, int researchPoints, int lives)
 	m_researchPointsText.setPosition(m_ValuesHolderRect.getPosition() + sf::Vector2f(1 * 64, 0));
 	m_livesText.setPosition(m_ValuesHolderRect.getPosition() + sf::Vector2f(2 * 64, 0));
 
+	m_scoreText.setFont(font);
+	m_scoreText.setString("Score: " + std::to_string(score));
+	m_scoreText.setPosition(m_ScoreHolder.getPosition());
 }
 
 void GUI::Draw(sf::RenderWindow& window)
@@ -81,6 +88,7 @@ void GUI::Draw(sf::RenderWindow& window)
 	window.draw(m_moneyText);
 	window.draw(m_researchPointsText);
 	window.draw(m_livesText);
+	window.draw(m_scoreText);
 
 	for (int i = 0; i < ArrSize; i++)
 	{
@@ -92,11 +100,12 @@ void GUI::Draw(sf::RenderWindow& window)
 	}
 }
 
-void GUI::UpdateTextValues(int money, int researchPoints, int lives)
+void GUI::UpdateTextValues(int money, int researchPoints, int lives, int score)
 {
 	m_moneyText.setString("Money\n" + std::to_string(money));
 	m_researchPointsText.setString("RP\n" + std::to_string(researchPoints));
 	m_livesText.setString("Lives\n" + std::to_string(lives));
+	m_scoreText.setString("Score: " + std::to_string(score));
 }
 
 sf::Texture& GUI::GetTexture(int i)

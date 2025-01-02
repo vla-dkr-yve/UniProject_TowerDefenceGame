@@ -47,6 +47,7 @@ void EnemyManager::Update(float deltaTime, Player& player)
 	{
 		if ((*it)->IsDead())
 		{
+			player.IncreaseScore((*it)->GetScore());
 			delete* it;
 			it = m_vecEnemies.erase(it);
 			m_count++;

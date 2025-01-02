@@ -7,9 +7,12 @@
 class Enemy
 {
 protected:
+	int m_score;
+
 	int m_maximumHp;
 	int m_currentHp;
 	float m_fSpeed;
+	int m_armor;
 	//sf::CircleShape m_sprite;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
@@ -28,7 +31,7 @@ protected:
 	int m_waypointsIndex;
 	sf::Vector2f m_waypoints[6] = { {256,768}, {768, 768}, {768, 256}, {1280,256}, {1280, 640}, {1982, 640}};
 public:
-	Enemy(int hp, float speed, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize);
+	Enemy(int score, int hp, float speed, int armor, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize);
 	~Enemy();
 
 	void Update(float fDeltaTime, Player& player);
@@ -41,6 +44,7 @@ public:
 
 	inline sf::Sprite& GetSprite() { return m_sprite; };
 	inline float GetSpeed() { return m_fSpeed; };
+	inline int GetScore() { return m_score; };
 	inline void SetSpeed(int speed) { m_fSpeed = speed; };
 	inline int GetHp() { return m_currentHp; };
 	inline void SetHp(int hp) { m_currentHp = hp; };

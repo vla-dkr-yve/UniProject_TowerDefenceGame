@@ -1,6 +1,6 @@
 #include "Enemy.h"
-Enemy::Enemy(int hp, float speed, std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
-	m_maximumHp(hp), m_fSpeed(speed)
+Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
+	m_score(score),m_maximumHp(hp), m_fSpeed(speed)
 {
 	m_currentHp = m_maximumHp;
 	m_animationTimer = 0.0f;
@@ -107,7 +107,7 @@ void Enemy::Draw(sf::RenderWindow& window)
 
 void Enemy::TakeDamage(int damage)
 {
-	m_currentHp -= damage; 
+	m_currentHp -= damage - m_armor; 
 	if (m_currentHp <= 0)
 		m_currentHp = 0;
 

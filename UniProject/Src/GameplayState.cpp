@@ -8,7 +8,7 @@ GameplayState::GameplayState(StateManager& manager, sf::RenderWindow& window): s
 	//sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
 	/*window.create(sf::VideoMode(1920, 1024), "");*/
 	//window.setFramerateLimit(60);
-	gui = new GUI(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
+	gui = new GUI(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 
 	pause = new Pause(window);
 }
@@ -65,7 +65,7 @@ void GameplayState::Update(sf::RenderWindow& window)
 	{
 		player.Update(deltaTime);
 		enemyManager.Update(deltaTime, player);
-		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives());
+		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 	}
 

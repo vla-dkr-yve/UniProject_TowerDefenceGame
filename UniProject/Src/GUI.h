@@ -16,15 +16,18 @@ class GUI
 	sf::Text m_moneyText;
 	sf::Text m_researchPointsText;
 	sf::Text m_livesText;
+	
+	sf::RectangleShape m_ScoreHolder;
+	sf::Text m_scoreText;
 
 	sf::Texture m_shovelTexture;
 	//sf::Sprite m_shovelSprite;
 
 public:
 
-	GUI(int money, int researchPoints, int lives);
+	GUI(int money, int researchPoints, int lives, int score);
 	void Draw(sf::RenderWindow& window);
-	void UpdateTextValues(int money, int researchPoints, int lives);
+	void UpdateTextValues(int money, int researchPoints, int lives, int score);
 
 	sf::Texture& GetTexture(int i);
 	const inline sf::Vector2f& GetScale(int i) const { return m_GUISprites[i].getScale(); };
