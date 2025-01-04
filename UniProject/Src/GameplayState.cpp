@@ -65,6 +65,7 @@ void GameplayState::Update(sf::RenderWindow& window)
 	{
 		player.Update(deltaTime);
 		enemyManager.Update(deltaTime, player);
+		hero.Update(deltaTime);
 		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 	}
@@ -77,6 +78,7 @@ void GameplayState::Draw(sf::RenderWindow& window)
 	window.clear(sf::Color::Black);
 	map.Draw(window);
 	pause->Draw(window);
+	hero.Draw(window);
 	enemyManager.Draw(window);
 	reseacrhTree.Draw(window);
 	gui->Draw(window);

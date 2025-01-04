@@ -35,7 +35,7 @@ public:
 	Map();
 	void Draw(sf::RenderWindow& window);
 
-	void Update(float deltaTime, std::vector <Enemy*> m_vecEnemies, Player& player);
+	void Update(float deltaTime, std::vector <Enemy*>& m_vecEnemies, Player& player);
 	bool IsOnThePlace(int x, int y);
 
 	void AddTower(int towerType, int X, int Y, Player& player);

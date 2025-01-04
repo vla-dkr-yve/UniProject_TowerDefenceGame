@@ -10,6 +10,7 @@
 #include "ResearchTree.h"
 #include "Pause.h"
 #include "StateManager.h"
+#include "Hero.h"
 class GameplayState : public State
 {
 private:
@@ -21,6 +22,7 @@ private:
 	MouseSprite mouseSprite;
 	ResearchTree reseacrhTree;
 	sf::Clock clock;
+	Hero hero;
 
 	GUI* gui;
 	Pause* pause;

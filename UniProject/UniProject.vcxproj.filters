@@ -102,6 +102,9 @@
     <ClCompile Include="Src\Pause.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Hero.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\BackGround.h">
@@ -189,6 +192,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Src\Pause.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Hero.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

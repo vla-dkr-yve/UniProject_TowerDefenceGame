@@ -205,7 +205,7 @@ bool Map::IsOnThePlace(int x, int y)
 	return false;
 }
 
-void Map::Update(float deltaTime,std::vector <Enemy*> m_vecEnemies, Player& player)
+void Map::Update(float deltaTime,std::vector <Enemy*>& m_vecEnemies, Player& player)
 {
 	for (int i = 0; i < m_militaryTowers.size(); i++)
 	{

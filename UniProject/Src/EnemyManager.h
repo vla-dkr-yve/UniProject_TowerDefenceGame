@@ -18,6 +18,6 @@ public:
 	void Update(float deltaTime, Player& player);
 	void Draw(sf::RenderWindow& window);
 
-	const inline std::vector <Enemy*>& GetEnemyVector() const{ return m_vecEnemies; };
+	inline std::vector <Enemy*>& GetEnemyVector(){ return m_vecEnemies; };
 };
 
