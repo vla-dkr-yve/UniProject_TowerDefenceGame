@@ -1,6 +1,7 @@
 #include "Hero.h"
 
-Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(false), m_speed(175), m_speedMultiplier(1)
+Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(true), m_speed(175),
+m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0)
 {
 	m_texture.loadFromFile("Assets/Textures/Hero/Knight/SpriteSheet.png");
 	m_sprite.setTexture(m_texture);
@@ -25,11 +26,12 @@ Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0),
 		{"ATTACK3", 2}, {"DEATH", 3}, {"DEFEND", 4},
 		{"HURT", 5}, {"IDLE", 6}, {"RUN", 7}, {"WALK", 8} };
 
-	hitbox.setSize(m_sprite.getGlobalBounds().getSize());
+	hitbox.setSize(sf::Vector2f(m_hitboxWidth, m_hitboxHeight));
 	hitbox.setFillColor(sf::Color(255, 255, 255, 0));
 	hitbox.setOutlineColor(sf::Color::Red);
 	hitbox.setOutlineThickness(1);
-	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x - m_sprite.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - m_sprite.getGlobalBounds().getSize().y / 2));
+	hitbox.setScale(m_sprite.getScale());
+	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - hitbox.getGlobalBounds().getSize().y / 2));
 }
 
 void Hero::Animator(float deltaTime)
@@ -39,19 +41,38 @@ void Hero::Animator(float deltaTime)
 		m_currentAnimation++;
 		if (m_currentAnimation >= m_animationNum[m_currentState])
 		{
+			if (m_isAttacking)
+			{
+				m_currentAttack++;
+				if (m_currentAttack > m_totalAttack)
+				{
+					m_currentAttack = 0;
+					m_totalAttack = 0;
+					m_isAttacking = false;
+				}
+				else {
+					ChangeState("ATTACK");
+				}
+			}
+			if (m_isDefending)
+			{
+				m_isDefending = false;
+			}
 			m_currentAnimation = 0;
 		}
 		m_animationTimer = 0.0f;
 	}
 
-	m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * (m_offsetX * 3) + m_offsetX, m_animationPosition[m_currentState] * 84 + m_offsetY, m_width, m_height));
+	m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * (m_offsetX * 3) + m_offsetX - 8, m_animationPosition[m_currentState] * 84 + m_offsetY, m_width, m_height));
 }
 
 void Hero::Move(float deltaTime, char side)
 {
-	m_currentState = "WALK";
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-		m_currentState = "RUN";
+		ChangeState("RUN");
+	}
+	else {
+		ChangeState("WALK");
 	}
 	
 	sf::Vector2f direction;
@@ -79,11 +100,50 @@ void Hero::Move(float deltaTime, char side)
 
 void Hero::Attack()
 {
+	m_totalAttack++;
 
+	if (m_totalAttack > 3)
+	{
+		m_totalAttack = 3;
+	}
+
+	if (m_currentAttack == 0)
+	{
+		m_currentAttack = 1;
+	}
+
+	ChangeState("ATTACK");
 }
 
 void Hero::Defence()
 {
+}
+
+void Hero::ChangeState(std::string newState)
+{
+	if (newState == "ATTACK")
+	{
+		newState += std::to_string(m_currentAttack);
+	}
+
+
+	if (m_currentState != newState)
+	{
+		if (newState == "ATTACK1" || newState == "ATTACK2" || newState == "ATTACK3")
+		{
+			m_isAttacking = true;
+		}
+		else if (newState == "DEFEND")
+		{
+			m_isDefending = true;
+		}
+
+		if (!(m_currentState == "WALK" && newState == "RUN") || !(m_currentState == "RUN" && newState == "WALK"))
+		{
+			m_currentAnimation = 0;
+		}
+		m_currentState = newState;
+	}
 }
 
 void Hero::Update(float deltaTime)
@@ -100,55 +160,66 @@ void Hero::Update(float deltaTime)
 
 	bool isMoving = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (!m_isAttacking && !m_isDefending)
 	{
-		m_currentSide = 'l';
-		if (!m_isRotated)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			m_sprite.scale(-1, 1);
-			m_isRotated = true;
-		}
+			m_currentSide = 'l';
+			if (!m_isRotated)
+			{
+				m_sprite.scale(-1, 1);
+				m_isRotated = true;
+			}
 
-		isMoving = true;
-		Move(deltaTime, 'a');
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		m_currentSide = 'r';
-		if (m_isRotated)
+			isMoving = true;
+			Move(deltaTime, 'a');
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			m_sprite.scale(-1, 1);
-			m_isRotated = false;
-		}
+			m_currentSide = 'r';
+			if (m_isRotated)
+			{
+				m_sprite.scale(-1, 1);
+				m_isRotated = false;
+			}
 
-		isMoving = true;
-		Move(deltaTime, 'd');
+			isMoving = true;
+			Move(deltaTime, 'd');
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			isMoving = true;
+			Move(deltaTime, 'w');
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			isMoving = true;
+			Move(deltaTime, 's');
+		}
+		if (!isMoving)
+		{
+			m_currentState = "IDLE";
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+
+	/*if (event.type == event.MouseButtonPressed)
 	{
-		isMoving = true;
-		Move(deltaTime, 'w');
+		if (event.mouseButton.button == sf::Mouse::Left)
+		{
+			Attack();
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		isMoving = true;
-		Move(deltaTime, 's');
-	}
-	if (!isMoving)
-	{
-		m_currentState = "IDLE";
-	}
+
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		m_currentState = "Attack1";
 		Attack();
-	}
+	}*/
 
 
 	Animator(deltaTime);
 
-	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x - m_sprite.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - m_sprite.getGlobalBounds().getSize().y / 2));
+	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - hitbox.getGlobalBounds().getSize().y / 2));
 }
 
 void Hero::Draw(sf::RenderWindow& window)

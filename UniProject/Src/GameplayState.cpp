@@ -23,6 +23,13 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 		{
 			window.close();
 		}
+		if (event.type == event.MouseButtonPressed)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left && hero.IsActive())
+			{
+				hero.Attack();
+			}
+		}
 		if (event.type == event.MouseButtonReleased)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
@@ -37,6 +44,8 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 				}
 			}
 		}
+
+
 		if (event.type == event.KeyReleased)
 		{
 			if (event.key.code == sf::Keyboard::Space)
