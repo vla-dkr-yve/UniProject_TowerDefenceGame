@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Lightning.cpp" />
     <ClCompile Include="Src\Hero.cpp" />
     <ClCompile Include="Src\Pause.cpp" />
     <ClCompile Include="Src\MainMenuState.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Src\StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Lightning.h" />
     <ClInclude Include="Src\Hero.h" />
     <ClInclude Include="Src\Pause.h" />
     <ClInclude Include="Src\MainMenuState.h" />

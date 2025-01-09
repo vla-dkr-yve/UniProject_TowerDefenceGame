@@ -16,7 +16,6 @@ public:
 	void Update(float deltaTime,const std::vector<Enemy*>& vecEnemies);
 	void Draw(sf::RenderWindow& window);
 
-	bool Collision(Enemy& enemy);
 	bool OutOfTheScreen();
 	inline bool IsDestroyed(){ return m_bIsDestroyed; };
 };

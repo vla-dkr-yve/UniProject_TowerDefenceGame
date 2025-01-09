@@ -3,6 +3,7 @@
 #include "Laser.h"
 #include <cmath>
 #include<iostream>
+#include "Math.h"
 Laser::Laser(sf::Vector2f position, sf::Vector2f target , int damage): m_damage(damage)
 {
 	m_bIsDestroyed = false;
@@ -28,7 +29,7 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 	line.setPosition(line.getPosition() + m_direction * m_fLaserSpeed * deltaTime);
 	for (auto enemy: vecEnemies)
 	{
-		if (Collision(*enemy))
+		if (Math::Collision(*enemy, line.getPosition()))
 		{
 			std::cout << "Collisiion\n";
 			enemy->TakeDamage(m_damage);
@@ -41,29 +42,16 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 	}
 }
 
-bool Laser::Collision(Enemy& enemy)
-{
-	/*sf::Vector2f circleCenter = enemy.GetSprite().getPosition();
-	float circleRadius = enemy.GetRadius();
-
-	sf::Vector2f rectPos = line.getPosition();
-	sf::Vector2f rectSize = line.getSize();
-
-	float closestX = std::max(rectPos.x, std::min(circleCenter.x, rectPos.x + rectSize.x));
-	float closestY = std::max(rectPos.y, std::min(circleCenter.y, rectPos.y + rectSize.y));
-
-	float distanceX = circleCenter.x - closestX;
-	float distanceY = circleCenter.y - closestY;
-
-	return (distanceX * distanceX + distanceY * distanceY) <= (circleRadius * circleRadius);*/
-	if (enemy.GetPosition().x - enemy.GetSize().x / 2 < line.getPosition().x && 
-		enemy.GetPosition().x + enemy.GetSize().x / 2 > line.getPosition().x && 
-		enemy.GetPosition().y - enemy.GetSize().y / 2 < line.getPosition().y && 
-		enemy.GetPosition().y + enemy.GetSize().y / 2 > line.getPosition().y) {
-		return true;
-	}
-	return false;
-}
+//bool Laser::Collision(Enemy& enemy)
+//{
+//	if (enemy.GetPosition().x - enemy.GetSize().x / 2 < line.getPosition().x && 
+//		enemy.GetPosition().x + enemy.GetSize().x / 2 > line.getPosition().x && 
+//		enemy.GetPosition().y - enemy.GetSize().y / 2 < line.getPosition().y && 
+//		enemy.GetPosition().y + enemy.GetSize().y / 2 > line.getPosition().y) {
+//		return true;
+//	}
+//	return false;
+//}
 
 bool Laser::OutOfTheScreen()
 {

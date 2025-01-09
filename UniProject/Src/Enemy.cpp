@@ -1,6 +1,8 @@
 #include "Enemy.h"
+#include "Hero.h"
+
 Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
-	m_score(score),m_maximumHp(hp), m_fSpeed(speed)
+	m_score(score),m_maximumHp(hp), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0)
 {
 	m_currentHp = m_maximumHp;
 	m_animationTimer = 0.0f;
@@ -16,10 +18,7 @@ Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::ma
 	{
 		m_animationNum[i.first] = i.second;
 	}
-	//m_sprite.setOutlineThickness(1);
-	//m_sprite.setOutlineColor(sf::Color::Black);
-	//m_sprite.setRadius(radius);
-	//m_sprite.setFillColor(color);
+	
 	m_sprite.setOrigin(sf::Vector2f(m_sprite.getGlobalBounds().width/2, m_sprite.getGlobalBounds().height/2));
 	m_sprite.setPosition(sf::Vector2f(256, 0));
 
@@ -40,7 +39,10 @@ Enemy::~Enemy()
 void Enemy::Move(float fDeltaTime, sf::Vector2f& direction)
 {
 	Animator(fDeltaTime,direction);
-	m_sprite.setPosition(m_sprite.getPosition() + direction * fDeltaTime * m_fSpeed);
+	if (!m_isFighting)
+	{
+		m_sprite.setPosition(m_sprite.getPosition() + direction * fDeltaTime * m_fSpeed);
+	}
 }
 
 void Enemy::Animator(float deltaTime,sf::Vector2f& direction) 
@@ -107,12 +109,20 @@ void Enemy::Draw(sf::RenderWindow& window)
 
 void Enemy::TakeDamage(int damage)
 {
-	m_currentHp -= damage - m_armor; 
-	if (m_currentHp <= 0)
-		m_currentHp = 0;
 
-	float healthPercentage = static_cast<float>(m_currentHp) / static_cast<float>(m_maximumHp);
-	m_healthBar.setSize(sf::Vector2f(m_healthBarBackground.getSize().x * healthPercentage, m_healthBarBackground.getSize().y));
+	if (!m_gotDamage)
+	{
+		m_currentHp -= damage - m_armor; 
+		if (m_currentHp <= 0) {
+			m_currentHp = 0;
+		}
+
+		m_gotDamage = true;
+		m_damageTimer = m_damageCooldown;
+
+		float healthPercentage = static_cast<float>(m_currentHp) / static_cast<float>(m_maximumHp);
+		m_healthBar.setSize(sf::Vector2f(m_healthBarBackground.getSize().x * healthPercentage, m_healthBarBackground.getSize().y));
+	}
 }
 
 void Enemy::Update(float fDeltaTime, Player& player)
@@ -137,6 +147,17 @@ void Enemy::Update(float fDeltaTime, Player& player)
 	{
 		m_bIsDead = true;
 	}
+
+	if (m_gotDamage)
+	{
+		m_damageTimer -= fDeltaTime;
+
+		if (m_damageTimer <= 0.0)
+		{
+			m_gotDamage = false;
+		}
+	}
+
 	m_healthBarBackground.setPosition(sf::Vector2f(m_sprite.getPosition().x - m_sprite.getGlobalBounds().width / 2, m_sprite.getPosition().y - m_sprite.getGlobalBounds().height / 2 - m_healthBarBackground.getSize().y));
 	m_healthBar.setPosition(sf::Vector2f(m_sprite.getPosition().x - m_sprite.getGlobalBounds().width / 2, m_sprite.getPosition().y - m_sprite.getGlobalBounds().height / 2 - m_healthBar.getSize().y));
 }

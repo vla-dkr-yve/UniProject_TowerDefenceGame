@@ -37,3 +37,15 @@ std::string Math::EditString(std::string def, int characterSize, float width, sf
 	}
 	return changed + word;
 }
+
+
+bool Math::Collision(Enemy& enemy, sf::Vector2f position)
+{
+	if (enemy.GetPosition().x - enemy.GetSize().x / 2 < position.x &&
+		enemy.GetPosition().x + enemy.GetSize().x / 2 > position.x &&
+		enemy.GetPosition().y - enemy.GetSize().y / 2 < position.y &&
+		enemy.GetPosition().y + enemy.GetSize().y / 2 > position.y) {
+		return true;
+	}
+	return false;
+}

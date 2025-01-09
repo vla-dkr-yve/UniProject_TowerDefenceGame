@@ -1,13 +1,14 @@
 #include "Hero.h"
+#include "Math.h"
 
 Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(true), m_speed(175),
-m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0)
+m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0), m_target(nullptr)
 {
 	m_texture.loadFromFile("Assets/Textures/Hero/Knight/SpriteSheet.png");
 	m_sprite.setTexture(m_texture);
 	//m_sprite.setTextureRect(sf::IntRect(0 + m_offsetX, 0 + m_offsetY, m_width, m_height));
 	m_sprite.setTextureRect(sf::IntRect(0 + m_offsetX, 0 + m_offsetY, m_width, m_height));
-	m_sprite.setScale(1.5, 1.5);
+	m_sprite.setScale(m_scaleX, m_scaleY);
 
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.0f, m_sprite.getLocalBounds().height / 2.0f);
 	m_sprite.setPosition(sf::Vector2f(28 * 64, 9 * 64));
@@ -66,7 +67,7 @@ void Hero::Animator(float deltaTime)
 	m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * (m_offsetX * 3) + m_offsetX - 8, m_animationPosition[m_currentState] * 84 + m_offsetY, m_width, m_height));
 }
 
-void Hero::Move(float deltaTime, char side)
+void Hero::Move(float deltaTime, char side, std::vector<Enemy*>& Enemies)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		ChangeState("RUN");
@@ -95,6 +96,9 @@ void Hero::Move(float deltaTime, char side)
 		break;
 	}
 
+	
+
+
 	m_sprite.setPosition(m_sprite.getPosition() + direction * deltaTime * m_speed * m_speedMultiplier);
 }
 
@@ -113,6 +117,30 @@ void Hero::Attack()
 	}
 
 	ChangeState("ATTACK");
+}
+
+void Hero::Attacking(std::vector<Enemy*>& Enemies)
+{
+	if (m_currentAnimation == 3)
+	{
+		int direction;
+
+		if (m_currentSide == 'l')
+		{
+			direction = -32;
+		}
+		else {
+			direction = +32;
+		}
+
+		for (auto& enemy: Enemies)
+		{
+			if (Math::Collision(*enemy, sf::Vector2f(m_sprite.getPosition().x + direction, m_sprite.getPosition().y)))
+			{
+				enemy->TakeDamage(m_damage);
+			}
+		}
+	}
 }
 
 void Hero::Defence()
@@ -146,7 +174,7 @@ void Hero::ChangeState(std::string newState)
 	}
 }
 
-void Hero::Update(float deltaTime)
+void Hero::Update(float deltaTime, std::vector<Enemy*>& Enemies)
 {
 	m_animationTimer += deltaTime;
 
@@ -172,7 +200,7 @@ void Hero::Update(float deltaTime)
 			}
 
 			isMoving = true;
-			Move(deltaTime, 'a');
+			Move(deltaTime, 'a', Enemies);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
@@ -184,17 +212,17 @@ void Hero::Update(float deltaTime)
 			}
 
 			isMoving = true;
-			Move(deltaTime, 'd');
+			Move(deltaTime, 'd', Enemies);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			isMoving = true;
-			Move(deltaTime, 'w');
+			Move(deltaTime, 'w', Enemies);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			isMoving = true;
-			Move(deltaTime, 's');
+			Move(deltaTime, 's', Enemies);
 		}
 		if (!isMoving)
 		{
@@ -202,19 +230,33 @@ void Hero::Update(float deltaTime)
 		}
 	}
 
-	/*if (event.type == event.MouseButtonPressed)
+	if (m_isAttacking)
 	{
-		if (event.mouseButton.button == sf::Mouse::Left)
-		{
-			Attack();
-		}
+		Attacking(Enemies);
 	}
 
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (m_target != nullptr)
 	{
-		Attack();
-	}*/
+		if (Math::Distance(m_target->GetPosition(), m_sprite.getPosition()) > 100)
+		{
+			//m_isTargeted = false;
+			m_target->ChangeFightingState(false);
+			m_target = nullptr;
+		}
+	}
+	else {
+		for (auto& enemy : Enemies)
+		{
+			if (Math::Distance(enemy->GetPosition(), m_sprite.getPosition()) < 100)
+			{
+				//m_isTargeted = true;
+				m_target = enemy;
+				enemy->ChangeFightingState(true);
+			}
+		}
+	}
+
 
 
 	Animator(deltaTime);

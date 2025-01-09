@@ -3,7 +3,6 @@
 #include <map>
 #include "Player.h"
 
-
 class Enemy
 {
 protected:
@@ -24,12 +23,20 @@ protected:
 	float m_animationTimer;
 	bool m_isRotated;
 
+	bool m_gotDamage;
+	const float m_damageCooldown = 2 * 0.1;
+	float m_damageTimer;
+
 	sf::RectangleShape m_healthBar;
 	sf::RectangleShape m_healthBarBackground;
 	bool m_bIsDead;
 	
 	int m_waypointsIndex;
 	sf::Vector2f m_waypoints[6] = { {256,768}, {768, 768}, {768, 256}, {1280,256}, {1280, 640}, {1982, 640}};
+
+	bool m_isFighting;
+	float m_attackCooldown = 3.0f;
+	float m_attackTimer;
 public:
 	Enemy(int score, int hp, float speed, int armor, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize);
 	~Enemy();
@@ -39,8 +46,6 @@ public:
 	void Animator(float deltaTime, sf::Vector2f& direction);
 	void Draw(sf::RenderWindow& window);
 
-	//inline void ChangeColor(sf::Color color) { m_sprite.setFillColor(color); };
-	//inline void ChangeRadius(float radius) { m_sprite.setRadius(radius); };
 
 	inline sf::Sprite& GetSprite() { return m_sprite; };
 	inline float GetSpeed() { return m_fSpeed; };
@@ -51,7 +56,7 @@ public:
 	inline bool IsDead() { return m_bIsDead; };
 	const inline sf::Vector2f& GetPosition() { return m_sprite.getPosition(); };
 	const inline sf::Vector2f& GetSize() const { return sf::Vector2f(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height); };
-	//inline float GetRadius() { return m_sprite.getRadius(); };
+	inline void ChangeFightingState(bool state) { m_isFighting = state; };
 
 	void TakeDamage(int damage);
 };

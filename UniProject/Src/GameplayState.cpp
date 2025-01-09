@@ -74,7 +74,7 @@ void GameplayState::Update(sf::RenderWindow& window)
 	{
 		player.Update(deltaTime);
 		enemyManager.Update(deltaTime, player);
-		hero.Update(deltaTime);
+		hero.Update(deltaTime, enemyManager.GetEnemyVector());
 		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 	}

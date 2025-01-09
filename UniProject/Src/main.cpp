@@ -4,11 +4,12 @@
 #include "GameplayState.h"
 //	Plans:
 // 
-// Add bosses
 // 
-// Add hero
+// Add hero +
 // 
-// Add fighting system
+// Add fighting system {
+//			-Finish lightning
+// }
 // 
 // Recheck All state files
 // 
@@ -19,6 +20,8 @@
 // Save score into the file when lives go to 0/player finish the game closing the window (x button)
 //
 // Finish research tree
+// 
+// Add bosses
 //
 
 int main() {
