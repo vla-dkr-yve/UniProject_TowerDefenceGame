@@ -11,6 +11,8 @@ GameplayState::GameplayState(StateManager& manager, sf::RenderWindow& window): s
 	gui = new GUI(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 
 	pause = new Pause(window);
+
+	fightingManager = new FightingManager(hero);
 }
 
 void GameplayState::HandleEvents(sf::RenderWindow& window)
@@ -74,7 +76,8 @@ void GameplayState::Update(sf::RenderWindow& window)
 	{
 		player.Update(deltaTime);
 		enemyManager.Update(deltaTime, player);
-		hero.Update(deltaTime, enemyManager.GetEnemyVector());
+		hero.Update(deltaTime);
+		fightingManager->Update(enemyManager.GetEnemyVector(), player, deltaTime);
 		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
 	}
@@ -89,6 +92,7 @@ void GameplayState::Draw(sf::RenderWindow& window)
 	pause->Draw(window);
 	hero.Draw(window);
 	enemyManager.Draw(window);
+	fightingManager->Draw(window);
 	reseacrhTree.Draw(window);
 	gui->Draw(window);
 	mouseSprite.Draw(window);

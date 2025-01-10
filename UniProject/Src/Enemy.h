@@ -37,11 +37,12 @@ protected:
 	bool m_isFighting;
 	float m_attackCooldown = 3.0f;
 	float m_attackTimer;
+	bool m_canAttack;
 public:
 	Enemy(int score, int hp, float speed, int armor, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize);
 	~Enemy();
 
-	void Update(float fDeltaTime, Player& player);
+	void Update(float fDeltaTime, Player& player, sf::Vector2f OpponentPosition = {-1,-1});
 	void Move(float fDeltaTime, sf::Vector2f& direction);
 	void Animator(float deltaTime, sf::Vector2f& direction);
 	void Draw(sf::RenderWindow& window);
@@ -54,9 +55,12 @@ public:
 	inline int GetHp() { return m_currentHp; };
 	inline void SetHp(int hp) { m_currentHp = hp; };
 	inline bool IsDead() { return m_bIsDead; };
+	inline bool CanAttack() { return m_canAttack; };
 	const inline sf::Vector2f& GetPosition() { return m_sprite.getPosition(); };
 	const inline sf::Vector2f& GetSize() const { return sf::Vector2f(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height); };
+	inline bool IsFighting() { return m_isFighting; };
 	inline void ChangeFightingState(bool state) { m_isFighting = state; };
+	inline void ChangeAttackState(bool state) { m_canAttack = state; };
 
 	void TakeDamage(int damage);
 };

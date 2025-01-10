@@ -67,7 +67,7 @@ void Hero::Animator(float deltaTime)
 	m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * (m_offsetX * 3) + m_offsetX - 8, m_animationPosition[m_currentState] * 84 + m_offsetY, m_width, m_height));
 }
 
-void Hero::Move(float deltaTime, char side, std::vector<Enemy*>& Enemies)
+void Hero::Move(float deltaTime, char side)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		ChangeState("RUN");
@@ -96,9 +96,6 @@ void Hero::Move(float deltaTime, char side, std::vector<Enemy*>& Enemies)
 		break;
 	}
 
-	
-
-
 	m_sprite.setPosition(m_sprite.getPosition() + direction * deltaTime * m_speed * m_speedMultiplier);
 }
 
@@ -119,29 +116,29 @@ void Hero::Attack()
 	ChangeState("ATTACK");
 }
 
-void Hero::Attacking(std::vector<Enemy*>& Enemies)
-{
-	if (m_currentAnimation == 3)
-	{
-		int direction;
-
-		if (m_currentSide == 'l')
-		{
-			direction = -32;
-		}
-		else {
-			direction = +32;
-		}
-
-		for (auto& enemy: Enemies)
-		{
-			if (Math::Collision(*enemy, sf::Vector2f(m_sprite.getPosition().x + direction, m_sprite.getPosition().y)))
-			{
-				enemy->TakeDamage(m_damage);
-			}
-		}
-	}
-}
+//void Hero::Attacking(std::vector<Enemy*>& Enemies)
+//{
+//	if (m_currentAnimation == 3)
+//	{
+//		int direction;
+//
+//		if (m_currentSide == 'l')
+//		{
+//			direction = -32;
+//		}
+//		else {
+//			direction = +32;
+//		}
+//
+//		for (auto& enemy: Enemies)
+//		{
+//			if (Math::Collision(*enemy, sf::Vector2f(m_sprite.getPosition().x + direction, m_sprite.getPosition().y)))
+//			{
+//				enemy->TakeDamage(m_damage);
+//			}
+//		}
+//	}
+//}
 
 void Hero::Defence()
 {
@@ -174,7 +171,7 @@ void Hero::ChangeState(std::string newState)
 	}
 }
 
-void Hero::Update(float deltaTime, std::vector<Enemy*>& Enemies)
+void Hero::Update(float deltaTime)
 {
 	m_animationTimer += deltaTime;
 
@@ -200,7 +197,7 @@ void Hero::Update(float deltaTime, std::vector<Enemy*>& Enemies)
 			}
 
 			isMoving = true;
-			Move(deltaTime, 'a', Enemies);
+			Move(deltaTime, 'a');
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
@@ -212,17 +209,17 @@ void Hero::Update(float deltaTime, std::vector<Enemy*>& Enemies)
 			}
 
 			isMoving = true;
-			Move(deltaTime, 'd', Enemies);
+			Move(deltaTime, 'd');
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			isMoving = true;
-			Move(deltaTime, 'w', Enemies);
+			Move(deltaTime, 'w');
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			isMoving = true;
-			Move(deltaTime, 's', Enemies);
+			Move(deltaTime, 's');
 		}
 		if (!isMoving)
 		{
@@ -230,32 +227,32 @@ void Hero::Update(float deltaTime, std::vector<Enemy*>& Enemies)
 		}
 	}
 
-	if (m_isAttacking)
+	/*if (m_isAttacking)
 	{
 		Attacking(Enemies);
-	}
+	}*/
 
 
-	if (m_target != nullptr)
-	{
-		if (Math::Distance(m_target->GetPosition(), m_sprite.getPosition()) > 100)
-		{
-			//m_isTargeted = false;
-			m_target->ChangeFightingState(false);
-			m_target = nullptr;
-		}
-	}
-	else {
-		for (auto& enemy : Enemies)
-		{
-			if (Math::Distance(enemy->GetPosition(), m_sprite.getPosition()) < 100)
-			{
-				//m_isTargeted = true;
-				m_target = enemy;
-				enemy->ChangeFightingState(true);
-			}
-		}
-	}
+	//if (m_target != nullptr)
+	//{
+	//	if (Math::Distance(m_target->GetPosition(), m_sprite.getPosition()) > 100)
+	//	{
+	//		//m_isTargeted = false;
+	//		m_target->ChangeFightingState(false);
+	//		m_target = nullptr;
+	//	}
+	//}
+	//else {
+	//	for (auto& enemy : Enemies)
+	//	{
+	//		if (Math::Distance(enemy->GetPosition(), m_sprite.getPosition()) < 100)
+	//		{
+	//			//m_isTargeted = true;
+	//			m_target = enemy;
+	//			enemy->ChangeFightingState(true);
+	//		}
+	//	}
+	//}
 
 
 

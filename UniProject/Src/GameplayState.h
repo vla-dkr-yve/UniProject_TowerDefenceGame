@@ -11,6 +11,7 @@
 #include "Pause.h"
 #include "StateManager.h"
 #include "Hero.h"
+#include "FightingManager.h"
 class GameplayState : public State
 {
 private:
@@ -26,6 +27,7 @@ private:
 
 	GUI* gui;
 	Pause* pause;
+	FightingManager* fightingManager;
 public:
 	GameplayState(StateManager& manager, sf::RenderWindow& window);
 

@@ -53,7 +53,10 @@ void EnemyManager::Update(float deltaTime, Player& player)
 			m_count++;
 		}
 		else {
-			(*it)->Update(deltaTime, player);
+			if (!(*it)->IsFighting())
+			{
+				(*it)->Update(deltaTime, player);
+			}
 			it++;
 		}
 	}

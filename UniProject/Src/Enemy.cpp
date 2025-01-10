@@ -2,7 +2,7 @@
 #include "Hero.h"
 
 Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
-	m_score(score),m_maximumHp(hp), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0)
+	m_score(score),m_maximumHp(hp), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0), m_attackTimer(m_attackCooldown), m_canAttack(false)
 {
 	m_currentHp = m_maximumHp;
 	m_animationTimer = 0.0f;
@@ -125,13 +125,21 @@ void Enemy::TakeDamage(int damage)
 	}
 }
 
-void Enemy::Update(float fDeltaTime, Player& player)
+void Enemy::Update(float fDeltaTime, Player& player, sf::Vector2f OpponentPosition)
 {
 	if (m_waypointsIndex < 6) {
-		sf::Vector2f target = m_waypoints[m_waypointsIndex];
+
+		sf::Vector2f target;
+		if (OpponentPosition == sf::Vector2f(-1, -1))
+		{
+			target = m_waypoints[m_waypointsIndex];
+		}
+		else {
+			target = OpponentPosition;
+		}
 		sf::Vector2f direction = target - m_sprite.getPosition();
 		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-		if (distance < 5.0f) {
+		if (distance < 5.0f && OpponentPosition == sf::Vector2f(-1, -1)) {
 			m_waypointsIndex++;
 		}
 		else if(!m_bIsDead){
@@ -155,6 +163,16 @@ void Enemy::Update(float fDeltaTime, Player& player)
 		if (m_damageTimer <= 0.0)
 		{
 			m_gotDamage = false;
+		}
+	}
+
+	if (m_isFighting && !m_canAttack)
+	{
+		m_attackTimer -= fDeltaTime;
+		if (m_attackTimer <= 0)
+		{
+			m_canAttack = true;
+			m_attackTimer = m_attackCooldown;
 		}
 	}
 

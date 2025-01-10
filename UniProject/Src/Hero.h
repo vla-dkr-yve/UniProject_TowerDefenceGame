@@ -53,15 +53,22 @@ private:
 public:
 	Hero();
 	void Animator(float deltaTime);
-	void Move(float deltaTime, char side, std::vector<Enemy*>& Enemies);
+	void Move(float deltaTime, char side);
 	void Attack();
-	void Attacking(std::vector<Enemy*>& Enemies);
+	//void Attacking(std::vector<Enemy*>& Enemies);
 	void Defence();
 	void ChangeState(std::string newState);
-	void Update(float deltaTime, std::vector<Enemy*>& Enemies);
+	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 
 	inline bool IsActive() { return m_isActive; };
-	//inline bool IsTargeted() { return m_isTargeted; };
+	inline bool IsAttacking() { return m_isAttacking; };
+	inline sf::Vector2f GetPosition() { return m_sprite.getPosition(); };
+	inline sf::Vector2f GetHitBoxPosition() { return hitbox.getGlobalBounds().getPosition(); };
+	inline int GetCurrentAnimation() { return m_currentAnimation; };
+	inline char GetCurrentSide() { return m_currentSide; };
+	inline Enemy* GetTarget() { return m_target; };
+	inline int GetDamage() { return m_damage; };
+	inline void SetTarget(Enemy* newTarget) { m_target = newTarget; };
 };
 

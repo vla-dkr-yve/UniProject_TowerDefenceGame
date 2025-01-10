@@ -11,13 +11,21 @@ private:
 	float m_animationTimer;
 
 	std::map<int, int> m_animationWidth;
+	std::map<int, int> m_animationOffset;
 
-	sf::RectangleShape hitbox;
+	sf::RectangleShape m_hitbox;
 	int m_hitboxWidth;
 	const int m_hitboxHeight = 22;
-public:
-	Lightning(sf::Vector2f position);
 
+	bool m_shoodBeDestroyed;
+public:
+	Lightning(sf::Vector2f position, float rotation);
+	~Lightning();
+
+	void Destroy();
+	void Animator(float deltaTime);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
+
+	inline bool ShouldBeDestroyed() { return m_shoodBeDestroyed; };
 };
