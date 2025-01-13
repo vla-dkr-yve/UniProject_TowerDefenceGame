@@ -16,6 +16,8 @@ protected:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 
+	sf::Vector2f scale;
+
 	//int m_animationFrames;
 	std::map<std::string, int> m_animationNum;
 	std::string m_currentSide;
@@ -35,7 +37,7 @@ protected:
 	sf::Vector2f m_waypoints[6] = { {256,768}, {768, 768}, {768, 256}, {1280,256}, {1280, 640}, {1982, 640}};
 
 	bool m_isFighting;
-	float m_attackCooldown = 3.0f;
+	const float m_attackCooldown = 3.0f;
 	float m_attackTimer;
 	bool m_canAttack;
 public:

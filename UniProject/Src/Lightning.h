@@ -28,4 +28,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	inline bool ShouldBeDestroyed() { return m_shoodBeDestroyed; };
+	inline sf::RectangleShape& GetHitBox() { return m_hitbox; };
+	inline sf::Vector2f GetHitBoxSize() { return m_sprite.getGlobalBounds().getSize(); };
+	inline sf::Vector2f GetHitBoxPosition() { return m_sprite.getGlobalBounds().getPosition(); };
 };

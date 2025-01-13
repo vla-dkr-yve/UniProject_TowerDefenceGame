@@ -12,7 +12,10 @@ Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::ma
 	m_texture.loadFromFile(path);
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), textureSize));
-	m_sprite.setScale(sf::Vector2f(64 / textureSize.x, 64 / textureSize.y));
+
+	scale = sf::Vector2f( 64 / textureSize.x , 64 / textureSize.y);
+
+	m_sprite.setScale(scale.x, scale.y);
 
 	for (auto const& i: animationNum)
 	{
@@ -59,33 +62,35 @@ void Enemy::Animator(float deltaTime,sf::Vector2f& direction)
 	}
 	if (direction.x > 0 && abs(direction.x) > abs(direction.y))
 	{
-		if (!m_isRotated)
+		if (m_animationNum["right"] == -1)
 		{
-			if (m_animationNum["right"] == -1)
-			{
-				m_sprite.scale(-1, 1);
+			if (!m_isRotated) {
+				m_sprite.setScale(scale.x * -1, scale.y * 1);
 				m_isRotated = true;
 				m_currentSide = "left";
 			}
-			else {
-				m_currentSide = "right";
-			}
+		}
+		else {
+			m_sprite.setScale(scale.x, scale.y);
+			m_currentSide = "right";
+			m_isRotated = false;
 		}
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 5 * 64, 64, 64));
 	}
 	if (direction.x < 0 && abs(direction.x) > abs(direction.y))
 	{
-		if (!m_isRotated)
+		if (m_animationNum["left"] == -1)
 		{
-			if (m_animationNum["left"] == -1)
-			{
-				m_sprite.scale(-1, 1);
+			if (!m_isRotated) {
+				m_sprite.setScale(scale.x * -1, scale.y * 1);
 				m_isRotated = true;
 				m_currentSide = "right";
 			}
-			else {
-				m_currentSide = "left";
-			}
+		}
+		else {
+			m_sprite.setScale(scale.x, scale.y);
+			m_currentSide = "left";
+			m_isRotated = false;
 		}
 		m_sprite.setTextureRect(sf::IntRect(m_currentAnimation * 64, 5 * 64, 64, 64));
 	}

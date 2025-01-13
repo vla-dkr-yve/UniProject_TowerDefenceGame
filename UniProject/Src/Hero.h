@@ -47,7 +47,7 @@ private:
 	//bool m_isTargeted;
 	Enemy* m_target;
 
-	sf::RectangleShape hitbox;
+	sf::RectangleShape m_hitbox;
 	const int m_hitboxWidth = 34;
 	const int m_hitboxHeight = 36;
 public:
@@ -58,13 +58,16 @@ public:
 	//void Attacking(std::vector<Enemy*>& Enemies);
 	void Defence();
 	void ChangeState(std::string newState);
+	void Damage(int damage);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 
 	inline bool IsActive() { return m_isActive; };
 	inline bool IsAttacking() { return m_isAttacking; };
 	inline sf::Vector2f GetPosition() { return m_sprite.getPosition(); };
-	inline sf::Vector2f GetHitBoxPosition() { return hitbox.getGlobalBounds().getPosition(); };
+	inline sf::RectangleShape& GetHitBox() { return m_hitbox; };
+	inline sf::Vector2f GetHitBoxPosition() { return m_hitbox.getPosition(); };
+	inline sf::Vector2f GetHitBoxSize() { return m_hitbox.getSize(); };
 	inline int GetCurrentAnimation() { return m_currentAnimation; };
 	inline char GetCurrentSide() { return m_currentSide; };
 	inline Enemy* GetTarget() { return m_target; };

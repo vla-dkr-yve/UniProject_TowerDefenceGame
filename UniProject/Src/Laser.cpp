@@ -29,7 +29,7 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 	line.setPosition(line.getPosition() + m_direction * m_fLaserSpeed * deltaTime);
 	for (auto enemy: vecEnemies)
 	{
-		if (Math::Collision(*enemy, line.getPosition()))
+		if (Math::EnemyCollision(*enemy, line.getPosition()))
 		{
 			std::cout << "Collisiion\n";
 			enemy->TakeDamage(m_damage);

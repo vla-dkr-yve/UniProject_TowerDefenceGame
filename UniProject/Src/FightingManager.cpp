@@ -25,7 +25,7 @@ void FightingManager::HeroAttack(std::vector<Enemy*>& enemies)
 
 			for (auto& enemy : enemies)
 			{
-				if (Math::Collision(*enemy, sf::Vector2f(m_hero.GetPosition().x + direction, m_hero.GetPosition().y)))
+				if (Math::EnemyCollision(*enemy, sf::Vector2f(m_hero.GetPosition().x + direction, m_hero.GetPosition().y)))
 				{
 					enemy->TakeDamage(m_hero.GetDamage());
 				}
@@ -89,6 +89,11 @@ void FightingManager::LightningUpdate(float deltaTime)
 			it = m_lightnings.erase(it);
 		}
 		else {
+			if (Math::OBBCollision(m_hero.GetHitBox(), (*it)->GetHitBox()))
+			{
+				m_hero.Damage(25);
+			}
+
 			(*it)->Update(deltaTime);
 			it++;
 		}

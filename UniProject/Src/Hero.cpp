@@ -1,6 +1,6 @@
 #include "Hero.h"
 #include "Math.h"
-
+#include <iostream>
 Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(true), m_speed(175),
 m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0), m_target(nullptr)
 {
@@ -27,12 +27,12 @@ m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttac
 		{"ATTACK3", 2}, {"DEATH", 3}, {"DEFEND", 4},
 		{"HURT", 5}, {"IDLE", 6}, {"RUN", 7}, {"WALK", 8} };
 
-	hitbox.setSize(sf::Vector2f(m_hitboxWidth, m_hitboxHeight));
-	hitbox.setFillColor(sf::Color(255, 255, 255, 0));
-	hitbox.setOutlineColor(sf::Color::Red);
-	hitbox.setOutlineThickness(1);
-	hitbox.setScale(m_sprite.getScale());
-	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - hitbox.getGlobalBounds().getSize().y / 2));
+	m_hitbox.setSize(sf::Vector2f(m_hitboxWidth, m_hitboxHeight));
+	m_hitbox.setFillColor(sf::Color(255, 255, 255, 0));
+	m_hitbox.setOutlineColor(sf::Color::Red);
+	m_hitbox.setOutlineThickness(1);
+	m_hitbox.setScale(m_sprite.getScale());
+	m_hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + m_hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - m_hitbox.getGlobalBounds().getSize().y / 2));
 }
 
 void Hero::Animator(float deltaTime)
@@ -58,6 +58,10 @@ void Hero::Animator(float deltaTime)
 			if (m_isDefending)
 			{
 				m_isDefending = false;
+			}
+			if (m_currentState == "HURT")
+			{
+				ChangeState("IDLE");
 			}
 			m_currentAnimation = 0;
 		}
@@ -116,29 +120,6 @@ void Hero::Attack()
 	ChangeState("ATTACK");
 }
 
-//void Hero::Attacking(std::vector<Enemy*>& Enemies)
-//{
-//	if (m_currentAnimation == 3)
-//	{
-//		int direction;
-//
-//		if (m_currentSide == 'l')
-//		{
-//			direction = -32;
-//		}
-//		else {
-//			direction = +32;
-//		}
-//
-//		for (auto& enemy: Enemies)
-//		{
-//			if (Math::Collision(*enemy, sf::Vector2f(m_sprite.getPosition().x + direction, m_sprite.getPosition().y)))
-//			{
-//				enemy->TakeDamage(m_damage);
-//			}
-//		}
-//	}
-//}
 
 void Hero::Defence()
 {
@@ -171,6 +152,16 @@ void Hero::ChangeState(std::string newState)
 	}
 }
 
+void Hero::Damage(int damage)
+{
+	if (m_currentState != "HURT")
+	{
+		m_hp -= damage;
+		std::cout << "Got " << damage << " damage\n";
+		ChangeState("HURT");
+	}
+}
+
 void Hero::Update(float deltaTime)
 {
 	m_animationTimer += deltaTime;
@@ -185,7 +176,7 @@ void Hero::Update(float deltaTime)
 
 	bool isMoving = false;
 
-	if (!m_isAttacking && !m_isDefending)
+	if (!m_isAttacking && !m_isDefending && m_currentState != "HURT")
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
@@ -227,42 +218,14 @@ void Hero::Update(float deltaTime)
 		}
 	}
 
-	/*if (m_isAttacking)
-	{
-		Attacking(Enemies);
-	}*/
-
-
-	//if (m_target != nullptr)
-	//{
-	//	if (Math::Distance(m_target->GetPosition(), m_sprite.getPosition()) > 100)
-	//	{
-	//		//m_isTargeted = false;
-	//		m_target->ChangeFightingState(false);
-	//		m_target = nullptr;
-	//	}
-	//}
-	//else {
-	//	for (auto& enemy : Enemies)
-	//	{
-	//		if (Math::Distance(enemy->GetPosition(), m_sprite.getPosition()) < 100)
-	//		{
-	//			//m_isTargeted = true;
-	//			m_target = enemy;
-	//			enemy->ChangeFightingState(true);
-	//		}
-	//	}
-	//}
-
-
 
 	Animator(deltaTime);
 
-	hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - hitbox.getGlobalBounds().getSize().y / 2));
+	m_hitbox.setPosition(sf::Vector2f(m_sprite.getPosition().x + m_hitbox.getGlobalBounds().getSize().x / 2, m_sprite.getPosition().y - m_hitbox.getGlobalBounds().getSize().y / 2));
 }
 
 void Hero::Draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
-	window.draw(hitbox);
+	//window.draw(m_hitbox);
 }
