@@ -1,8 +1,10 @@
 #include "MainMenuState.h"
 #include "Gameplaystate.h"
+#include "LeaderBoardState.h"
+
+
 MainMenuState::MainMenuState(StateManager& manager): stateManager(manager)
 {
-
     m_font.loadFromFile("Assets/Fonts/Arial.TTF");
     m_title.setFont(m_font);
     m_title.setString("Main Menu");
@@ -36,13 +38,10 @@ void MainMenuState::HandleEvents(sf::RenderWindow& window)
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
             if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                //window.close();
-                window.create(sf::VideoMode(1920, 1024), "");
-                stateManager.PushState(std::make_unique<GameplayState>(stateManager, window));
-                //stateManager.PushState(std::make_unique<GameplayState>(stateManager));
+                stateManager.PushState(std::make_unique<GameplayState>(stateManager, window), window);
             }
             else if (m_leaderBoardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                // Change to SettingsState
+                stateManager.PushState(std::make_unique<LeaderBoardState>(stateManager), window);
             }
             else if (m_exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 window.close();
@@ -70,6 +69,11 @@ void MainMenuState::Update(sf::RenderWindow& window)
     m_startButton.setFillColor(sf::Color::White);
     m_leaderBoardButton.setFillColor(sf::Color::White);
     m_exitButton.setFillColor(sf::Color::White);
+}
+
+sf::Vector2f MainMenuState::GetResolution()
+{
+    return m_windowResolution;
 }
 
 void MainMenuState::Draw(sf::RenderWindow& window)

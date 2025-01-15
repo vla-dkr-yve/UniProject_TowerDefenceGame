@@ -3,11 +3,9 @@
 //{
 //}
 
+
 GameplayState::GameplayState(StateManager& manager, sf::RenderWindow& window): stateManager(manager)
 {
-	//sf::RenderWindow window(sf::VideoMode(1920, 1024), "");
-	/*window.create(sf::VideoMode(1920, 1024), "");*/
-	//window.setFramerateLimit(60);
 	gui = new GUI(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 
 	pause = new Pause(window);
@@ -83,6 +81,11 @@ void GameplayState::Update(sf::RenderWindow& window)
 	}
 
 	reseacrhTree.Update(mousePosition);
+}
+
+sf::Vector2f GameplayState::GetResolution()
+{
+	return m_windowResolution;
 }
 
 void GameplayState::Draw(sf::RenderWindow& window)

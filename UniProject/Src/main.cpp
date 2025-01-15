@@ -2,6 +2,7 @@
 #include "StateManager.h"
 #include "MainMenuState.h"
 #include "GameplayState.h"
+//#include <sqlite3.h>
 //	Plans:
 // 
 // 
@@ -29,22 +30,22 @@ int main() {
 
 
 	
-	sf::RenderWindow window(sf::VideoMode(800, 600), "main menu");
+	sf::RenderWindow window(sf::VideoMode(800,600), "");
 	window.setFramerateLimit(60);
 
 
-	stateManager.PushState(std::make_unique<MainMenuState>(stateManager));
+	stateManager.PushState(std::make_unique<MainMenuState>(stateManager), window);
 
 	while (window.isOpen())
 	{
-		State* currentState = stateManager.GetCurrentState();
+		//State* currentState = stateManager.GetCurrentState();
 
-		if (currentState)
-		{
-			currentState->HandleEvents(window);
-			currentState->Update(window);
-			currentState->Draw(window);
-		}
+		//if (currentState)
+		//{
+		stateManager.GetCurrentState()->HandleEvents(window);
+		stateManager.GetCurrentState()->Update(window);
+		stateManager.GetCurrentState()->Draw(window);
+		//}
 	}
 
 }
