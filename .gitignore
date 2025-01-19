@@ -31,3 +31,11 @@
 
 #Build
 Build
+
+#DB
+*.db
+
+# NuGet Packages
+*.nupkg
+
+.p7s

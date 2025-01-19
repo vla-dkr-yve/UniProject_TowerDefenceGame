@@ -2,6 +2,7 @@
 #include "StateManager.h"
 #include "MainMenuState.h"
 #include "GameplayState.h"
+#include "DataBase.h"
 //#include <sqlite3.h>
 //	Plans:
 // 
@@ -27,19 +28,21 @@
 
 int main() {
 	StateManager stateManager;
-
-
+	
+	DataBase::CreateDB();
+	DataBase::CreateTable();
+	
 	
 	sf::RenderWindow window(sf::VideoMode(800,600), "");
 	window.setFramerateLimit(60);
-
-
+	
+	
 	stateManager.PushState(std::make_unique<MainMenuState>(stateManager), window);
-
+	
 	while (window.isOpen())
 	{
 		//State* currentState = stateManager.GetCurrentState();
-
+	
 		//if (currentState)
 		//{
 		stateManager.GetCurrentState()->HandleEvents(window);
@@ -48,4 +51,9 @@ int main() {
 		//}
 	}
 
+	
+	//DataBase::InsertData();
+	//DataBase::UpdateData();
+	//DataBase::SelectData();
+	//DataBase::DeleteData();
 }
