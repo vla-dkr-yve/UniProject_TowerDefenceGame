@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\LoginState.cpp" />
     <ClCompile Include="Src\DataBase.cpp" />
     <ClCompile Include="Src\LeaderBoardState.cpp" />
     <ClCompile Include="Src\FightingManager.cpp" />
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\Sqlite3\sqlite3.h" />
+    <ClInclude Include="Src\LoginState.h" />
     <ClInclude Include="Src\DataBase.h" />
     <ClInclude Include="Src\LeaderBoardState.h" />
     <ClInclude Include="Src\FightingManager.h" />

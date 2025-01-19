@@ -1,11 +1,18 @@
 #include "MainMenuState.h"
 #include "Gameplaystate.h"
 #include "LeaderBoardState.h"
+#include "LoginState.h"
 
-
-MainMenuState::MainMenuState(StateManager& manager): stateManager(manager)
+MainMenuState::MainMenuState(StateManager& manager): stateManager(manager), username("\0"), m_isLogined(false)
 {
     m_font.loadFromFile("Assets/Fonts/Arial.TTF");
+
+    m_loginButton.setFont(m_font);
+    m_loginButton.setString("Login");
+    m_loginButton.setCharacterSize(20);
+    m_loginButton.setPosition(m_windowResolution.x - 100, 50);
+
+
     m_title.setFont(m_font);
     m_title.setString("Main Menu");
     m_title.setCharacterSize(50);
@@ -43,6 +50,9 @@ void MainMenuState::HandleEvents(sf::RenderWindow& window)
             else if (m_leaderBoardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 stateManager.PushState(std::make_unique<LeaderBoardState>(stateManager), window);
             }
+            else if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                stateManager.PushState(std::make_unique<LoginState>(stateManager), window);
+            }
             else if (m_exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 window.close();
             }
@@ -54,7 +64,11 @@ void MainMenuState::Update(sf::RenderWindow& window)
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-    if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+    if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+        m_loginButton.setFillColor(sf::Color::Red);
+        return;
+    }
+    else if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
         m_startButton.setFillColor(sf::Color::Red);
         return;
     }
@@ -66,6 +80,7 @@ void MainMenuState::Update(sf::RenderWindow& window)
         m_exitButton.setFillColor(sf::Color::Red);
         return;
     }
+    m_loginButton.setFillColor(sf::Color::White);
     m_startButton.setFillColor(sf::Color::White);
     m_leaderBoardButton.setFillColor(sf::Color::White);
     m_exitButton.setFillColor(sf::Color::White);
@@ -83,6 +98,7 @@ void MainMenuState::Draw(sf::RenderWindow& window)
     window.draw(m_title);
     window.draw(m_startButton);
     window.draw(m_leaderBoardButton);
+    window.draw(m_loginButton);
     window.draw(m_exitButton);
 
     window.display();
