@@ -51,7 +51,7 @@ void MainMenuState::HandleEvents(sf::RenderWindow& window)
                 stateManager.PushState(std::make_unique<LeaderBoardState>(stateManager), window);
             }
             else if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                stateManager.PushState(std::make_unique<LoginState>(stateManager), window);
+                stateManager.PushState(std::make_unique<LoginState>(stateManager, m_isLogined), window);
             }
             else if (m_exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 window.close();

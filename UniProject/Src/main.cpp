@@ -32,6 +32,7 @@ int main() {
 	DataBase::CreateDB();
 	DataBase::CreateTable();
 	
+	//DataBase::SelectData("Any", "123");
 	
 	sf::RenderWindow window(sf::VideoMode(800,600), "");
 	window.setFramerateLimit(60);
@@ -51,7 +52,6 @@ int main() {
 		//}
 	}
 
-	
 	//DataBase::InsertData();
 	//DataBase::UpdateData();
 	//DataBase::SelectData();

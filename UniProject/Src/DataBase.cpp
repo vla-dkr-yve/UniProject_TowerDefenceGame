@@ -4,6 +4,7 @@
 #include <iostream>
 
 const char* DataBase::dir = "LeaderBoard.db";
+std::string DataBase::Username;
 
 std::vector<std::string> DataBase::Leaders;
 
@@ -104,31 +105,118 @@ int DataBase::UpdateData()
 }
 
 
+int DataBase::LoginUser(std::string username, std::string password)
+{
+	// 1 - Success login, -1 - Incorrect password, 0 - Total fail, 2 - New User created
+	int res = CheckPasswordByUsername(username, password);
+	if (res == 1 || res == -1)
+	{
+		return res;
+	}
+	else if (res == 0)
+	{
+		sqlite3* DB;
+		sqlite3_stmt* stmt;
+
+		int exit = sqlite3_open(dir, &DB);
+
+		std::string sql = "INSERT INTO USERS (USERNAME, PASS) VALUES (?,?);";
+		int rc = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << '\n';
+			sqlite3_close(DB);
+			return 0;
+		}
+
+		sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
+		sqlite3_bind_text(stmt, 2, password.c_str(), -1, SQLITE_STATIC);
+
+		rc = sqlite3_step(stmt);
+		if (rc != SQLITE_DONE)
+		{
+			std::cerr << "Error inserting data: " << sqlite3_errmsg(DB) << '\n';
+		}
+		else {
+			std::cout << "Data inserted successfully.\n";
+		}
+
+		sqlite3_finalize(stmt);
+
+		sqlite3_close(DB);
+		return 2;
+	}
+
+}
+
 int DataBase::DeleteData()
 {
 	sqlite3* DB;
 
 	int exit = sqlite3_open(dir, &DB);
-
+	
 	std::string sql("DELETE FROM USERS;");
+
 	sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
 
 	return 0;
 }
 
-//int DataBase::SelectData()
-//{
-//	sqlite3* DB;
-//
-//	int exit = sqlite3_open(dir, &DB);
-//	
-//	std::string sql = "SELECT * FROM USERS;";
-//
-//	sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
-//	return 0;
-//}
+int DataBase::CheckPasswordByUsername(std::string username, std::string password)
+{
+	sqlite3* DB;
+	sqlite3_stmt* stmt;
 
-int DataBase::callback(void* data, int argc, char** argv, char** azColName)
+	int exit = sqlite3_open(dir, &DB);
+	
+	std::string sql = "SELECT USERNAME, PASS FROM USERS WHERE USERNAME = ?;";
+
+	exit = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
+
+	if (exit != SQLITE_OK)
+	{
+		std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << '\n';
+		sqlite3_close(DB);
+		return 0;
+	}
+
+	sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
+
+	//while ((exit = sqlite3_step(stmt)) == SQLITE_ROW)
+	//{
+	//	const char* retrievedUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+	//	const char* retrievedPass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+	//
+	//	std::cout << "USERNAME: " << (retrievedUsername ? retrievedUsername : "NULL") << '\n';
+	//	std::cout << "PASS: " << (retrievedPass ? retrievedPass : "NULL") << '\n';
+	//}
+
+	if (exit = sqlite3_step(stmt))
+	{
+		const char* retrievedUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+		const char* retrievedPass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+
+		if (password == retrievedPass)
+		{
+			sqlite3_finalize(stmt);
+			sqlite3_close(DB);
+
+			Username = username;
+
+			return 1;
+		}
+		else {
+			return -1;
+		}
+	}
+
+	sqlite3_finalize(stmt);
+	sqlite3_close(DB);
+	return 0;
+
+}
+
+int DataBase::GetLeadersCallback(void* data, int argc, char** argv, char** azColName)
 {
 	auto* res = static_cast<std::vector<std::string>*>(data);
 
@@ -162,7 +250,16 @@ std::vector<std::string>& DataBase::GetLeaders()
 
 	Leaders.clear();
 
-	sqlite3_exec(DB, sql.c_str(), callback, &Leaders, NULL);
+	sqlite3_exec(DB, sql.c_str(), GetLeadersCallback, &Leaders, NULL);
 
 	return Leaders;
+}
+
+int DataBase::callback(void* data, int argc, char** argv, char** azColName)
+{
+	for (int i = 0; i < argc; i++)
+	{
+		std::cout << azColName[i] << " : " << argv[i] << '\n';
+	}
+	return 0;
 }

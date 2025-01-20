@@ -9,7 +9,7 @@ private:
 
 	sf::Font m_font;
 
-	sf::Text m_loginText;
+	sf::Text m_returnButton;
 	sf::Text m_usernameText;
 	sf::Text m_passwordText;
 	sf::Text m_usernameInputText;
@@ -32,8 +32,15 @@ private:
 	bool m_showCursor;
 
 	float m_textEffectTime;
+
+	bool& m_isLogined;
+
+	sf::Text m_message;
+	bool m_isMessageDisplayed;
+	float m_messageTimer;
+	float m_smallTimer;
 public:
-	LoginState(StateManager& manager);
+	LoginState(StateManager& manager, bool& isLogined);
 
 	void HandleEvents(sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override; 
