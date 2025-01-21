@@ -149,6 +149,59 @@ int DataBase::LoginUser(std::string username, std::string password)
 
 }
 
+int DataBase::InsertNewScore(std::string username, std::string newScore)
+{
+	sqlite3* DB;
+	sqlite3_stmt* stmt;
+
+	int exit = sqlite3_open(dir, &DB);
+	
+	std::string sqlGet = "SELECT MAXSCORE FROM USERS WHERE USERNAME = ?;";
+
+	exit = sqlite3_prepare_v2(DB, sqlGet.c_str(), -1, &stmt, nullptr);
+
+	sqlite3_bind_text(stmt, 1, username.c_str(), 0 - 1, SQLITE_STATIC);
+
+	exit = sqlite3_step(stmt);
+
+	if (exit)
+	{
+		const char* oldScore = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+
+		if (oldScore > newScore)
+		{
+			return 1;
+		}
+		else {
+			sqlite3_finalize(stmt);
+
+			std::string sqlUpdate = "UPDATE USERS SET MAXSCORE = ? WHERE USERNAME = ?;";
+
+			exit = sqlite3_prepare_v2(DB, sqlUpdate.c_str(), -1, &stmt, nullptr);
+
+			sqlite3_bind_text(stmt, 1, newScore.c_str(), 0 - 1, SQLITE_STATIC);
+			sqlite3_bind_text(stmt, 2, username.c_str(), 0 - 1, SQLITE_STATIC);
+
+			exit = sqlite3_step(stmt);
+
+			if (exit == SQLITE_OK)
+			{
+				std::cout << "Success\n";
+			}
+			else {
+				std::cout << "no Success\n";
+			}
+		}
+	}
+	else {
+		return 0;
+	}
+	sqlite3_finalize(stmt);
+	sqlite3_close(DB);
+
+	return 1;
+}
+
 int DataBase::DeleteData()
 {
 	sqlite3* DB;
@@ -182,19 +235,16 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 
 	sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
 
-	//while ((exit = sqlite3_step(stmt)) == SQLITE_ROW)
-	//{
-	//	const char* retrievedUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-	//	const char* retrievedPass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-	//
-	//	std::cout << "USERNAME: " << (retrievedUsername ? retrievedUsername : "NULL") << '\n';
-	//	std::cout << "PASS: " << (retrievedPass ? retrievedPass : "NULL") << '\n';
-	//}
-
 	if (exit = sqlite3_step(stmt))
 	{
 		const char* retrievedUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
 		const char* retrievedPass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+
+		if (retrievedUsername == NULL || retrievedPass == NULL)
+		{
+			return 0;
+		}
+
 
 		if (password == retrievedPass)
 		{
@@ -246,11 +296,13 @@ std::vector<std::string>& DataBase::GetLeaders()
 
 	int exit = sqlite3_open(dir, &DB);
 
-	std::string sql = "SELECT USERNAME, MAXSCORE FROM USERS;";
+	std::string sql = "SELECT USERNAME, MAXSCORE FROM USERS ORDER BY MAXSCORE DESC LIMIT 5;";
 
 	Leaders.clear();
 
 	sqlite3_exec(DB, sql.c_str(), GetLeadersCallback, &Leaders, NULL);
+
+	sqlite3_close(DB);
 
 	return Leaders;
 }

@@ -30,8 +30,17 @@ private:
 	GUI* gui;
 	Pause* pause;
 	FightingManager* fightingManager;
+
+	sf::Font m_font;
+
+	sf::Text m_loseScoreText;
+	sf::Text m_loseText;
+	sf::Text m_continueBtn;
+	bool m_haveLost;
+
+	bool &m_isLogined;
 public:
-	GameplayState(StateManager& manager, sf::RenderWindow& window);
+	GameplayState(StateManager& manager, bool& isLogined, sf::RenderWindow& window);
 
 	void HandleEvents(sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;

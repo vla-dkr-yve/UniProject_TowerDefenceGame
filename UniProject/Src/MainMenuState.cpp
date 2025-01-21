@@ -2,8 +2,8 @@
 #include "Gameplaystate.h"
 #include "LeaderBoardState.h"
 #include "LoginState.h"
-
-MainMenuState::MainMenuState(StateManager& manager): stateManager(manager), username("\0"), m_isLogined(false)
+#include "DataBase.h"
+MainMenuState::MainMenuState(StateManager& manager): stateManager(manager), m_username("\0"), m_isLogined(false)
 {
     m_font.loadFromFile("Assets/Fonts/Arial.TTF");
 
@@ -45,12 +45,12 @@ void MainMenuState::HandleEvents(sf::RenderWindow& window)
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
             if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                stateManager.PushState(std::make_unique<GameplayState>(stateManager, window), window);
+                stateManager.PushState(std::make_unique<GameplayState>(stateManager, m_isLogined, window), window);
             }
             else if (m_leaderBoardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 stateManager.PushState(std::make_unique<LeaderBoardState>(stateManager), window);
             }
-            else if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            else if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y) && !m_isLogined) {
                 stateManager.PushState(std::make_unique<LoginState>(stateManager, m_isLogined), window);
             }
             else if (m_exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
@@ -64,11 +64,18 @@ void MainMenuState::Update(sf::RenderWindow& window)
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-    if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+    if (m_isLogined)
+    {
+        m_username = DataBase::Username;
+        m_loginButton.setString(m_username);
+    }
+
+    if (m_loginButton.getGlobalBounds().contains(mousePos.x, mousePos.y) && !m_isLogined) {
         m_loginButton.setFillColor(sf::Color::Red);
         return;
     }
-    else if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+    
+    if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
         m_startButton.setFillColor(sf::Color::Red);
         return;
     }

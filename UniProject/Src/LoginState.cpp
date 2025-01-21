@@ -110,13 +110,13 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                 if (!m_usernameInputString.empty() && !m_passwordInputString.empty())
                 {
                     int res = DataBase::LoginUser(m_usernameInputString, m_passwordInputString);
-                    std::cout << res;
+                    //std::cout << res;
                     if (res == 1)
                     {
                         std::cout << "Loggined successfully";
 
                         m_isLogined = true;
-
+                        DataBase::Username = m_usernameInputString;
                         stateManager.PopState(window);
                         return;
                     }
@@ -125,7 +125,7 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                         std::cout << "New user was created successfully";
 
                         m_isLogined = true;
-
+                        DataBase::Username = m_usernameInputString;
                         stateManager.PopState(window);
                         return;
                     }

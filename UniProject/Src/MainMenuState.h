@@ -10,7 +10,7 @@ private:
 
 	sf::Font m_font;
 	
-	std::string username;
+	std::string m_username;
 	bool m_isLogined;
 	sf::Text m_loginButton;
 

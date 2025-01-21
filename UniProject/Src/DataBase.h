@@ -17,6 +17,7 @@ public:
 	static int UpdateData();
 	static int CheckPasswordByUsername(std::string username, std::string password);
 	static int LoginUser(std::string username, std::string password);
+	static int InsertNewScore(std::string username, std::string newScore);
 	static int DeleteData();
 	static std::vector<std::string>& GetLeaders();
 	static int callback(void* data, int argc, char** argv, char** azColName);
