@@ -5,11 +5,11 @@
 //}
 
 
-GameplayState::GameplayState(StateManager& manager, bool& isLogined, sf::RenderWindow& window): stateManager(manager), m_isLogined(isLogined)
+GameplayState::GameplayState(StateManager& manager, bool& isLogined): stateManager(manager), m_isLogined(isLogined)
 {
 	gui = new GUI(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 
-	pause = new Pause(window);
+	pause = new Pause(m_windowResolution);
 
 	fightingManager = new FightingManager(hero);
 
@@ -29,6 +29,10 @@ GameplayState::GameplayState(StateManager& manager, bool& isLogined, sf::RenderW
 	m_continueBtn.setCharacterSize(20);
 	m_continueBtn.setPosition(sf::Vector2f(m_windowResolution.x / 2 - m_loseText.getGlobalBounds().getSize().x / 2,
 		m_windowResolution.y / 2 - m_loseText.getGlobalBounds().getSize().y / 2) + sf::Vector2f(0, 35));
+
+	researchTreeText.setFont(m_font);
+	researchTreeText.setString("Reasearch Tree");
+	researchTreeText.setCharacterSize(20);
 }
 
 void GameplayState::HandleEvents(sf::RenderWindow& window)
@@ -41,17 +45,14 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 		{
 			window.close();
 		}
-		if (event.type == event.MouseButtonPressed)
-		{
-			if (event.mouseButton.button == sf::Mouse::Left && hero.IsActive())
-			{
-				hero.Attack();
-			}
-		}
 		if (event.type == event.MouseButtonReleased)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
+				if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+				{
+					reseacrhTree.ChangeViewState();
+				}
 				if (mouseSprite.IsActive() && map.IsOnThePlace(mousePosition.x / 64, mousePosition.y / 64) && !pause->IsPaused())
 				{
 					map.AddTower(mouseSprite.GetTowerType(), mousePosition.x / 64, mousePosition.y / 64, player);
@@ -62,17 +63,32 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 				}
 				if (m_haveLost && m_continueBtn.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
 				{
-
-					if (m_isLogined)
-					{
-						DataBase::InsertNewScore(DataBase::Username, std::to_string(player.GetScore()));
-					}
-
-					stateManager.PopState(window);
+					Finish(window);
+				}
+				if (hero.GetHitBox().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+				{
+					hero.ChangeActivenessState();
+				}
+				if (pause->IsPaused() && pause->GetMainMenuText().contains(mousePosition.x,mousePosition.y))
+				{
+					Finish(window);
 				}
 			}
+
+			if (event.mouseButton.button == sf::Mouse::Right && hero.IsActive())
+			{
+				hero.ChangeState("DEFEND");
+			}
+			
 		}
 
+		if (event.type == event.MouseButtonPressed)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left && hero.IsActive() && !hero.GetHitBox().getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+			{
+				hero.Attack();
+			}
+		}
 
 		if (event.type == event.KeyReleased)
 		{
@@ -101,6 +117,7 @@ void GameplayState::Update(sf::RenderWindow& window)
 	float deltaTime = clock.restart().asSeconds();
 
 	sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
+
 	if (!reseacrhTree.IsResearchTreeActive())
 	{
 		mouseSprite.Update(deltaTime, *gui, mousePosition, map, map.GetMilitaryTowers(), map.GetCivilTowers());
@@ -114,6 +131,10 @@ void GameplayState::Update(sf::RenderWindow& window)
 		fightingManager->Update(enemyManager.GetEnemyVector(), player, deltaTime);
 		gui->UpdateTextValues(player.GetMoney(), player.GetResearchPoints(), player.GetLives(), player.GetScore());
 		map.Update(deltaTime, enemyManager.GetEnemyVector(), player);
+	}
+	else if (pause->IsPaused())
+	{
+		pause->Update(window);
 	}
 
 	if (m_haveLost)
@@ -131,6 +152,13 @@ void GameplayState::Update(sf::RenderWindow& window)
 	}
 
 	reseacrhTree.Update(mousePosition);
+
+	if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+	{
+		researchTreeText.setFillColor(sf::Color::Red);
+		return;
+	}
+	researchTreeText.setFillColor(sf::Color::White);
 }
 
 sf::Vector2f GameplayState::GetResolution()
@@ -150,6 +178,8 @@ void GameplayState::Draw(sf::RenderWindow& window)
 	gui->Draw(window);
 	mouseSprite.Draw(window);
 
+	window.draw(researchTreeText);
+
 	if (m_haveLost)
 	{
 		window.draw(m_loseScoreText);
@@ -157,4 +187,14 @@ void GameplayState::Draw(sf::RenderWindow& window)
 		window.draw(m_continueBtn);
 	}
 	window.display();
+}
+
+void GameplayState::Finish(sf::RenderWindow& window)
+{
+	if (m_isLogined)
+	{
+		DataBase::InsertNewScore(DataBase::Username, std::to_string(player.GetScore()));
+	}
+
+	stateManager.PopState(window);
 }

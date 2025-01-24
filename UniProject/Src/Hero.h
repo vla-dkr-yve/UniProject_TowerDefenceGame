@@ -64,6 +64,7 @@ public:
 
 	inline bool IsActive() { return m_isActive; };
 	inline bool IsAttacking() { return m_isAttacking; };
+	inline bool IsDefending() { return m_isDefending; };
 	inline sf::Vector2f GetPosition() { return m_sprite.getPosition(); };
 	inline sf::RectangleShape& GetHitBox() { return m_hitbox; };
 	inline sf::Vector2f GetHitBoxPosition() { return m_hitbox.getPosition(); };
@@ -73,5 +74,6 @@ public:
 	inline Enemy* GetTarget() { return m_target; };
 	inline int GetDamage() { return m_damage; };
 	inline void SetTarget(Enemy* newTarget) { m_target = newTarget; };
+	inline void ChangeActivenessState() { m_isActive = !m_isActive; };
 };
 

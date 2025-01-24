@@ -2,6 +2,7 @@
 #include "FightingManager.h"
 #include "Math.h"
 #include <cmath>
+#include <iostream>
 FightingManager::FightingManager(Hero& hero): m_hero(hero)
 {
 
@@ -17,10 +18,10 @@ void FightingManager::HeroAttack(std::vector<Enemy*>& enemies)
 
 			if (m_hero.GetCurrentSide() == 'l')
 			{
-				direction = -32;
+				direction = -36;
 			}
 			else {
-				direction = +32;
+				direction = +36;
 			}
 
 			for (auto& enemy : enemies)
@@ -92,6 +93,10 @@ void FightingManager::LightningUpdate(float deltaTime)
 			if (Math::OBBCollision(m_hero.GetHitBox(), (*it)->GetHitBox()))
 			{
 				m_hero.Damage(25);
+			}
+			else {
+				std::cout << "Hero size: " << m_hero.GetHitBox().getSize().x << ' ' << m_hero.GetHitBox().getSize().y << " Hero position: "<< m_hero.GetHitBox().getPosition().x << ' ' << m_hero.GetHitBox().getPosition().y << '\n';
+				std::cout << "Enemy size: " << (*it)->GetHitBox().getSize().x << ' ' << (*it)->GetHitBox().getSize().y << " Enemy position: " << (*it)->GetHitBox().getPosition().x << ' ' << (*it)->GetHitBox().getPosition().y << '\n';
 			}
 
 			(*it)->Update(deltaTime);

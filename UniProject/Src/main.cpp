@@ -5,25 +5,16 @@
 #include "DataBase.h"
 //#include <sqlite3.h>
 //	Plans:
-// 
-// 
-// Add hero +
-// 
-// Add fighting system {
-//			-Finish lightning
-// }
-// 
-// Recheck All state files
-// 
-// 
-// Rewrite code to replace most of uneccesary shit with pointers etc. 
-// 
-// Add login system (username + password)?
-// Save score into the file when lives go to 0/player finish the game closing the window (x button)
 //
 // Finish research tree
 // 
-// Add bosses
+// Clean Code
+// 
+// 
+// Remove dispalaying console
+// 
+// Check corectness on different hardware
+// 
 //
 
 int main() {

@@ -45,7 +45,7 @@ void MainMenuState::HandleEvents(sf::RenderWindow& window)
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
             if (m_startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                stateManager.PushState(std::make_unique<GameplayState>(stateManager, m_isLogined, window), window);
+                stateManager.PushState(std::make_unique<GameplayState>(stateManager, m_isLogined), window);
             }
             else if (m_leaderBoardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                 stateManager.PushState(std::make_unique<LeaderBoardState>(stateManager), window);

@@ -11,5 +11,6 @@ public:
 	static bool EnemyCollision(Enemy& enemy, sf::Vector2f position);
 	static bool Collision(sf::FloatRect rect1, sf::FloatRect rect2);
 	static bool OBBCollision(const sf::RectangleShape& rect1, const sf::RectangleShape& rect2);
+	static sf::Vector2f normalize(const sf::Vector2f& vector);
 };
 

@@ -38,13 +38,16 @@ private:
 	sf::Text m_continueBtn;
 	bool m_haveLost;
 
+	sf::Text researchTreeText;
+
 	bool &m_isLogined;
 public:
-	GameplayState(StateManager& manager, bool& isLogined, sf::RenderWindow& window);
+	GameplayState(StateManager& manager, bool& isLogined);
 
 	void HandleEvents(sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
 	sf::Vector2f GetResolution() override;
 	void Draw(sf::RenderWindow& window) override;
+	void Finish(sf::RenderWindow& window);
 };
 
