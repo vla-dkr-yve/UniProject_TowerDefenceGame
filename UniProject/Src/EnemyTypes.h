@@ -44,9 +44,3 @@ class Flying_Voidbutterfly : public Enemy
 public:
 	Flying_Voidbutterfly();
 };
-
-//class Boss : public Enemy
-//{
-//public:
-//	Boss();
-//};

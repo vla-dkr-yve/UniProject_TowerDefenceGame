@@ -24,7 +24,6 @@ void StateManager::CheckWindowResolution(sf::RenderWindow& window)
 
 		if (currentResolution != currentState->GetResolution())
 		{
-			//window.create(sf::VideoMode(), "");
 			window.create(sf::VideoMode(currentState->GetResolution().x, currentState->GetResolution().y), "");
 		}
 	}

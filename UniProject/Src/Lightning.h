@@ -20,9 +20,7 @@ private:
 	bool m_shoodBeDestroyed;
 public:
 	Lightning(sf::Vector2f position, float rotation);
-	~Lightning();
 
-	void Destroy();
 	void Animator(float deltaTime);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);

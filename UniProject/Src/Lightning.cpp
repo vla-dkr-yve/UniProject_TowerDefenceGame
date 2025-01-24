@@ -1,5 +1,4 @@
 #include "Lightning.h"
-#include <iostream>
 
 Lightning::Lightning(sf::Vector2f position,float rotation): m_currentAnimation(0), m_animationTimer(0.0f), m_shoodBeDestroyed(false)
 {
@@ -9,7 +8,6 @@ Lightning::Lightning(sf::Vector2f position,float rotation): m_currentAnimation(0
 	m_sprite.setTextureRect(sf::IntRect(0, m_currentAnimation * 22, 104,22));
 	m_sprite.setPosition(position);
 	
-	//std::cout << "Angle: " << rotation << "\n";
 	m_sprite.setRotation(rotation);
 
 	m_hitbox.setSize(sf::Vector2f(104, 22));
@@ -20,12 +18,6 @@ Lightning::Lightning(sf::Vector2f position,float rotation): m_currentAnimation(0
 	m_hitbox.setPosition(m_sprite.getPosition());
 	m_hitbox.setRotation(rotation);
 
-	std::cout << "Created lightning\n";
-}
-
-Lightning::~Lightning()
-{
-	std::cout << "Destroyed lightning\n";
 }
 
 void Lightning::Animator(float deltaTime)
@@ -54,5 +46,4 @@ void Lightning::Update(float deltaTime)
 void Lightning::Draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
-	//window.draw(m_hitbox);
 }

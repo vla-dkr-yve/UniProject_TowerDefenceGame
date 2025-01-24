@@ -2,7 +2,6 @@
 
 #include "Laser.h"
 #include <cmath>
-#include<iostream>
 #include "Math.h"
 Laser::Laser(sf::Vector2f position, sf::Vector2f target , int damage): m_damage(damage)
 {
@@ -31,7 +30,6 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 	{
 		if (Math::EnemyCollision(*enemy, line.getPosition()))
 		{
-			std::cout << "Collisiion\n";
 			enemy->TakeDamage(m_damage);
 			m_bIsDestroyed = true;
 		}
@@ -41,17 +39,6 @@ void Laser::Update(float deltaTime,const std::vector<Enemy*>& vecEnemies)
 		m_bIsDestroyed = true;
 	}
 }
-
-//bool Laser::Collision(Enemy& enemy)
-//{
-//	if (enemy.GetPosition().x - enemy.GetSize().x / 2 < line.getPosition().x && 
-//		enemy.GetPosition().x + enemy.GetSize().x / 2 > line.getPosition().x && 
-//		enemy.GetPosition().y - enemy.GetSize().y / 2 < line.getPosition().y && 
-//		enemy.GetPosition().y + enemy.GetSize().y / 2 > line.getPosition().y) {
-//		return true;
-//	}
-//	return false;
-//}
 
 bool Laser::OutOfTheScreen()
 {

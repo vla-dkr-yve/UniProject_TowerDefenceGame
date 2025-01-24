@@ -9,7 +9,7 @@ LeaderBoardState::LeaderBoardState(StateManager& manager): stateManager(manager)
     std::vector<std::string> leaders = DataBase::GetLeaders();
 
     int i = 0;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < leaders.size(); i++)
     {
         std::string leader;
         if (leaders.size() > i)
@@ -29,11 +29,6 @@ LeaderBoardState::LeaderBoardState(StateManager& manager): stateManager(manager)
     m_exitText.setFont(m_font);
     m_exitText.setCharacterSize(30);
 	m_exitText.setString("Return to main menu");
-}
-
-LeaderBoardState::~LeaderBoardState()
-{
-    //delete[] m_Leaders;
 }
 
 void LeaderBoardState::HandleEvents(sf::RenderWindow& window)

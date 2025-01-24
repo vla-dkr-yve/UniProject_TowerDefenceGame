@@ -6,12 +6,16 @@ void ResearchEffectHandler::IncreaseResearchCenterEfficiency(int value)
 	return;
 }
 
-void ResearchEffectHandler::IncreaseFactoryProduction(float percentage)
+void ResearchEffectHandler::IncreaseFactoryProduction(int value)
 {
+	Map::UpdateTowerValues(Factory, value);
 	return;
 }
 
-void ResearchEffectHandler::IncreaseTowerDamage(float percentage)
+void ResearchEffectHandler::IncreaseTowerDamage(int value)
 {
+	Map::UpdateTowerValues(BasicMillitaryTower, value);
+	Map::UpdateTowerValues(UpdatedMillitaryTower, value);
+	Map::UpdateTowerValues(ScatterMillitaryTower, value);
 	return;
 }

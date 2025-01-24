@@ -3,8 +3,6 @@
 #include "Enemy.h"
 #include "Enemytypes.h"
 
-#define BOSSCOUNT 5
-
 class EnemyManager
 {
 	std::vector <Enemy*> m_vecEnemies;

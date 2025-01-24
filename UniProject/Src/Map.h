@@ -25,10 +25,7 @@ class Map
 	,{ 27, 12 },{ 28, 8 },{ 28, 11 } };
 	bool IsPlaceTaken[TowerAmount];
 	char WhichTowerType[TowerAmount];
-	//short int m_civilTowerAmount;
-	//short int m_militaryTowerAmount;
 
-	//std::vector <Tower*> m_towers;
 	static std::vector <MilitaryTower*> m_militaryTowers;
 	static std::vector <CivilTower*> m_civilTowers;
 public:

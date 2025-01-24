@@ -2,10 +2,8 @@
 #include "FightingManager.h"
 #include "Math.h"
 #include <cmath>
-#include <iostream>
 FightingManager::FightingManager(Hero& hero): m_hero(hero)
 {
-
 }
 
 void FightingManager::HeroAttack(std::vector<Enemy*>& enemies)
@@ -37,6 +35,15 @@ void FightingManager::HeroAttack(std::vector<Enemy*>& enemies)
 
 void FightingManager::HeroUpdate(std::vector<Enemy*>& enemies)
 {
+	if (m_hero.IsDead())
+	{
+		if (m_hero.GetTarget() != nullptr)
+		{
+			m_hero.GetTarget()->ChangeFightingState(false);
+			m_hero.SetTarget(nullptr);
+		}
+		return;
+	}
 
 	if (m_hero.GetTarget() != nullptr)
 	{
@@ -51,7 +58,6 @@ void FightingManager::HeroUpdate(std::vector<Enemy*>& enemies)
 		{
 			if (Math::Distance(enemy->GetPosition(), m_hero.GetPosition()) < 100)
 			{
-				//m_isTargeted = true;
 				m_hero.SetTarget(enemy);
 				enemy->ChangeFightingState(true);
 			}
@@ -93,10 +99,6 @@ void FightingManager::LightningUpdate(float deltaTime)
 			if (Math::OBBCollision(m_hero.GetHitBox(), (*it)->GetHitBox()))
 			{
 				m_hero.Damage(25);
-			}
-			else {
-				std::cout << "Hero size: " << m_hero.GetHitBox().getSize().x << ' ' << m_hero.GetHitBox().getSize().y << " Hero position: "<< m_hero.GetHitBox().getPosition().x << ' ' << m_hero.GetHitBox().getPosition().y << '\n';
-				std::cout << "Enemy size: " << (*it)->GetHitBox().getSize().x << ' ' << (*it)->GetHitBox().getSize().y << " Enemy position: " << (*it)->GetHitBox().getPosition().x << ' ' << (*it)->GetHitBox().getPosition().y << '\n';
 			}
 
 			(*it)->Update(deltaTime);

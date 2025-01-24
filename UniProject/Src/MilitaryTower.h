@@ -7,7 +7,6 @@ class MilitaryTower : public Tower
 {
 protected:
 	std::vector<Laser*> m_laser;
-	//int m_damage;
 	int m_laserAmount;
 	int tmp_LaserAmount;
 public:
@@ -18,6 +17,5 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	inline std::vector<Laser*> GetLaserVector() { return m_laser; };
-	//void UpdateForce();
 };
 

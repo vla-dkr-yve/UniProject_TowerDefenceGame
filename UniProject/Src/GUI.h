@@ -21,7 +21,6 @@ class GUI
 	sf::Text m_scoreText;
 
 	sf::Texture m_shovelTexture;
-	//sf::Sprite m_shovelSprite;
 
 public:
 
@@ -37,4 +36,3 @@ public:
 	const int GetRectPositionY() { return m_SriteHolderRect.getPosition().y; };
 	const int GetArrSize() const { return ArrSize; };
 };
-

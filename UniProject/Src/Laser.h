@@ -19,4 +19,3 @@ public:
 	bool OutOfTheScreen();
 	inline bool IsDestroyed(){ return m_bIsDestroyed; };
 };
-

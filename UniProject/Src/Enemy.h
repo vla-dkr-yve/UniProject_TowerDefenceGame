@@ -12,13 +12,11 @@ protected:
 	int m_currentHp;
 	float m_fSpeed;
 	int m_armor;
-	//sf::CircleShape m_sprite;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 
 	sf::Vector2f scale;
 
-	//int m_animationFrames;
 	std::map<std::string, int> m_animationNum;
 	std::string m_currentSide;
 	int m_currentAnimation;

@@ -28,7 +28,6 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Research);
 
 						ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
-						//RC->ApplyBuffs(m_militaryTowers);
 						m_civilTowers.push_back(RC);
 						for (int i = 0; i < m_civilTowers.size(); i++)
 						{
@@ -46,7 +45,6 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Factory);
 
 						FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
-						//FT->ApplyBuffs(m_towers);
 						m_civilTowers.push_back(FT);
 						for (int i = 0; i < m_civilTowers.size(); i++)
 						{
@@ -64,7 +62,6 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Housing);
 
 						HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
-						//HT->ApplyBuffs(m_civilTowers);
 						m_civilTowers.push_back(HT);
 						IsPlaceTaken[i] = true;
 						break;

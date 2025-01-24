@@ -23,7 +23,3 @@ Flying_Locust::Flying_Locust() : Enemy(15, 175, 150, 5,"Assets/Textures/Enemies/
 Flying_Voidbutterfly::Flying_Voidbutterfly() : Enemy(15, 150, 175, 5,"Assets/Textures/Enemies/Flying/Spritesheets/Voidbutterfly.png", std::map<std::string, int> {{"bottom", 4}, { "top", 4}, { "left", -1 }, { "right", 4 }}, sf::Vector2i(64, 64))
 {
 }
-
-//Boss::Boss() : Enemy(5000, 35, 35, sf::Color::Black)
-//{
-//}

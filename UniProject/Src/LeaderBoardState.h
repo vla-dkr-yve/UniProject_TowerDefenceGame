@@ -15,7 +15,7 @@ private:
 	sf::Text m_Leaders[5];
 public:
 	LeaderBoardState(StateManager& manager);
-	~LeaderBoardState();
+
 	void HandleEvents(sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
 	sf::Vector2f GetResolution() override;

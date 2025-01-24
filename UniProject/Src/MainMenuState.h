@@ -26,6 +26,4 @@ public:
 	void Update(sf::RenderWindow& window) override;
 	sf::Vector2f GetResolution() override;
 	void Draw(sf::RenderWindow& window) override;
-
 };
-

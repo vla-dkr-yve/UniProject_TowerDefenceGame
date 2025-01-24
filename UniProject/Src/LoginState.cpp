@@ -1,6 +1,6 @@
 #include "LoginState.h"
 #include "DataBase.h"
-#include <iostream>
+
 LoginState::LoginState(StateManager& manager, bool& isLogined) : stateManager(manager), m_isUsernameInputFieldActive(false), m_isPasswordInputFieldActive(false), m_isLogined(isLogined)
 {
 	m_font.loadFromFile("Assets/Fonts/Arial.TTF");
@@ -56,7 +56,6 @@ LoginState::LoginState(StateManager& manager, bool& isLogined) : stateManager(ma
     m_submitButtonText.setPosition(m_submitButton.getPosition() + sf::Vector2f(5, 0));
 
     m_message.setFont(m_font);
-    //m_displayedMassage.setString("Password");
     m_message.setCharacterSize(20);
     m_message.setPosition(sf::Vector2f(0, -40) + sf::Vector2f(0 ,m_windowResolution.y));
     m_isMessageDisplayed = false;
@@ -110,10 +109,8 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                 if (!m_usernameInputString.empty() && !m_passwordInputString.empty())
                 {
                     int res = DataBase::LoginUser(m_usernameInputString, m_passwordInputString);
-                    //std::cout << res;
                     if (res == 1)
                     {
-                        std::cout << "Loggined successfully";
 
                         m_isLogined = true;
                         DataBase::Username = m_usernameInputString;
@@ -122,7 +119,6 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                     }
                     else if (res == 2)
                     {
-                        std::cout << "New user was created successfully";
 
                         m_isLogined = true;
                         DataBase::Username = m_usernameInputString;
@@ -131,7 +127,6 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                     }
                     else if (res == -1)
                     {
-                        std::cout << "Incorrect password. Please try again";
                         m_message.setString("Incorrect password. Please try again");
 
                         m_isMessageDisplayed = true;

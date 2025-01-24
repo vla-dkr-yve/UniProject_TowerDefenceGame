@@ -1,9 +1,5 @@
 #include "GameplayState.h"
 #include "DataBase.h"
-//void GameplayState::Play()
-//{
-//}
-
 
 GameplayState::GameplayState(StateManager& manager, bool& isLogined): stateManager(manager), m_isLogined(isLogined)
 {
@@ -49,7 +45,7 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+				if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y) && !pause->IsPaused())
 				{
 					reseacrhTree.ChangeViewState();
 				}
@@ -92,11 +88,11 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 
 		if (event.type == event.KeyReleased)
 		{
-			if (event.key.code == sf::Keyboard::Space)
+			if (event.key.code == sf::Keyboard::Space && !reseacrhTree.IsResearchTreeActive())
 			{
 				pause->ChangeState();
 			}
-			if (event.key.code == sf::Keyboard::LAlt)
+			if (event.key.code == sf::Keyboard::LAlt && !pause->IsPaused())
 			{
 				reseacrhTree.ChangeViewState();
 			}
@@ -115,6 +111,11 @@ void GameplayState::Update(sf::RenderWindow& window)
 	}
 
 	float deltaTime = clock.restart().asSeconds();
+
+	if (deltaTime >= MAX_DT)
+	{
+		deltaTime = MAX_DT;
+	}
 
 	sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
 
@@ -153,7 +154,7 @@ void GameplayState::Update(sf::RenderWindow& window)
 
 	reseacrhTree.Update(mousePosition);
 
-	if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+	if (researchTreeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y) && !pause->IsPaused())
 	{
 		researchTreeText.setFillColor(sf::Color::Red);
 		return;

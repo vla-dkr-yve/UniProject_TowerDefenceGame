@@ -9,13 +9,28 @@ std::vector<ResearchTreeNode> ResearchTreeNodesConfiguration::CreateResearchTree
 		{"Research Center Efficiency I", "Increases amount of research points center generates by 1", 150, {}, 
 		[] {ResearchEffectHandler::IncreaseResearchCenterEfficiency(1);
 		}},
-
-		{"Factory Efficiency I", "Increases amount of money factory generates by 10%", 150, {"Research Center Efficiency I"}, 
-		[] {ResearchEffectHandler::IncreaseFactoryProduction(0.1);
+		{"Research Center Efficiency II", "Increases amount of research points center generates by 2", 200, {"Research Center Efficiency I"},
+		[] {ResearchEffectHandler::IncreaseResearchCenterEfficiency(2);
 		}},
 
-		{"Damage Upgrade I", "Increases military tower damage by 10%", 200, {}, 
-		[] {ResearchEffectHandler::IncreaseTowerDamage(0.1);
-		}}
+		{"Factory Efficiency I", "Increases amount of money factory generates by 5", 150, {}, 
+		[] {ResearchEffectHandler::IncreaseFactoryProduction(5);
+		}},
+		{"Factory Efficiency II", "Increases amount of money factory generates by 5", 150, {"Factory Efficiency I"},
+		[] {ResearchEffectHandler::IncreaseFactoryProduction(5);
+		}},
+
+		{"Damage Upgrade I", "Increases military tower damage by 10", 150, {}, 
+		[] {ResearchEffectHandler::IncreaseTowerDamage(10);
+		}},
+		{"Damage Upgrade II", "Increases military tower damage by 10", 175, {"Damage Upgrade I"},
+		[] {ResearchEffectHandler::IncreaseTowerDamage(10);
+		}},
+		{"Damage Upgrade III", "Increases military tower damage by 10", 200, {"Damage Upgrade II"},
+		[] {ResearchEffectHandler::IncreaseTowerDamage(10);
+		}},
+		{"Damage Upgrade IV", "Increases military tower damage by 10", 225, {"Damage Upgrade III"},
+		[] {ResearchEffectHandler::IncreaseTowerDamage(10);
+		}},
 	};
 }

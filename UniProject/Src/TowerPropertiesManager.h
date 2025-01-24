@@ -8,7 +8,6 @@ enum TowerType {
 	BasicMillitaryTower,
 	UpdatedMillitaryTower,
 	ScatterMillitaryTower,
-	//TowerTypeCount = 6
 };
 
 struct StaticTowerProperties {

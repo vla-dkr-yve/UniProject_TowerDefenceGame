@@ -1,8 +1,5 @@
 #include "HouseTower.h"
 
-//int HouseTower::m_cost = 200;
-//int HouseTower::m_id = 2;
-//float HouseTower::m_fRadius = 150;
 HouseTower::HouseTower(sf::Vector2f position, std::vector<CivilTower*>& towers) : CivilTower(Housing, position)
 {
 	ApplyBuffs(towers);

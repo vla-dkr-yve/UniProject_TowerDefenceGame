@@ -44,19 +44,19 @@ private:
 	bool m_isAttacking;
 	bool m_isDefending;
 
-	//bool m_isTargeted;
 	Enemy* m_target;
 
 	sf::RectangleShape m_hitbox;
 	const int m_hitboxWidth = 34;
 	const int m_hitboxHeight = 36;
+
+	bool m_isDead;
+	float m_deathCooldown;
 public:
 	Hero();
 	void Animator(float deltaTime);
 	void Move(float deltaTime, char side);
 	void Attack();
-	//void Attacking(std::vector<Enemy*>& Enemies);
-	void Defence();
 	void ChangeState(std::string newState);
 	void Damage(int damage);
 	void Update(float deltaTime);
@@ -65,6 +65,7 @@ public:
 	inline bool IsActive() { return m_isActive; };
 	inline bool IsAttacking() { return m_isAttacking; };
 	inline bool IsDefending() { return m_isDefending; };
+	inline bool IsDead() { return m_isDead; };
 	inline sf::Vector2f GetPosition() { return m_sprite.getPosition(); };
 	inline sf::RectangleShape& GetHitBox() { return m_hitbox; };
 	inline sf::Vector2f GetHitBoxPosition() { return m_hitbox.getPosition(); };

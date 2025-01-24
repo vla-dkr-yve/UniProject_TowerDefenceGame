@@ -1,7 +1,6 @@
 #include "ResearchTree.h"
-
-#include <iostream>
 #include "Math.h"
+
 ResearchTree::ResearchTree()
 {
 	isActive = false; 
@@ -28,9 +27,6 @@ ResearchTree::ResearchTree()
 		body[i].setFillColor(sf::Color(0, 0, 0, 128));
 		body[i].setSize(sf::Vector2f(150, 200));
 
-		//purchaseBtn[i].setFillColor(sf::Color(30, 144, 255, 192));
-		//purchaseBtn[i].setFillColor(sf::Color(128,128,128,128));
-		//purchaseBtn[i].setFillColor(sf::Color(0,0,0, 192));
 		body[i].setFillColor(sf::Color(0, 0, 0, 128));
 		purchaseBtn[i].setOutlineThickness(1);
 		purchaseBtn[i].setOutlineColor(sf::Color::Green);
@@ -46,10 +42,6 @@ ResearchTree::ResearchTree()
 		name[i].setCharacterSize(15);
 		desc = Math::EditString(node.name, name[i].getCharacterSize(), body[i].getSize().x, font);
 		name[i].setString(desc);
-
-
-		//Placing it here because I modify the researchName
-		//nodes[desc] = node;
 
 		cost[i].setFont(font);
 		cost[i].setCharacterSize(15);
@@ -103,14 +95,12 @@ void ResearchTree::UnlokeNode(const std::string& nodeName)
 	{
 		if (!nodes[prereq].IsUnlocked)
 		{
-			std::cout << "Conditions are not met";
 			return;
 		}
 	}
 
 	nodes[nodeName].IsUnlocked = true;
 	nodes[nodeName].effect();
-	std::cout << "Unlocked research: " << nodeName << '\n';
 }
 
 void ResearchTree::Update(sf::Vector2f& mousePosition)
@@ -129,7 +119,6 @@ void ResearchTree::Update(sf::Vector2f& mousePosition)
 				}
 			}
 			else {
-				//purchaseBtn[i].setFillColor(sf::Color(30, 144, 255, 192));
 				purchaseBtn[i].setFillColor(sf::Color(0, 0, 0, 128));
 				purchaseBtnText[i].setFillColor(sf::Color::White);
 			}

@@ -23,8 +23,6 @@ int main() {
 	DataBase::CreateDB();
 	DataBase::CreateTable();
 	
-	//DataBase::SelectData("Any", "123");
-	
 	sf::RenderWindow window(sf::VideoMode(800,600), "");
 	window.setFramerateLimit(60);
 	
@@ -33,18 +31,8 @@ int main() {
 	
 	while (window.isOpen())
 	{
-		//State* currentState = stateManager.GetCurrentState();
-	
-		//if (currentState)
-		//{
 		stateManager.GetCurrentState()->HandleEvents(window);
 		stateManager.GetCurrentState()->Update(window);
 		stateManager.GetCurrentState()->Draw(window);
-		//}
 	}
-
-	//DataBase::InsertData();
-	//DataBase::UpdateData();
-	//DataBase::SelectData();
-	//DataBase::DeleteData();
 }

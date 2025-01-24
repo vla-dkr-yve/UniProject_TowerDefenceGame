@@ -19,6 +19,8 @@ private:
 
 	const sf::Vector2f m_windowResolution = sf::Vector2f(1920, 1024);;
 
+	const float MAX_DT = 0.1f;
+
 	Map map;
 	EnemyManager enemyManager;
 	Player player;

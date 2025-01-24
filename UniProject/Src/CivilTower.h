@@ -25,6 +25,4 @@ public:
 	virtual void ReapplyBuffs(CivilTower* newTower);
 	virtual void ReapplyBuffs(MilitaryTower* newTower);
 	void RemoveBuffs();
-
-
 };

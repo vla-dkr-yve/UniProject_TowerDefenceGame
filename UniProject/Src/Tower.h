@@ -48,9 +48,7 @@ public:
 	inline void SetActionAreaActive() { m_bIsActionAreaActive = true; };
 	inline void SetActionAreaUnActive() { m_bIsActionAreaActive = false; };
 	inline bool IsBuilding() { return m_bIsBuild; };
-	//virtual inline int GetCost() { return m_cost; };
 
-	//virtual void Action(sf::Vector2f direction);
 	inline int GetId() { return m_id; };
 	inline TowerType& GetTowerType() { return towerType; };
 };

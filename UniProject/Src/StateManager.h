@@ -2,11 +2,7 @@
 #include "State.h"
 #include <stack>
 #include <memory>
-enum States {
-	menu,
-	game,
-	leaderboard
-};
+
 class StateManager
 {
 private:
@@ -17,6 +13,5 @@ public:
 	void PopState(sf::RenderWindow& window);
 	void CheckWindowResolution(sf::RenderWindow& window);
 	State* GetCurrentState();
-
 };
 

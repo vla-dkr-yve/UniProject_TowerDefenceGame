@@ -2,11 +2,10 @@
 #include "Math.h"
 #include <iostream>
 Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(false), m_speed(175),
-m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0), m_target(nullptr)
+m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0), m_target(nullptr), m_isDead(false), m_deathCooldown(0.0f)
 {
 	m_texture.loadFromFile("Assets/Textures/Hero/Knight/SpriteSheet.png");
 	m_sprite.setTexture(m_texture);
-	//m_sprite.setTextureRect(sf::IntRect(0 + m_offsetX, 0 + m_offsetY, m_width, m_height));
 	m_sprite.setTextureRect(sf::IntRect(0 + m_offsetX, 0 + m_offsetY, m_width, m_height));
 	m_sprite.setScale(m_scaleX, m_scaleY);
 
@@ -62,6 +61,10 @@ void Hero::Animator(float deltaTime)
 			if (m_currentState == "HURT")
 			{
 				ChangeState("IDLE");
+			}
+			if (m_currentState == "DEATH")
+			{
+				m_isDead = true;
 			}
 			m_currentAnimation = 0;
 		}
@@ -120,11 +123,6 @@ void Hero::Attack()
 	ChangeState("ATTACK");
 }
 
-
-void Hero::Defence()
-{
-}
-
 void Hero::ChangeState(std::string newState)
 {
 	if (newState == "ATTACK")
@@ -167,6 +165,30 @@ void Hero::Damage(int damage)
 
 void Hero::Update(float deltaTime)
 {
+
+	if (m_isDead)
+	{
+		m_deathCooldown += deltaTime; 
+		if (m_deathCooldown >= 30)
+		{
+			ChangeState("IDLE");
+			m_isDead = false;
+			m_deathCooldown = 0.0f;
+
+			m_hp = m_maxHp;
+			m_sprite.setPosition(sf::Vector2f(28 * 64, 9 * 64));
+		}
+		else {
+			return;
+		}
+	}
+
+	if (m_hp <= 0 && !m_isDead && m_currentState != "DEATH")
+	{
+		ChangeState("DEATH");
+	}
+
+
 	m_animationTimer += deltaTime;
 
 	if (m_currentState == "RUN")
@@ -229,6 +251,8 @@ void Hero::Update(float deltaTime)
 
 void Hero::Draw(sf::RenderWindow& window)
 {
-	window.draw(m_sprite);
-	//window.draw(m_hitbox);
+	if (!m_isDead)
+	{
+		window.draw(m_sprite);
+	}
 }

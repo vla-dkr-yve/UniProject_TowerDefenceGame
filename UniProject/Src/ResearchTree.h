@@ -1,11 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <map>
+#include <unordered_map>
 #include "ResearchTreeNodesConfiguration.h"
 
 class ResearchTree
 {
-	std::map<std::string, ResearchTreeNode> nodes;
+	std::unordered_map<std::string, ResearchTreeNode> nodes;
 
 	sf::Font font;
 	
