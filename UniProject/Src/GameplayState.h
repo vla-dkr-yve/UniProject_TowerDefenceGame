@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "State.h"
-#include "BackGround.h"
 #include "EnemyManager.h"
 #include "GUI.h"
 #include "MouseSprite.h"
@@ -17,7 +16,7 @@ class GameplayState : public State
 private:
 	StateManager& stateManager;
 
-	const sf::Vector2f m_windowResolution = sf::Vector2f(1920, 1024);;
+	const sf::Vector2f m_windowResolution = sf::Vector2f(1920, 1024);
 
 	const float MAX_DT = 0.1f;
 

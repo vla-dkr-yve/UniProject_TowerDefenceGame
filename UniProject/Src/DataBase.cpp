@@ -5,8 +5,9 @@
 
 const char* DataBase::dir = "LeaderBoard.db";
 std::string DataBase::Username;
+bool DataBase::IsUserAdmin = 0;
 
-std::vector<std::string> DataBase::Leaders;
+std::unordered_map<std::string, int> DataBase::Leaders;
 
 int DataBase::CreateDB()
 {
@@ -26,9 +27,10 @@ int DataBase::CreateTable()
 
 	std::string sql = "CREATE TABLE IF NOT EXISTS USERS("
 		"ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-		"USERNAME TEXT NOT NULL UNIQUE, "
-		"PASS CHAR(10) NOT NULL, "
-		"MAXSCORE INT DEFAULT 0);";
+		"username TEXT NOT NULL UNIQUE, "
+		"pass CHAR(10) NOT NULL, "
+		"maxScore INT DEFAULT 0,"
+		"isAdmin BOOL DEFAULT 0);";
 
 	try
 	{
@@ -58,14 +60,20 @@ int DataBase::CreateTable()
 	return 0;
 }
 
-int DataBase::InsertData()
+int DataBase::InsertAdmin()
 {
 	sqlite3* DB;
 	char* messageError;
 
 	int exit = sqlite3_open(dir, &DB);
 
-	std::string sql = "INSERT INTO USERS (USERNAME, PASS, MAXSCORE) VALUES ('Anybis', '1111', 100);";
+	std::string sql = R"(
+    INSERT INTO USERS (username, pass, maxScore, isAdmin)
+    SELECT 'admin', 'admin', 0, true
+    WHERE NOT EXISTS (
+        SELECT 1 FROM USERS WHERE username = 'admin' AND isAdmin = true
+    );
+)";
 
 	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
 	if (exit != SQLITE_OK)
@@ -79,31 +87,6 @@ int DataBase::InsertData()
 
 	return 0;
 }
-
-int DataBase::UpdateData()
-{
-	sqlite3* DB;
-	char* messageError;
-
-	int exit = sqlite3_open(dir, &DB);
-
-	std::string sql("UPDATE USERS SET MAXSCORE = 200 WHERE USERNAME = 'Anybis';");
-
-	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-
-	if (exit != SQLITE_OK)
-	{
-		std::cerr << "Error Update\n";
-		sqlite3_free(messageError);
-	}
-	else {
-		std::cout << "Records updated succesfully\n";
-	}
-
-
-	return 0;
-}
-
 
 int DataBase::LoginUser(std::string username, std::string password)
 {
@@ -120,7 +103,7 @@ int DataBase::LoginUser(std::string username, std::string password)
 
 		int exit = sqlite3_open(dir, &DB);
 
-		std::string sql = "INSERT INTO USERS (USERNAME, PASS) VALUES (?,?);";
+		std::string sql = "INSERT INTO USERS (username, pass) VALUES (?,?);";
 		int rc = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
 		if (rc != SQLITE_OK)
 		{
@@ -156,7 +139,7 @@ int DataBase::InsertNewScore(std::string username, std::string newScore)
 
 	int exit = sqlite3_open(dir, &DB);
 	
-	std::string sqlGet = "SELECT MAXSCORE FROM USERS WHERE USERNAME = ?;";
+	std::string sqlGet = "SELECT maxScore FROM USERS WHERE username = ?;";
 
 	exit = sqlite3_prepare_v2(DB, sqlGet.c_str(), -1, &stmt, nullptr);
 
@@ -175,7 +158,7 @@ int DataBase::InsertNewScore(std::string username, std::string newScore)
 		else {
 			sqlite3_finalize(stmt);
 
-			std::string sqlUpdate = "UPDATE USERS SET MAXSCORE = ? WHERE USERNAME = ?;";
+			std::string sqlUpdate = "UPDATE USERS SET maxScore = ? WHERE USERNAME = ?;";
 
 			exit = sqlite3_prepare_v2(DB, sqlUpdate.c_str(), -1, &stmt, nullptr);
 
@@ -202,15 +185,22 @@ int DataBase::InsertNewScore(std::string username, std::string newScore)
 	return 1;
 }
 
-int DataBase::DeleteData()
+int DataBase::DeleteUser(std::string name)
 {
 	sqlite3* DB;
+	sqlite3_stmt* stmt;
 
 	int exit = sqlite3_open(dir, &DB);
 	
-	std::string sql("DELETE FROM USERS;");
+	std::string sql("DELETE FROM USERS WHERE username = ?;");
 
-	sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
+	exit = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
+
+	sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
+
+	exit = sqlite3_step(stmt);
+	
+	Leaders = GetLeaders();
 
 	return 0;
 }
@@ -222,7 +212,7 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 
 	int exit = sqlite3_open(dir, &DB);
 	
-	std::string sql = "SELECT USERNAME, PASS FROM USERS WHERE USERNAME = ?;";
+	std::string sql = "SELECT username, pass, isAdmin FROM USERS WHERE username = ?;";
 
 	exit = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
 
@@ -239,6 +229,7 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 	{
 		const char* retrievedUsername = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
 		const char* retrievedPass = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+		const char* retrievedIsUserAdmin = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
 
 		if (retrievedUsername == NULL || retrievedPass == NULL)
 		{
@@ -252,7 +243,7 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 			sqlite3_close(DB);
 
 			Username = username;
-
+			IsUserAdmin = retrievedIsUserAdmin;
 			return 1;
 		}
 		else {
@@ -268,35 +259,39 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 
 int DataBase::GetLeadersCallback(void* data, int argc, char** argv, char** azColName)
 {
-	auto* res = static_cast<std::vector<std::string>*>(data);
+	auto* res = static_cast<std::unordered_map<std::string, int>*>(data);
 
-	std::string row;
-	for (int i = 0; i < argc; i++)
-	{
-		if (argv)
-		{
-			row += azColName[i];
-			row += " : ";
-			row += argv[i];
-			row += " | ";
-		}
-		else {
-			row += azColName[i];
-			row += " : NULL | ";
+	if (argc < 2) {
+		std::cerr << "Unexpected number of columns in result!\n";
+		return 1;
+	}
+
+	std::string name;
+	int score = 0;
+
+	for (int i = 0; i < argc; i++) {
+		if (azColName[i] && argv[i]) {
+			if (std::string(azColName[i]) == "username") {
+				name = argv[i];
+			}
+			else if (std::string(azColName[i]) == "maxScore") {
+				score = std::stoi(argv[i]);
+			}
 		}
 	}
 
-	res->push_back(row);
+	(*res)[name] = score;
+
 	return 0;
 }
 
-std::vector<std::string>& DataBase::GetLeaders()
+std::unordered_map<std::string, int>& DataBase::GetLeaders()
 {
 	sqlite3* DB;
 
 	int exit = sqlite3_open(dir, &DB);
 
-	std::string sql = "SELECT USERNAME, MAXSCORE FROM USERS ORDER BY MAXSCORE DESC LIMIT 5;";
+	std::string sql = "SELECT username, maxscore FROM USERS ORDER BY MAXSCORE DESC LIMIT 5;";
 
 	Leaders.clear();
 

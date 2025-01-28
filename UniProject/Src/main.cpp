@@ -1,12 +1,14 @@
 ﻿#include <SFML/Graphics.hpp>
 #include "StateManager.h"
 #include "MainMenuState.h"
-#include "GameplayState.h"
 #include "DataBase.h"
 //#include <sqlite3.h>
 //	Plans:
 //
-// Finish research tree
+// Make reloginning possible
+// 
+// Display messages about unablement of deleting yourself and about creating new user / loggining to old one
+// 
 // 
 // Clean Code
 // 
@@ -22,6 +24,7 @@ int main() {
 	
 	DataBase::CreateDB();
 	DataBase::CreateTable();
+	DataBase::InsertAdmin();
 	
 	sf::RenderWindow window(sf::VideoMode(800,600), "");
 	window.setFramerateLimit(60);

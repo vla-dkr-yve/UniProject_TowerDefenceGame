@@ -130,6 +130,7 @@ void LoginState::HandleEvents(sf::RenderWindow& window)
                         m_message.setString("Incorrect password. Please try again");
 
                         m_isMessageDisplayed = true;
+                        m_message.setFillColor(sf::Color::White);
                         m_messageTimer = 5.0f;
                         m_isLogined = false;
                     }
