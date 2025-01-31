@@ -18,4 +18,3 @@ public:
 
 	inline std::vector <Enemy*>& GetEnemyVector(){ return m_vecEnemies; };
 };
-

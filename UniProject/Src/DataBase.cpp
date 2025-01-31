@@ -1,7 +1,6 @@
 #include "DataBase.h"
 #include <sqlite3.h>
 #include <string>
-#include <iostream>
 
 const char* DataBase::dir = "LeaderBoard.db";
 std::string DataBase::Username;
@@ -32,30 +31,18 @@ int DataBase::CreateTable()
 		"maxScore INT DEFAULT 0,"
 		"isAdmin BOOL DEFAULT 0);";
 
-	try
+	int exit = 0;
+	exit = sqlite3_open(dir, &DB);
+
+	char* messageError;
+
+	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+
+	if (exit != SQLITE_OK)
 	{
-		int exit = 0;
-		exit = sqlite3_open(dir, &DB);
-
-		char* messageError;
-
-		exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-
-		if (exit != SQLITE_OK)
-		{
-			std::cerr << "Error Create Table\n";
-			sqlite3_free(messageError);
-		}
-		else {
-			std::cout << "Table created Succesfully\n";
-		}
-		sqlite3_close(DB);
+		sqlite3_free(messageError);
 	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what();
-	}
-
+	sqlite3_close(DB);
 
 	return 0;
 }
@@ -78,11 +65,7 @@ int DataBase::InsertAdmin()
 	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
 	if (exit != SQLITE_OK)
 	{
-		std::cerr << "Error Insert\n";
 		sqlite3_free(messageError);
-	}
-	else {
-		std::cout << "Records created Succesfully";
 	}
 
 	return 0;
@@ -107,7 +90,6 @@ int DataBase::LoginUser(std::string username, std::string password)
 		int rc = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr);
 		if (rc != SQLITE_OK)
 		{
-			std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << '\n';
 			sqlite3_close(DB);
 			return 0;
 		}
@@ -116,13 +98,6 @@ int DataBase::LoginUser(std::string username, std::string password)
 		sqlite3_bind_text(stmt, 2, password.c_str(), -1, SQLITE_STATIC);
 
 		rc = sqlite3_step(stmt);
-		if (rc != SQLITE_DONE)
-		{
-			std::cerr << "Error inserting data: " << sqlite3_errmsg(DB) << '\n';
-		}
-		else {
-			std::cout << "Data inserted successfully.\n";
-		}
 
 		sqlite3_finalize(stmt);
 
@@ -166,14 +141,6 @@ int DataBase::InsertNewScore(std::string username, std::string newScore)
 			sqlite3_bind_text(stmt, 2, username.c_str(), 0 - 1, SQLITE_STATIC);
 
 			exit = sqlite3_step(stmt);
-
-			if (exit == SQLITE_OK)
-			{
-				std::cout << "Success\n";
-			}
-			else {
-				std::cout << "no Success\n";
-			}
 		}
 	}
 	else {
@@ -218,7 +185,6 @@ int DataBase::CheckPasswordByUsername(std::string username, std::string password
 
 	if (exit != SQLITE_OK)
 	{
-		std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << '\n';
 		sqlite3_close(DB);
 		return 0;
 	}
@@ -262,7 +228,6 @@ int DataBase::GetLeadersCallback(void* data, int argc, char** argv, char** azCol
 	auto* res = static_cast<std::unordered_map<std::string, int>*>(data);
 
 	if (argc < 2) {
-		std::cerr << "Unexpected number of columns in result!\n";
 		return 1;
 	}
 
@@ -300,13 +265,4 @@ std::unordered_map<std::string, int>& DataBase::GetLeaders()
 	sqlite3_close(DB);
 
 	return Leaders;
-}
-
-int DataBase::callback(void* data, int argc, char** argv, char** azColName)
-{
-	for (int i = 0; i < argc; i++)
-	{
-		std::cout << azColName[i] << " : " << argv[i] << '\n';
-	}
-	return 0;
 }

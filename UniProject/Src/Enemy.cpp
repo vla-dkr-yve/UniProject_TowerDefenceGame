@@ -1,8 +1,15 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize):
-	m_score(score),m_maximumHp(hp), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0), m_attackTimer(m_attackCooldown), m_canAttack(false)
+Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize, int scoreMultiplier):
+	m_score(score), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0), m_attackTimer(m_attackCooldown), m_canAttack(false)
 {
+	if (scoreMultiplier > 0)
+	{
+		m_maximumHp = hp * scoreMultiplier;
+	}
+	else{
+		m_maximumHp = hp;
+	}
 	m_currentHp = m_maximumHp;
 	m_animationTimer = 0.0f;
 	m_currentAnimation = 0;

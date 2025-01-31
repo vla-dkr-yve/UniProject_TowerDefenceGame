@@ -18,102 +18,70 @@ void Map::AddTower(int towerType, int X, int Y, Player& player)
 		{
 			if (!IsPlaceTaken[i])
 			{
+				int cost = TowerPropertiesManager::GetStaticProperty(static_cast<TowerType>(towerType)).cost;
+				if (cost > player.GetMoney()) {
+					return;
+				} 
+
+				player.DecreaseMoney(cost);
+				WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(static_cast<TowerType>(towerType));
+				IsPlaceTaken[i] = true;
+
+				sf::Vector2f position(X * 64, Y * 64);
+
 				switch (towerType)
 				{
 				case Research: {
-					if (TowerPropertiesManager::GetStaticProperty(Research).cost <= player.GetMoney())
+					ResearchCenter* RC = new ResearchCenter(position, m_militaryTowers);
+					m_civilTowers.push_back(RC);
+					for (int i = 0; i < m_civilTowers.size(); i++)
 					{
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Research).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Research);
-
-						ResearchCenter* RC = new ResearchCenter(sf::Vector2f(X * 64, Y * 64), m_militaryTowers);
-						m_civilTowers.push_back(RC);
-						for (int i = 0; i < m_civilTowers.size(); i++)
-						{
-							m_civilTowers[i]->ReapplyBuffs(RC);
-						}
-						IsPlaceTaken[i] = true;
-						break;
+						m_civilTowers[i]->ReapplyBuffs(RC);
 					}
+					break;
 				}
 				case Factory: {
-					if (TowerPropertiesManager::GetStaticProperty(Factory).cost <= player.GetMoney()) {
-
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Factory).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Factory);
-
-						FactoryTower* FT = new FactoryTower(sf::Vector2f(X * 64, Y * 64));
-						m_civilTowers.push_back(FT);
-						for (int i = 0; i < m_civilTowers.size(); i++)
-						{
-							m_civilTowers[i]->ReapplyBuffs(FT);
-						}
-						IsPlaceTaken[i] = true;
-						break;
+					FactoryTower* FT = new FactoryTower(position);
+					m_civilTowers.push_back(FT);
+					for (int i = 0; i < m_civilTowers.size(); i++)
+					{
+						m_civilTowers[i]->ReapplyBuffs(FT);
 					}
+					break;
 				}
 				case Housing: {
-					if (TowerPropertiesManager::GetStaticProperty(Housing).cost <= player.GetMoney()) {
+					player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Housing).cost);
 
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(Housing).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(Housing);
-
-						HouseTower* HT = new HouseTower(sf::Vector2f(X * 64, Y * 64), m_civilTowers);
-						m_civilTowers.push_back(HT);
-						IsPlaceTaken[i] = true;
-						break;
-					}
+					HouseTower* HT = new HouseTower(position, m_civilTowers);
+					m_civilTowers.push_back(HT);
+					break;
 				}
 				case BasicMillitaryTower: {
-					if (TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(BasicMillitaryTower);
-
-						m_militaryTowers.push_back(new LaserTower(sf::Vector2f(X * 64, Y * 64)));
-						IsPlaceTaken[i] = true;
+						m_militaryTowers.push_back(new LaserTower(position));
 						for (int i = 0; i < m_civilTowers.size(); i++)
 						{
 							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
 						}
 						break;
-					}
 				}
 				case UpdatedMillitaryTower: {
-					if (TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(UpdatedMillitaryTower);
-
-						m_militaryTowers.push_back(new UdvancedLaserTower(sf::Vector2f(X * 64, Y * 64)));
-						IsPlaceTaken[i] = true;
+						m_militaryTowers.push_back(new UdvancedLaserTower(position));
 						for (int i = 0; i < m_civilTowers.size(); i++)
 						{
 							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
 						}
 						break;
-					}
 				}
 				case ScatterMillitaryTower: {
-					if (TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost <= player.GetMoney()) {
 
-						player.DecreaseMoney(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).cost);
-
-						WhichTowerType[i] = TowerPropertiesManager::GetTowerTypeChar(ScatterMillitaryTower);
-
-						m_militaryTowers.push_back(new ScatterLaserTower(sf::Vector2f(X * 64, Y * 64)));
-						IsPlaceTaken[i] = true;
+						m_militaryTowers.push_back(new ScatterLaserTower(position));
 						for (int i = 0; i < m_civilTowers.size(); i++)
 						{
 							m_civilTowers[i]->ReapplyBuffs(m_militaryTowers[m_militaryTowers.size() - 1]);
 						}
 						break;
-					}
 				}
 				default:
 					break;

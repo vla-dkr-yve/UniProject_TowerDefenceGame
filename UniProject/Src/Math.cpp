@@ -40,6 +40,19 @@ std::string Math::EditString(std::string def, int characterSize, float width, sf
 	return changed + word;
 }
 
+int Math::NumberOfNewLines(std::string def)
+{
+	int res = 0;
+	for (int i = 0; i < def.size(); i++)
+	{
+		if (def[i] == '\n')
+		{
+			res++;
+		}
+	}
+	return res;
+}
+
 
 bool Math::EnemyCollision(Enemy& enemy, sf::Vector2f position)
 {

@@ -20,7 +20,6 @@ public:
 	static int InsertNewScore(std::string username, std::string newScore);
 	static int DeleteUser(std::string name);
 	static std::unordered_map<std::string, int>& GetLeaders();
-	static int callback(void* data, int argc, char** argv, char** azColName);
 	static int GetLeadersCallback(void* data, int argc, char** argv, char** azColName);
 };
 

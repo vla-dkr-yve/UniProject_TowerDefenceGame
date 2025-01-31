@@ -1,6 +1,5 @@
 #include "Hero.h"
 #include "Math.h"
-#include <iostream>
 Hero::Hero() : m_hp(m_maxHp), m_damage(25), m_stamina(100), m_animationTimer(0), m_isActive(false), m_speed(175),
 m_speedMultiplier(1), m_isAttacking(false), m_isDefending(false), m_currentAttack(0), m_totalAttack(0), m_target(nullptr), m_isDead(false), m_deathCooldown(0.0f)
 {
@@ -157,7 +156,6 @@ void Hero::Damage(int damage)
 		if (!m_isDefending)
 		{
 			m_hp -= damage;
-			std::cout << "Got " << damage << " damage\n";
 			ChangeState("HURT");
 		}
 	}

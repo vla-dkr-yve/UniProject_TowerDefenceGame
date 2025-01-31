@@ -18,6 +18,13 @@ private:
 	std::vector<sf::Text> m_Leaders;
 
 	std::vector<sf::Text> m_deleteLeader;
+
+	sf::Text m_message;
+	bool m_isMessageDisplayed;
+	float m_messageTimer;
+	float m_smallTimer;
+
+	sf::Clock clock;
 public:
 	LeaderBoardState(StateManager& manager);
 	~LeaderBoardState();

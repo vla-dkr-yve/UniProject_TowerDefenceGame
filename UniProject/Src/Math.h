@@ -8,6 +8,7 @@ private:
 public:
 	static float Distance(sf::Vector2f target, sf::Vector2f position);
 	static std::string EditString(std::string def, int characterSize, float width, sf::Font& font);
+	static int NumberOfNewLines(std::string def);
 	static bool EnemyCollision(Enemy& enemy, sf::Vector2f position);
 	static bool Collision(sf::FloatRect rect1, sf::FloatRect rect2);
 	static bool OBBCollision(const sf::RectangleShape& rect1, const sf::RectangleShape& rect2);

@@ -1,7 +1,6 @@
 #include "LeaderBoardState.h"
 #include "DataBase.h"
 #include <unordered_map>
-#include <iostream>
 LeaderBoardState::LeaderBoardState(StateManager& manager): stateManager(manager), leaders(DataBase::GetLeaders())
 {
     m_font.loadFromFile("Assets/Fonts/Arial.TTF");
@@ -14,6 +13,14 @@ LeaderBoardState::LeaderBoardState(StateManager& manager): stateManager(manager)
     m_exitText.setFont(m_font);
     m_exitText.setCharacterSize(30);
 	m_exitText.setString("Return to main menu");
+
+    m_message.setFont(m_font);
+    m_message.setCharacterSize(20);
+    m_message.setPosition(sf::Vector2f(0, -40) + sf::Vector2f(0, m_windowResolution.y));
+    m_isMessageDisplayed = false;
+    m_messageTimer = 0.0f;
+
+    m_smallTimer = 0.0f;
 }
 
 LeaderBoardState::~LeaderBoardState()
@@ -40,7 +47,6 @@ void LeaderBoardState::HandleEvents(sf::RenderWindow& window)
                 if (x.getGlobalBounds().contains(mousePos.x, mousePos.y))
                 {
                     int coordY = (x.getGlobalBounds().getPosition().y - 100) / 150;
-                    std::cout << coordY << '\n';
                     std::string name; 
                     int k = 0;
                     for (auto x: leaders)
@@ -48,14 +54,17 @@ void LeaderBoardState::HandleEvents(sf::RenderWindow& window)
                         if (coordY == k)
                         {
                             name = x.first;
-                            std::cout << name;
                         }
                         k++;
                     }
 
                     if (name == DataBase::Username)
                     {
-                        std::cout << "you can't delete yourself";
+                        m_message.setString("You can't delete yourself");
+
+                        m_isMessageDisplayed = true;
+                        m_message.setFillColor(sf::Color::White);
+                        m_messageTimer = 5.0f;
                     }
                     else {
                         DataBase::DeleteUser(name);
@@ -71,6 +80,26 @@ void LeaderBoardState::Update(sf::RenderWindow& window)
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     
+    float deltaTime = clock.restart().asSeconds();
+
+    if (m_isMessageDisplayed)
+    {
+        m_messageTimer -= deltaTime;
+        if (m_messageTimer < 0)
+        {
+            m_isMessageDisplayed = false;
+        }
+        m_smallTimer += deltaTime;
+        if (m_smallTimer >= 0.1f)
+        {
+            sf::Color color = m_message.getFillColor();
+            color.a = (0, color.a - 5);
+            m_message.setFillColor(color);
+
+            m_smallTimer = 0.0f;
+        }
+    }
+
     if (m_exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
         m_exitText.setFillColor(sf::Color::Red);
         return;
@@ -96,8 +125,6 @@ void LeaderBoardState::SetValues()
     int i = 0;
     for (auto x : leaders)
     {
-        std::cout << x.first << " " << x.second << '\n';
-        //std::cout << leaders[i];
         std::string leader;
         leader = x.first;
         leader += " : ";
@@ -142,6 +169,11 @@ void LeaderBoardState::Draw(sf::RenderWindow& window)
             continue;
         }
         window.draw(x);
+    }
+
+    if (m_isMessageDisplayed)
+    {
+        window.draw(m_message);
     }
     window.display();
 }

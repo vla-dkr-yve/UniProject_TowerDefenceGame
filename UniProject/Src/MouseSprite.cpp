@@ -20,43 +20,20 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 	if (gui.IsOnTheGui(mousePosition))
 	{
 		int ChoosenTower = (mousePosition.y - gui.GetRectPositionY()) / (64 + 20);
-		switch(ChoosenTower)
+
+		if (ChoosenTower < TowerTypeLenght)
 		{
-		case Research:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Research).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Research).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
+			std::string newLine = Math::EditString(TowerPropertiesManager::GetStaticProperty(static_cast<TowerType>(ChoosenTower)).description,
+				m_towerDescription.getCharacterSize(), m_descriptionSizeX - 45, m_font);
+			m_towerDescription.setString(newLine);
+			m_descriptionRect.setSize(sf::Vector2f(m_descriptionSizeX, (Math::NumberOfNewLines(newLine) + 2) * m_towerDescription.getCharacterSize()));
 			m_bIsDescriptionVisible = true;
-			break;
-		case Factory:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Factory).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Factory).description.length() / 2 * m_towerDescription.getCharacterSize(), 80));
-			m_bIsDescriptionVisible = true;
-			break;
-		case Housing:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(Housing).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(Housing).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
-			m_bIsDescriptionVisible = true;
-			break;
-		case BasicMillitaryTower:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(BasicMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
-			m_bIsDescriptionVisible = true;
-			break;
-		case UpdatedMillitaryTower:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(UpdatedMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
-			m_bIsDescriptionVisible = true;
-			break;
-		case ScatterMillitaryTower:
-			m_towerDescription.setString(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).description);
-			m_descriptionRect.setSize(sf::Vector2f(TowerPropertiesManager::GetStaticProperty(ScatterMillitaryTower).description.length() / 4 * m_towerDescription.getCharacterSize(), 100));
-			m_bIsDescriptionVisible = true;
-			break;
-		default:
+		}
+		else if (ChoosenTower == TowerTypeLenght)
+		{
 			m_towerDescription.setString("Shovel. \nIs used for destroying towers");
 			m_descriptionRect.setSize(sf::Vector2f(300, 60));
 			m_bIsDescriptionVisible = true;
-			break;
 		}
 	}
 	else {
@@ -82,30 +59,13 @@ void MouseSprite::Update(float deltaTime, GUI& gui, sf::Vector2f& mousePosition,
 		m_bIsMouseSpriteActive = true;
 		towerType = ChoosenTower;
 		
-		switch (towerType)
+		if (towerType < TowerTypeLenght)
 		{
-		case Research:
-			SetTowerRadius(Research);
-			break;
-		case Factory:
-			SetTowerRadius(Factory);
-			break;
-		case Housing:
-			SetTowerRadius(Housing);
-			break;
-		case BasicMillitaryTower:
-			SetTowerRadius(BasicMillitaryTower);
-			break;
-		case UpdatedMillitaryTower:
-			SetTowerRadius(UpdatedMillitaryTower);
-			break;
-		case ScatterMillitaryTower:
-			SetTowerRadius(ScatterMillitaryTower);
-			break;
-		default:
+			SetTowerRadius(static_cast<TowerType>(towerType));
+		}
+		else {
 			m_bIsRadiusvisible = false;
 			m_bIsShovelActive = true;
-			break;
 		}
 
 		m_ActionArea.setPosition(m_sprite.getPosition());

@@ -39,7 +39,7 @@ protected:
 	float m_attackTimer;
 	bool m_canAttack;
 public:
-	Enemy(int score, int hp, float speed, int armor, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize);
+	Enemy(int score, int hp, float speed, int armor, std::string path, std::map<std::string, int> animationNum,sf::Vector2i textureSize, int scoreMultiplier);
 	~Enemy();
 
 	void Update(float fDeltaTime, Player& player, sf::Vector2f OpponentPosition = {-1,-1});
@@ -64,4 +64,3 @@ public:
 
 	void TakeDamage(int damage);
 };
-

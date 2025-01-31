@@ -14,4 +14,3 @@ public:
 	void CheckWindowResolution(sf::RenderWindow& window);
 	State* GetCurrentState();
 };
-

@@ -16,6 +16,8 @@ class MouseSprite
 	sf::Font m_font;
 	sf::Text m_towerDescription;
 	sf::RectangleShape m_descriptionRect;
+	const float m_descriptionSizeX = 400;
+
 	bool m_bIsDescriptionVisible;
 public:
 	MouseSprite();

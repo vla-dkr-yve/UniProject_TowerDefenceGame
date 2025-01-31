@@ -7,7 +7,6 @@
 #include "LaserTower.h"
 #include "UdvancedLaserTower.h"
 #include "ScatterLaserTower.h"
-#include "Laser.h"
 #include "CivilTower.h"
 #include "ResearchCenter.h"
 #include "FactoryTower.h"

@@ -14,25 +14,27 @@ void EnemyManager::Update(float deltaTime, Player& player)
 		srand(time(NULL));
 		int randomValue = rand() % 6;
 		EnemyType newEnemy = static_cast<EnemyType>(randomValue);
+
+		int scoreMultiplier = player.GetScore() / 1000;
 		switch (newEnemy)
 		{
 		case Scorpion:
-			m_vecEnemies.push_back(new Ground_Scorpion);
+			m_vecEnemies.push_back(new Ground_Scorpion(scoreMultiplier));
 			break;
 		case Leafbug:
-			m_vecEnemies.push_back(new Ground_Leafbug);
+			m_vecEnemies.push_back(new Ground_Leafbug(scoreMultiplier));
 			break;
 		case Magma_Crab:
-			m_vecEnemies.push_back(new Ground_Magma_Crab);
+			m_vecEnemies.push_back(new Ground_Magma_Crab(scoreMultiplier));
 			break;
 		case Clampbeetle:
-			m_vecEnemies.push_back(new Flying_Clampbeetle);
+			m_vecEnemies.push_back(new Flying_Clampbeetle(scoreMultiplier));
 			break;
 		case Locust:
-			m_vecEnemies.push_back(new Flying_Locust);
+			m_vecEnemies.push_back(new Flying_Locust(scoreMultiplier));
 			break;
 		case Voidbutterfly:
-			m_vecEnemies.push_back(new Flying_Voidbutterfly);
+			m_vecEnemies.push_back(new Flying_Voidbutterfly(scoreMultiplier));
 			break;
 		default:
 			break;

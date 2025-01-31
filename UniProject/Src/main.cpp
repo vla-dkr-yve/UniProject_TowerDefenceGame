@@ -5,19 +5,8 @@
 //#include <sqlite3.h>
 //	Plans:
 //
-// Make reloginning possible
-// 
-// Display messages about unablement of deleting yourself and about creating new user / loggining to old one
-// 
-// 
-// Clean Code
-// 
-// 
-// Remove dispalaying console
-// 
 // Check corectness on different hardware
 // 
-//
 
 int main() {
 	StateManager stateManager;

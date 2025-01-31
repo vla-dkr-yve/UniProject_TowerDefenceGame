@@ -51,4 +51,3 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 	void Finish(sf::RenderWindow& window);
 };
-
