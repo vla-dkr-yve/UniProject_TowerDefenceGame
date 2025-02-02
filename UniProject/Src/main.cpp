@@ -2,11 +2,6 @@
 #include "StateManager.h"
 #include "MainMenuState.h"
 #include "DataBase.h"
-//#include <sqlite3.h>
-//	Plans:
-//
-// Check corectness on different hardware
-// 
 
 int main() {
 	StateManager stateManager;

@@ -92,10 +92,6 @@ void GameplayState::HandleEvents(sf::RenderWindow& window)
 			{
 				pause->ChangeState();
 			}
-			if (event.key.code == sf::Keyboard::LAlt && !pause->IsPaused())
-			{
-				reseacrhTree.ChangeViewState();
-			}
 		}
 	}
 }

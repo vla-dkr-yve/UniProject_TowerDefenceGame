@@ -6,7 +6,7 @@ Pause::Pause(sf::Vector2f window) : bIsPaused(0)
 
 	pauseRect.setSize(sf::Vector2f(275, 130));
 	pauseRect.setPosition(sf::Vector2f(window.x / 2 - pauseRect.getSize().x / 2, window.y / 2 - pauseRect.getSize().y / 2));
-	pauseRect.setFillColor(sf::Color(0, 0, 0, 64));
+	pauseRect.setFillColor(sf::Color(0, 0, 0, 128));
 
 	pauseText.setFont(font);
 	pauseText.setString("Game is paused");

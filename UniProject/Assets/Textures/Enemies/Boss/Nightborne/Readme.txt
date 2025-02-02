@@ -1,6 +1,0 @@
-1. Whether your project is commercial or non-commercial, feel free to use this asset.
-
-2. This asset is customizable, so you can make any necessary modifications.
-
-3. It is prohibited to distribute or resell this asset.
-Author: https://creativekind.itch.io

@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy(int score, int hp, float speed, int armor,std::string path, std::map<std::string, int> animationNum, sf::Vector2i textureSize, int scoreMultiplier):
-	m_score(score), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0), m_attackTimer(m_attackCooldown), m_canAttack(false)
+	m_score(score), m_fSpeed(speed), m_gotDamage(false), m_isFighting(0), m_attackTimer(m_attackCooldown), m_canAttack(false), m_armor(armor)
 {
 	if (scoreMultiplier > 0)
 	{
@@ -123,7 +123,7 @@ void Enemy::TakeDamage(int damage)
 
 	if (!m_gotDamage)
 	{
-		m_currentHp -= damage - m_armor; 
+		m_currentHp -= (damage - m_armor); 
 		if (m_currentHp <= 0) {
 			m_currentHp = 0;
 		}

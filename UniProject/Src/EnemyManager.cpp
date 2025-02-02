@@ -15,7 +15,7 @@ void EnemyManager::Update(float deltaTime, Player& player)
 		int randomValue = rand() % 6;
 		EnemyType newEnemy = static_cast<EnemyType>(randomValue);
 
-		int scoreMultiplier = player.GetScore() / 1000;
+		int scoreMultiplier = player.GetScore() / 500;
 		switch (newEnemy)
 		{
 		case Scorpion:
